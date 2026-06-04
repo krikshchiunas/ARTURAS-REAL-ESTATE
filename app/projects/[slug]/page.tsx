@@ -29,6 +29,17 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
+function Heading({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <span className="eyebrow">{eyebrow}</span>
+      <h2 className="max-w-[20ch] font-display text-3xl font-light leading-[1.05] tracking-tight text-balance md:text-4xl">
+        {title}
+      </h2>
+    </div>
+  );
+}
+
 export default function ProjectPage({ params }: Params) {
   const project = getProject(params.slug);
   if (!project) notFound();
@@ -40,8 +51,8 @@ export default function ProjectPage({ params }: Params) {
     <>
       <Navbar />
       <main id="main" className="relative pt-32 md:pt-40">
+        {/* Шапка */}
         <div className="shell">
-          {/* Назад к каталогу */}
           <Link
             href="/#projects"
             className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors hover:text-bone"
@@ -65,7 +76,6 @@ export default function ProjectPage({ params }: Params) {
             Все проекты
           </Link>
 
-          {/* Шапка объекта */}
           <header className="mt-10 flex flex-col gap-6 md:mt-14">
             <div className="flex items-center gap-3">
               <span className="font-mono text-xs text-platinum">{number}</span>
@@ -73,7 +83,7 @@ export default function ProjectPage({ params }: Params) {
                 {project.type}
               </span>
             </div>
-            <h1 className="max-w-[18ch] font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.98] tracking-tight text-balance">
+            <h1 className="max-w-[16ch] font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.98] tracking-tight text-balance">
               {project.name}
             </h1>
             <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
@@ -104,12 +114,31 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </div>
 
-        {/* Детали + характеристики */}
-        <div className="shell mt-16 md:mt-24">
-          <div className="grid gap-12 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-5">
+        {/* Ключевые цифры */}
+        <div className="shell mt-12 md:mt-16">
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] md:grid-cols-4">
+            {project.highlights.map((h) => (
+              <div key={h.label} className="bg-ink-900 p-6 md:p-8">
+                <dt className="text-xs uppercase tracking-[0.14em] text-bone-faint">
+                  {h.label}
+                </dt>
+                <dd className="mt-3 font-display text-2xl font-light text-bone md:text-3xl">
+                  {h.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        {/* Концепция + CTA */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Концепция" title="О проекте" />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
               <p className="text-pretty text-xl font-light leading-relaxed text-bone md:text-2xl">
-                {project.summary}
+                {project.concept}
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <MagneticButton href={site.contacts.whatsapp}>
@@ -120,24 +149,209 @@ export default function ProjectPage({ params }: Params) {
                 </MagneticButton>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="md:col-span-6 md:col-start-7">
+        {/* Галерея */}
+        <section className="shell mt-20 md:mt-28">
+          <Heading eyebrow="Галерея" title="Визуализации проекта" />
+          <div className="mt-10 grid gap-3 md:grid-cols-2 md:gap-4">
+            {project.gallery.map((src, i) => (
+              <div
+                key={src}
+                className={`relative overflow-hidden rounded-core bg-ink-900 ring-1 ring-white/[0.06] ${
+                  i === 0 ? "md:col-span-2" : ""
+                }`}
+              >
+                <div
+                  className={`relative w-full ${
+                    i === 0 ? "aspect-[16/9]" : "aspect-[4/3]"
+                  }`}
+                >
+                  <Image
+                    src={src}
+                    alt={`${project.name} — визуализация ${i + 1}`}
+                    fill
+                    sizes={i === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Планировки */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Планировки" title="Типы и площади" />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
               <dl className="flex flex-col">
-                {project.facts.map((f) => (
+                {project.units.map((u) => (
                   <div
-                    key={f.label}
+                    key={u.type}
                     className="flex items-baseline justify-between gap-6 border-t border-white/[0.07] py-5 first:border-t-0"
                   >
-                    <dt className="shrink-0 text-xs uppercase tracking-[0.14em] text-bone-faint">
-                      {f.label}
-                    </dt>
-                    <dd className="text-right text-base text-bone">{f.value}</dd>
+                    <dt className="text-base text-bone">{u.type}</dt>
+                    <dd className="text-right font-mono text-sm text-bone-muted">
+                      {u.area}
+                    </dd>
                   </div>
                 ))}
               </dl>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* Инфраструктура */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Инфраструктура" title="Удобства и сервис" />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
+              <ul className="grid gap-x-10 gap-y-4 sm:grid-cols-2">
+                {project.amenities.map((a) => (
+                  <li key={a} className="flex items-start gap-3 text-bone-muted">
+                    <span
+                      aria-hidden
+                      className="mt-2 h-1 w-1 shrink-0 rounded-full bg-platinum/60"
+                    />
+                    <span className="text-[15px] leading-relaxed">{a}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Расположение */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Расположение" title={project.location} />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
+              <dl className="flex flex-col">
+                {project.locationPoints.map((p) => (
+                  <div
+                    key={p.label}
+                    className="flex items-baseline justify-between gap-6 border-t border-white/[0.07] py-5 first:border-t-0"
+                  >
+                    <dt className="text-base text-bone-muted">{p.label}</dt>
+                    <dd className="text-right text-base text-bone">{p.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        {/* Инвестиции */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Инвестиции" title="Доходность и оплата" />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
+              <p className="text-pretty text-lg leading-relaxed text-bone-muted">
+                {project.investment}
+              </p>
+              {project.payment ? (
+                <div className="mt-8 rounded-core bg-white/[0.03] p-6 ring-1 ring-white/[0.06] md:p-8">
+                  <span className="eyebrow">План оплаты</span>
+                  <p className="mt-3 text-[15px] leading-relaxed text-bone">
+                    {project.payment}
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </section>
+
+        {/* Почему этот проект */}
+        <section className="shell mt-20 md:mt-28">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <Heading eyebrow="Преимущества" title="Почему этот проект" />
+            </div>
+            <div className="md:col-span-8 md:col-start-5">
+              <ul className="flex flex-col">
+                {project.features.map((f, i) => (
+                  <li
+                    key={f}
+                    className="flex items-baseline gap-5 border-t border-white/[0.07] py-5 first:border-t-0"
+                  >
+                    <span className="font-mono text-xs text-platinum">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[15px] leading-relaxed text-bone-muted">
+                      {f}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Застройщик */}
+        {project.developer && project.developerNote ? (
+          <section className="shell mt-20 md:mt-28">
+            <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+              <div className="md:col-span-4">
+                <Heading eyebrow="Застройщик" title={project.developer} />
+              </div>
+              <div className="md:col-span-8 md:col-start-5">
+                <p className="text-pretty text-lg leading-relaxed text-bone-muted">
+                  {project.developerNote}
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* Ключевые параметры */}
+        <section className="shell mt-20 md:mt-28">
+          <Heading eyebrow="Параметры" title="Ключевые характеристики" />
+          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] md:grid-cols-3 lg:grid-cols-5">
+            {project.spec.map((s) => (
+              <div key={s.label} className="bg-ink-900 p-6">
+                <dt className="text-xs uppercase tracking-[0.14em] text-bone-faint">
+                  {s.label}
+                </dt>
+                <dd className="mt-3 text-base text-bone">{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* Финальный CTA */}
+        <section className="shell mt-24 md:mt-32">
+          <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
+            <div className="flex flex-col items-start gap-8 rounded-core bg-ink-900 p-10 md:flex-row md:items-center md:justify-between md:p-14">
+              <div>
+                <h2 className="max-w-[18ch] font-display text-3xl font-light leading-tight tracking-tight text-balance md:text-4xl">
+                  Подберём {project.name} под вашу цель
+                </h2>
+                <p className="mt-4 max-w-prose text-bone-muted">
+                  Актуальные цены, планировки и условия — лично, от первого
+                  звонка до получения ключей.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-wrap items-center gap-4">
+                <MagneticButton href={site.contacts.whatsapp}>
+                  Написать в WhatsApp
+                </MagneticButton>
+                <MagneticButton href={site.contacts.telegram} variant="ghost">
+                  Telegram
+                </MagneticButton>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
