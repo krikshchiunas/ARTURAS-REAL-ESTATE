@@ -8,8 +8,9 @@ export function Ambient() {
       aria-hidden
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-ink"
     >
-      {/* Сам световой луч с пылинками: cover, по центру */}
-      <div className="absolute inset-0 bg-ink bg-[url('/ambient-d8.webp')] bg-cover bg-center bg-no-repeat" />
+      {/* Сам световой луч с пылинками: cover, по центру.
+          Имя файла версионируем (-v3), чтобы сбросить кэш CDN/браузера. */}
+      <div className="absolute inset-0 bg-ink bg-[url('/ambient-d8-v3.webp')] bg-cover bg-center bg-no-repeat" />
 
       {/* Виньетка: мягко обрамляет контент и углубляет дальние края */}
       <div className="absolute inset-0 bg-[radial-gradient(140%_120%_at_50%_44%,transparent_55%,rgba(2,2,4,0.55)_100%)]" />
