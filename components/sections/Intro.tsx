@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Marquee } from "@/components/ui/Marquee";
+import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
-const words = [
+const goals = [
   "Жизнь",
   "Образ жизни",
   "Инвестиции",
@@ -37,8 +38,26 @@ export function Intro() {
         </p>
       </div>
 
-      <div className="mt-24 md:mt-36">
-        <Marquee items={words} />
+      {/* Направления подбора: статичная осмысленная строка вместо бегущей ленты.
+          Лейбл задаёт контекст — это не случайные слова, а цели под подбор. */}
+      <div className="mt-20 flex flex-col items-center gap-7 md:mt-28">
+        <Reveal>
+          <Eyebrow>Подбираем под вашу цель</Eyebrow>
+        </Reveal>
+        <Reveal delay={0.06}>
+          <ul className="flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2.5 font-display text-xl font-light text-bone-muted md:gap-x-7 md:text-[1.7rem]">
+            {goals.map((goal, i) => (
+              <Fragment key={goal}>
+                <li>{goal}</li>
+                {i < goals.length - 1 && (
+                  <li aria-hidden className="flex items-center">
+                    <span className="h-[3px] w-[3px] rounded-full bg-platinum/50" />
+                  </li>
+                )}
+              </Fragment>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );

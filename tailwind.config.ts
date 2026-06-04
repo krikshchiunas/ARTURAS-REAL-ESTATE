@@ -61,10 +61,6 @@ const config: Config = {
           "70%": { transform: "translate(3%,1%)" },
           "90%": { transform: "translate(-2%,2%)" },
         },
-        "marquee": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
         // Едва заметный медленный дрейф амбиентных свечений фона.
         "ambient-a": {
           "0%, 100%": { transform: "translate3d(0,0,0) scale(1)", opacity: "0.85" },
@@ -77,7 +73,6 @@ const config: Config = {
       },
       animation: {
         "grain-shift": "grain-shift 8s steps(6) infinite",
-        marquee: "marquee 38s linear infinite",
         "ambient-a": "ambient-a 24s ease-in-out infinite",
         "ambient-b": "ambient-b 30s ease-in-out infinite",
       },
