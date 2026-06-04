@@ -2,9 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-const POSTER =
-  "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80";
-
 // Длительность кроссфейда на стыке цикла (сек).
 const FADE = 2.8;
 
@@ -78,7 +75,7 @@ export function HeroVideo() {
 
   return (
     <>
-      <video ref={aRef} className={cls} muted playsInline preload="auto" poster={POSTER}>
+      <video ref={aRef} className={cls} muted playsInline preload="auto">
         <source src="/hero.mp4" type="video/mp4" />
       </video>
       <video ref={bRef} className={cls} muted playsInline preload="auto" aria-hidden>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -30,17 +29,9 @@ export function Hero() {
     >
       <motion.div
         style={{ y: mediaY, scale: mediaScale }}
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0 bg-ink will-change-transform"
       >
         <HeroVideo />
-        <Image
-          src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80"
-          alt="Вилла с бассейном на Пхукете"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover brightness-[0.82] -z-10"
-        />
       </motion.div>
 
       {/* Кинематографичная многослойная заливка: глубина + читаемость текста */}
