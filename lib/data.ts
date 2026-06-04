@@ -16,6 +16,7 @@ export const stats: Stat[] = [
 export type ProjectFact = { label: string; value: string };
 
 export type Project = {
+  slug: string;
   name: string;
   developer?: string;
   location: string;
@@ -28,6 +29,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "silhouette",
     name: "Silhouette",
     developer: "The Zero Phuket",
     location: "Най Янг Бич",
@@ -43,6 +45,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "ayana-heights",
     name: "AYANA Heights",
     developer: "AYANA",
     location: "Вид на море и горы",
@@ -58,6 +61,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "sun-hills-layan",
     name: "Sun Hills Layan",
     location: "Лаян",
     type: "Кондоминиум",
@@ -72,6 +76,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "sun-hills-lakeside",
     name: "Sun Hills Lakeside",
     location: "Банг Тао · Лагуна",
     type: "Кондоминиум",
@@ -86,6 +91,10 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+export function getProject(slug: string): Project | undefined {
+  return projects.find((p) => p.slug === slug);
+}
 
 export type Service = {
   title: string;

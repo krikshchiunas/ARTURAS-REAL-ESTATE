@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projects } from "@/lib/data";
@@ -73,13 +74,15 @@ export function Projects() {
           className="flex flex-col gap-8 px-6 md:flex-row md:gap-10 md:px-[max(2rem,calc((100vw-1440px)/2+2rem))] md:pt-24 md:will-change-transform"
         >
           {projects.map((p, i) => (
-            <article
-              key={p.name}
-              className="group relative shrink-0 md:w-[clamp(360px,42vw,560px)]"
+            <Link
+              key={p.slug}
+              href={`/projects/${p.slug}`}
+              aria-label={`${p.name} — подробнее`}
+              className="group relative block shrink-0 md:w-[clamp(320px,38vw,460px)]"
             >
-              <div className="relative h-full overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
+              <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06] transition-colors duration-500 group-hover:ring-white/15">
                 <div className="relative overflow-hidden rounded-core bg-ink-900">
-                  <div className="relative aspect-[4/5] w-full overflow-hidden">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden">
                     <Image
                       src={p.image}
                       alt={p.name}
@@ -89,7 +92,7 @@ export function Projects() {
                     />
                     <div
                       aria-hidden
-                      className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/40 to-transparent"
+                      className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent"
                     />
                     <div className="absolute left-6 top-6 flex items-center gap-3">
                       <span className="font-mono text-xs text-platinum">
@@ -99,6 +102,7 @@ export function Projects() {
                         {p.type}
                       </span>
                     </div>
+
                     <div className="absolute inset-x-6 bottom-6">
                       <div className="flex items-end justify-between gap-4">
                         <div>
@@ -107,39 +111,37 @@ export function Projects() {
                           </h3>
                           <p className="mt-1.5 text-sm text-bone-muted">
                             {p.location}
-                            {p.developer ? ` · ${p.developer}` : ""}
                           </p>
                         </div>
                         <span className="shrink-0 font-display text-xl font-light text-platinum-soft">
                           {p.priceFrom}
                         </span>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="p-7 md:p-8">
-                    <p className="max-w-prose text-sm leading-relaxed text-bone-muted">
-                      {p.summary}
-                    </p>
-                    <dl className="mt-6 flex flex-col gap-3 border-t border-white/[0.07] pt-6">
-                      {p.facts.map((f) => (
-                        <div
-                          key={f.label}
-                          className="flex items-baseline justify-between gap-6"
+                      <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors duration-500 group-hover:text-bone">
+                        Подробнее
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          aria-hidden
+                          className="transition-transform duration-500 ease-glass group-hover:translate-x-1"
                         >
-                          <dt className="shrink-0 text-xs uppercase tracking-[0.14em] text-bone-faint">
-                            {f.label}
-                          </dt>
-                          <dd className="text-right text-sm text-bone">
-                            {f.value}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
+                          <path
+                            d="M3 7h8M7.5 3.5L11 7l-3.5 3.5"
+                            stroke="currentColor"
+                            strokeWidth="1.25"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
