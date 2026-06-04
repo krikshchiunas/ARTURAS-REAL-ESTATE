@@ -106,10 +106,14 @@
     height: 1400px;
     background: radial-gradient(
       circle at center,
-      rgba(188, 192, 204, 0.07),
-      transparent 68%
+      rgba(188, 192, 204, 0.07) 0%,
+      rgba(188, 192, 204, 0.055) 22%,
+      rgba(188, 192, 204, 0.035) 42%,
+      rgba(188, 192, 204, 0.018) 60%,
+      rgba(188, 192, 204, 0.007) 78%,
+      rgba(188, 192, 204, 0) 100%
     );
-    filter: blur(300px);
+    filter: blur(320px);
     animation: ambient-drift-1 52s ease-in-out infinite alternate;
   }
 
@@ -121,10 +125,14 @@
     height: 1200px;
     background: radial-gradient(
       circle at center,
-      rgba(132, 136, 148, 0.08),
-      transparent 68%
+      rgba(132, 136, 148, 0.08) 0%,
+      rgba(132, 136, 148, 0.062) 22%,
+      rgba(132, 136, 148, 0.04) 42%,
+      rgba(132, 136, 148, 0.021) 60%,
+      rgba(132, 136, 148, 0.008) 78%,
+      rgba(132, 136, 148, 0) 100%
     );
-    filter: blur(320px);
+    filter: blur(340px);
     animation: ambient-drift-2 60s ease-in-out infinite alternate;
   }
 
@@ -136,10 +144,14 @@
     height: 1500px;
     background: radial-gradient(
       circle at center,
-      rgba(150, 154, 164, 0.06),
-      transparent 70%
+      rgba(150, 154, 164, 0.06) 0%,
+      rgba(150, 154, 164, 0.047) 22%,
+      rgba(150, 154, 164, 0.03) 42%,
+      rgba(150, 154, 164, 0.016) 60%,
+      rgba(150, 154, 164, 0.006) 78%,
+      rgba(150, 154, 164, 0) 100%
     );
-    filter: blur(340px);
+    filter: blur(360px);
     animation: ambient-drift-3 56s ease-in-out infinite alternate;
   }
 
@@ -151,10 +163,14 @@
     height: 900px;
     background: radial-gradient(
       circle at center,
-      rgba(210, 214, 224, 0.05),
-      transparent 70%
+      rgba(210, 214, 224, 0.05) 0%,
+      rgba(210, 214, 224, 0.039) 22%,
+      rgba(210, 214, 224, 0.025) 42%,
+      rgba(210, 214, 224, 0.013) 60%,
+      rgba(210, 214, 224, 0.005) 78%,
+      rgba(210, 214, 224, 0) 100%
     );
-    filter: blur(280px);
+    filter: blur(300px);
     animation: ambient-drift-4 46s ease-in-out infinite alternate;
   }
 
@@ -166,10 +182,14 @@
     height: 1000px;
     background: radial-gradient(
       circle at center,
-      rgba(96, 98, 108, 0.09),
-      transparent 66%
+      rgba(96, 98, 108, 0.09) 0%,
+      rgba(96, 98, 108, 0.07) 22%,
+      rgba(96, 98, 108, 0.045) 42%,
+      rgba(96, 98, 108, 0.023) 60%,
+      rgba(96, 98, 108, 0.009) 78%,
+      rgba(96, 98, 108, 0) 100%
     );
-    filter: blur(300px);
+    filter: blur(320px);
     animation: ambient-drift-5 50s ease-in-out infinite alternate;
   }
 }
