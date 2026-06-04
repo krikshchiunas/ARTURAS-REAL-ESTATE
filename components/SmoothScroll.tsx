@@ -19,6 +19,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.4,
+      // Клики по якорным ссылкам (#projects и т.д.) тоже идут через Lenis,
+      // иначе браузер «телепортирует» к секции мгновенно. Offset уводит цель
+      // ниже плавающего меню, чтобы заголовок секции не прятался под ним.
+      anchors: { offset: -110 },
     });
 
     lenis.on("scroll", ScrollTrigger.update);
