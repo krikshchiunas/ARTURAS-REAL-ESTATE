@@ -1,14 +1,14 @@
-// Ambient studio background. Фиксированный слой графитовых световых пятен за
-// контентом (z-index:-1): добавляет глубину внутренним секциям и футеру, скрыт
-// за непрозрачным hero. Вся стилизация и анимация — в globals.css (.ambient).
+// Ambient silk. Фиксированный слой гладкой графитовой «ткани» за контентом
+// (z-index:-1): мягкие наклонные световые/теневые ленты с лёгким переливом.
+// Скрыт за непрозрачным hero. Вся стилизация и анимация — в globals.css.
 export function Ambient() {
   return (
     <div aria-hidden className="ambient">
-      <span className="ambient__blob ambient__blob--1" />
-      <span className="ambient__blob ambient__blob--2" />
-      <span className="ambient__blob ambient__blob--3" />
-      <span className="ambient__blob ambient__blob--4" />
-      <span className="ambient__blob ambient__blob--5" />
+      <span className="ambient__wave ambient__wave--1" />
+      <span className="ambient__wave ambient__wave--2" />
+      <span className="ambient__wave ambient__wave--3" />
+      <span className="ambient__wave ambient__wave--4" />
+      <span className="ambient__wave ambient__wave--5" />
     </div>
   );
 }

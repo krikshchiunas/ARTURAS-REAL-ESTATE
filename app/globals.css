@@ -79,164 +79,160 @@
     @apply font-mono text-[11px] uppercase tracking-eyebrow text-bone-muted;
   }
 
-  /* Ambient studio lighting — ощущение дорогого архитектурного света в тёмном
-     помещении. Несколько огромных мягких световых пятен (radial-gradient),
-     сильный blur, низкая opacity. Только графит/серый, без цвета и неона.
-     Фиксированный слой под контентом (z-index:-1), скрыт за непрозрачным hero.
-     Никаких текстур/шума/паттернов. pointer-events:none, без layout shift. */
+  /* Ambient silk — гладкая графитовая «шёлковая ткань» с лёгким переливом.
+     Наклонные мягкие светлые и теневые ленты сливаются под большим blur в
+     непрерывный градиент без видимых слоёв, пикселей и полос. Только серый/
+     графит, без цвета. Фиксированный слой под контентом (z-index:-1), скрыт
+     за непрозрачным hero. Только CSS-градиенты + blur, без текстур/шума.
+     pointer-events:none, без layout shift. Анимация только transform. */
   .ambient {
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
     overflow: hidden;
+    /* Базовое графитовое поле — диагональная мягкая глубина */
+    background: linear-gradient(
+      125deg,
+      #1b1c20 0%,
+      #141519 48%,
+      #1d1e23 100%
+    );
   }
 
-  .ambient__blob {
+  .ambient__wave {
     position: absolute;
-    border-radius: 9999px;
+    top: -30%;
+    height: 160%;
+    border-radius: 50%;
     will-change: transform;
+    filter: blur(130px);
   }
 
-  /* Большое мягкое ambient-свечение сверху-слева */
-  .ambient__blob--1 {
-    top: -22rem;
-    left: -16rem;
-    width: 1400px;
-    height: 1400px;
+  /* Светлая лента слева */
+  .ambient__wave--1 {
+    left: -6%;
+    width: 46vw;
     background: radial-gradient(
-      circle at center,
-      rgba(188, 192, 204, 0.07) 0%,
-      rgba(188, 192, 204, 0.055) 22%,
-      rgba(188, 192, 204, 0.035) 42%,
-      rgba(188, 192, 204, 0.018) 60%,
-      rgba(188, 192, 204, 0.007) 78%,
-      rgba(188, 192, 204, 0) 100%
+      ellipse 55% 50% at 50% 50%,
+      rgba(168, 171, 180, 0.14) 0%,
+      rgba(168, 171, 180, 0.1) 26%,
+      rgba(168, 171, 180, 0.06) 46%,
+      rgba(168, 171, 180, 0.028) 62%,
+      rgba(168, 171, 180, 0.01) 80%,
+      rgba(168, 171, 180, 0) 100%
     );
-    filter: blur(320px);
-    animation: ambient-drift-1 52s ease-in-out infinite alternate;
+    animation: silk-1 40s ease-in-out infinite alternate;
   }
 
-  /* Графитовое свечение справа по центру */
-  .ambient__blob--2 {
-    top: 8%;
-    right: -20rem;
-    width: 1200px;
-    height: 1200px;
-    background: radial-gradient(
-      circle at center,
-      rgba(132, 136, 148, 0.08) 0%,
-      rgba(132, 136, 148, 0.062) 22%,
-      rgba(132, 136, 148, 0.04) 42%,
-      rgba(132, 136, 148, 0.021) 60%,
-      rgba(132, 136, 148, 0.008) 78%,
-      rgba(132, 136, 148, 0) 100%
-    );
-    filter: blur(340px);
-    animation: ambient-drift-2 60s ease-in-out infinite alternate;
-  }
-
-  /* Самое крупное, тихое свечение снизу */
-  .ambient__blob--3 {
-    bottom: -30rem;
+  /* Тёмная «впадина» ткани */
+  .ambient__wave--2 {
     left: 18%;
-    width: 1500px;
-    height: 1500px;
+    width: 42vw;
     background: radial-gradient(
-      circle at center,
-      rgba(150, 154, 164, 0.06) 0%,
-      rgba(150, 154, 164, 0.047) 22%,
-      rgba(150, 154, 164, 0.03) 42%,
-      rgba(150, 154, 164, 0.016) 60%,
-      rgba(150, 154, 164, 0.006) 78%,
-      rgba(150, 154, 164, 0) 100%
+      ellipse 55% 50% at 50% 50%,
+      rgba(6, 7, 10, 0.34) 0%,
+      rgba(6, 7, 10, 0.26) 26%,
+      rgba(6, 7, 10, 0.16) 46%,
+      rgba(6, 7, 10, 0.08) 62%,
+      rgba(6, 7, 10, 0.03) 80%,
+      rgba(6, 7, 10, 0) 100%
     );
-    filter: blur(360px);
-    animation: ambient-drift-3 56s ease-in-out infinite alternate;
+    animation: silk-2 52s ease-in-out infinite alternate;
   }
 
-  /* Светлый «прожектор» слева — мягкий акцент глубины */
-  .ambient__blob--4 {
-    top: 34%;
-    left: 4%;
-    width: 900px;
-    height: 900px;
+  /* Светлый перелив по центру */
+  .ambient__wave--3 {
+    left: 40%;
+    width: 44vw;
     background: radial-gradient(
-      circle at center,
-      rgba(210, 214, 224, 0.05) 0%,
-      rgba(210, 214, 224, 0.039) 22%,
-      rgba(210, 214, 224, 0.025) 42%,
-      rgba(210, 214, 224, 0.013) 60%,
-      rgba(210, 214, 224, 0.005) 78%,
-      rgba(210, 214, 224, 0) 100%
+      ellipse 55% 50% at 50% 50%,
+      rgba(140, 143, 151, 0.13) 0%,
+      rgba(140, 143, 151, 0.095) 26%,
+      rgba(140, 143, 151, 0.058) 46%,
+      rgba(140, 143, 151, 0.026) 62%,
+      rgba(140, 143, 151, 0.009) 80%,
+      rgba(140, 143, 151, 0) 100%
     );
-    filter: blur(300px);
-    animation: ambient-drift-4 46s ease-in-out infinite alternate;
+    animation: silk-3 44s ease-in-out infinite alternate;
   }
 
-  /* Более тёмное угольное пятно снизу-справа — объём «комнаты» */
-  .ambient__blob--5 {
-    bottom: 6%;
-    right: 10%;
-    width: 1000px;
-    height: 1000px;
+  /* Тёмная складка справа */
+  .ambient__wave--4 {
+    left: 62%;
+    width: 40vw;
     background: radial-gradient(
-      circle at center,
-      rgba(96, 98, 108, 0.09) 0%,
-      rgba(96, 98, 108, 0.07) 22%,
-      rgba(96, 98, 108, 0.045) 42%,
-      rgba(96, 98, 108, 0.023) 60%,
-      rgba(96, 98, 108, 0.009) 78%,
-      rgba(96, 98, 108, 0) 100%
+      ellipse 55% 50% at 50% 50%,
+      rgba(6, 7, 10, 0.3) 0%,
+      rgba(6, 7, 10, 0.23) 26%,
+      rgba(6, 7, 10, 0.14) 46%,
+      rgba(6, 7, 10, 0.07) 62%,
+      rgba(6, 7, 10, 0.025) 80%,
+      rgba(6, 7, 10, 0) 100%
     );
-    filter: blur(320px);
-    animation: ambient-drift-5 50s ease-in-out infinite alternate;
+    animation: silk-4 48s ease-in-out infinite alternate;
+  }
+
+  /* Широкий светлый блик у правого края */
+  .ambient__wave--5 {
+    left: 82%;
+    width: 48vw;
+    background: radial-gradient(
+      ellipse 55% 50% at 50% 50%,
+      rgba(190, 193, 200, 0.1) 0%,
+      rgba(190, 193, 200, 0.072) 26%,
+      rgba(190, 193, 200, 0.044) 46%,
+      rgba(190, 193, 200, 0.02) 62%,
+      rgba(190, 193, 200, 0.007) 80%,
+      rgba(190, 193, 200, 0) 100%
+    );
+    animation: silk-5 56s ease-in-out infinite alternate;
   }
 }
 
-/* Очень медленное, почти незаметное движение световых областей (40–60s) */
-@keyframes ambient-drift-1 {
+/* Минимальный, очень медленный перелив ткани — только transform (GPU) */
+@keyframes silk-1 {
   0% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) rotate(-11deg) scale(1);
   }
   100% {
-    transform: translate3d(120px, 80px, 0) scale(1.12);
+    transform: translate3d(70px, -30px, 0) rotate(-7deg) scale(1.06);
   }
 }
 
-@keyframes ambient-drift-2 {
+@keyframes silk-2 {
   0% {
-    transform: translate3d(0, 0, 0) scale(1.08);
+    transform: translate3d(0, 0, 0) rotate(9deg) scale(1.05);
   }
   100% {
-    transform: translate3d(-100px, 70px, 0) scale(1);
+    transform: translate3d(-60px, 25px, 0) rotate(13deg) scale(1);
   }
 }
 
-@keyframes ambient-drift-3 {
+@keyframes silk-3 {
   0% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) rotate(-6deg) scale(1);
   }
   100% {
-    transform: translate3d(90px, -90px, 0) scale(1.1);
+    transform: translate3d(80px, 20px, 0) rotate(-2deg) scale(1.07);
   }
 }
 
-@keyframes ambient-drift-4 {
+@keyframes silk-4 {
   0% {
-    transform: translate3d(0, 0, 0) scale(1.05);
+    transform: translate3d(0, 0, 0) rotate(12deg) scale(1.04);
   }
   100% {
-    transform: translate3d(70px, 60px, 0) scale(1);
+    transform: translate3d(-70px, -25px, 0) rotate(8deg) scale(1);
   }
 }
 
-@keyframes ambient-drift-5 {
+@keyframes silk-5 {
   0% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) rotate(-14deg) scale(1);
   }
   100% {
-    transform: translate3d(-80px, -60px, 0) scale(1.12);
+    transform: translate3d(60px, 30px, 0) rotate(-18deg) scale(1.05);
   }
 }
 
