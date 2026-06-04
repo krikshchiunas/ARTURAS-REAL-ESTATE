@@ -41,8 +41,12 @@ export function Founder() {
                 aria-hidden
                 className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent"
               />
-              <div className="absolute bottom-6 left-6 glass rounded-full px-5 py-2.5 text-sm">
-                {site.founder} · основатель
+              <div className="absolute bottom-6 left-6 glass inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm">
+                <span className="relative flex h-2 w-2" aria-hidden>
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                {site.founder}
               </div>
             </div>
           </Reveal>
