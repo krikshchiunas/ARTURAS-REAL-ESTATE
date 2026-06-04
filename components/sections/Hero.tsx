@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { HeroVideo } from "@/components/HeroVideo";
 import { site } from "@/lib/site";
 
 // Кинематографичный hero. Видео из /public/hero.mp4 (поставляется клиентом),
@@ -31,17 +32,7 @@ export function Hero() {
         style={{ y: mediaY, scale: mediaScale }}
         className="absolute inset-0 will-change-transform"
       >
-        <video
-          className="h-full w-full object-cover brightness-[0.82] contrast-[1.06] saturate-[0.92]"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80"
-        >
-          <source src="/hero.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo />
         <Image
           src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80"
           alt="Вилла с бассейном на Пхукете"
