@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   motion,
   AnimatePresence,
@@ -15,6 +16,13 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+
+  // Якорные ссылки (#projects и т.д.) работают только на главной. На любой
+  // другой странице (например, /projects/[slug]) ведём на главную с якорем —
+  // браузер откроет «/» и доскроллит до нужной секции.
+  const isHome = pathname === "/";
+  const resolve = (hash: string) => (isHome ? hash : `/${hash}`);
 
   useMotionValueEvent(scrollY, "change", (v) => {
     const next = v > 40;
@@ -35,7 +43,7 @@ export function Navbar() {
         }`}
       >
         <a
-          href="#main"
+          href={resolve("#main")}
           className="mr-2 font-display text-lg font-medium tracking-tight md:mr-4"
         >
           {site.name}
@@ -45,7 +53,7 @@ export function Navbar() {
           {site.nav.map((item) => (
             <li key={item.href}>
               <a
-                href={item.href}
+                href={resolve(item.href)}
                 className="rounded-full px-4 py-2 text-sm text-bone-muted transition-colors duration-300 hover:text-bone"
               >
                 {item.label}
@@ -103,7 +111,7 @@ export function Navbar() {
               {site.nav.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={resolve(item.href)}
                     onClick={() => setOpen(false)}
                     className="block rounded-2xl px-4 py-3 text-bone-muted transition-colors hover:bg-white/5 hover:text-bone"
                   >
