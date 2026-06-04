@@ -65,10 +65,21 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        // Едва заметный медленный дрейф амбиентных свечений фона.
+        "ambient-a": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)", opacity: "0.85" },
+          "50%": { transform: "translate3d(4%,3%,0) scale(1.09)", opacity: "1" },
+        },
+        "ambient-b": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1.06)", opacity: "0.8" },
+          "50%": { transform: "translate3d(-3%,-4%,0) scale(1)", opacity: "1" },
+        },
       },
       animation: {
         "grain-shift": "grain-shift 8s steps(6) infinite",
         marquee: "marquee 38s linear infinite",
+        "ambient-a": "ambient-a 24s ease-in-out infinite",
+        "ambient-b": "ambient-b 30s ease-in-out infinite",
       },
     },
   },

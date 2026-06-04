@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { Ambient } from "@/components/Ambient";
 import { Grain } from "@/components/Grain";
 import "./globals.css";
 
@@ -104,6 +105,7 @@ export default function RootLayout({
         >
           Перейти к содержимому
         </a>
+        <Ambient />
         <Grain />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
