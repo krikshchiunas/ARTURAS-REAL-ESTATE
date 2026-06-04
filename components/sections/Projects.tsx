@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
@@ -94,18 +94,20 @@ export function Projects() {
                       aria-hidden
                       className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent"
                     />
+                    {/* Тип — второстепенная характеристика, держим тихо */}
                     <div className="absolute left-6 top-6 flex items-center gap-3">
                       <span className="font-mono text-xs text-platinum">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-xs uppercase tracking-[0.18em] text-bone-muted">
+                      <span className="text-xs uppercase tracking-[0.18em] text-bone-faint">
                         {p.type}
                       </span>
                     </div>
 
                     <div className="absolute inset-x-6 bottom-6">
+                      {/* Приоритет 2–4: название доминирует, локация и цена ниже по тону */}
                       <div className="flex items-end justify-between gap-4">
-                        <div>
+                        <div className="min-w-0">
                           <h3 className="font-display text-3xl font-light tracking-tight text-bone md:text-4xl">
                             {p.name}
                           </h3>
@@ -118,7 +120,26 @@ export function Projects() {
                         </span>
                       </div>
 
-                      <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors duration-500 group-hover:text-bone">
+                      {/* 1–2 ключевых преимущества: тихая строка, сканируется
+                          взглядом, но не конкурирует с названием и фото */}
+                      {p.keyPoints.length > 0 && (
+                        <ul className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] uppercase tracking-[0.14em] text-bone-faint">
+                          {p.keyPoints.map((point, idx) => (
+                            <Fragment key={point}>
+                              <li>{point}</li>
+                              {idx < p.keyPoints.length - 1 && (
+                                <li aria-hidden className="flex items-center">
+                                  <span className="h-[2px] w-[2px] rounded-full bg-platinum/40" />
+                                </li>
+                              )}
+                            </Fragment>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* CTA проявляется на ховере (на мобиле виден всегда) —
+                          в покое витрина остаётся спокойной и воздушной */}
+                      <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-all duration-500 ease-glass group-hover:text-bone md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100">
                         Подробнее
                         <svg
                           width="14"

@@ -26,6 +26,9 @@ export type Project = {
   type: string;
   image: string;
   priceFrom: string;
+  // 1–2 коротких преимущества для карточки-витрины (образ жизни/локация/бренд,
+  // не инвест-цифры). Держим карточку лёгкой для сканирования взглядом.
+  keyPoints: string[];
   summary: string;
   // Контент детальной страницы:
   concept: string;
@@ -51,6 +54,7 @@ export const projects: Project[] = [
     type: "Кондоминиум",
     image: "/projects/silhouette.jpg",
     priceFrom: "от $125K",
+    keyPoints: ["350 м до пляжа", "Рядом парк Сиринат"],
     summary:
       "Резиденция у пляжа Най Янг с прогнозируемой доходностью около 11% годовых.",
     concept:
@@ -128,6 +132,7 @@ export const projects: Project[] = [
     type: "Кондо и таунхаусы",
     image: "/projects/ayana.jpg",
     priceFrom: "от $155K",
+    keyPoints: ["Вид на море 270°", "Собственный парк"],
     summary:
       "Seaview-резиденции с собственным парком AYANA Park и панорамой на море под углом 270°.",
     concept:
@@ -205,6 +210,7 @@ export const projects: Project[] = [
     type: "Кондоминиум",
     image: "/projects/sunhills-layan.jpg",
     priceFrom: "от $89K",
+    keyPoints: ["Амбассадор — Хабиб", "Вертикальный сад"],
     summary:
       "Архитектура «вертикального сада» в Лаяне. Официальный амбассадор бренда — Хабиб Нурмагомедов.",
     concept:
@@ -276,6 +282,7 @@ export const projects: Project[] = [
     type: "Кондоминиум",
     image: "/projects/lakeside.jpg",
     priceFrom: "≈ $228K",
+    keyPoints: ["Khabib Gym 1 500 м²", "7 мин до пляжа"],
     summary:
       "Резиденция у озёр Лагуны с тренировочным центром Khabib Gym. Официальный партнёр — Хабиб Нурмагомедов.",
     concept:
