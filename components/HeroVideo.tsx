@@ -6,7 +6,11 @@ const POSTER =
   "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80";
 
 // Длительность кроссфейда на стыке цикла (сек).
-const FADE = 1.4;
+const FADE = 2.8;
+
+// Плавная кривость (smoothstep): растворение мягко стартует и мягко
+// затухает, без резких границ по краям перехода.
+const ease = (p: number) => p * p * (3 - 2 * p);
 
 // Бесшовный цикл видео. Ролик идёт «день → ночь», и при обычном loop
 // случается резкий скачок с ночи обратно на утро. Здесь два слоя одного
@@ -53,8 +57,9 @@ export function HeroVideo() {
 
         if (fading) {
           const progress = Math.min(1, Math.max(0, (FADE - remaining) / FADE));
-          active.style.opacity = String(1 - progress);
-          inactive.style.opacity = String(progress);
+          const e = ease(progress);
+          active.style.opacity = String(1 - e);
+          inactive.style.opacity = String(e);
           if (progress >= 1 || remaining <= 0.05) swap();
         }
       }
