@@ -187,7 +187,7 @@ export function Contact() {
                       id="whatsapp"
                       label="WhatsApp"
                       optional
-                      placeholder="+7 900 000-00-00"
+                      placeholder="Ваш номер телефона"
                       invalid={Boolean(errors.contact)}
                     />
                   </div>
