@@ -7,6 +7,8 @@ export function Ambient() {
       <span className="ambient__blob ambient__blob--1" />
       <span className="ambient__blob ambient__blob--2" />
       <span className="ambient__blob ambient__blob--3" />
+      <span className="ambient__blob ambient__blob--4" />
+      <span className="ambient__blob ambient__blob--5" />
     </div>
   );
 }
