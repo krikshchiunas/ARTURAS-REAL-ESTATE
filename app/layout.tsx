@@ -79,7 +79,7 @@ const jsonLd = {
     site.contacts.tiktok,
     site.contacts.telegramChannel,
   ],
-  priceRange: "฿฿฿",
+  priceRange: "$$$",
 };
 
 export default function RootLayout({

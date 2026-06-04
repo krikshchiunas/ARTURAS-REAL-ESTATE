@@ -11,7 +11,7 @@ const deals: Deal[] = [
     goal: "Цель: инвестиция",
     name: "AYANA Heights",
     lines: [
-      { label: "Бюджет", value: "от ฿5,4M" },
+      { label: "Бюджет", value: "от $155K" },
       { label: "Ожидаемая доходность", value: "8–10% годовых" },
     ],
   },

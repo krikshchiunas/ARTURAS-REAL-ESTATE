@@ -79,7 +79,7 @@ export function Contact() {
                 <Field
                   id="budget"
                   label="Бюджет"
-                  placeholder="Ориентир, ฿ или $"
+                  placeholder="Ориентир в $"
                   helper="Поможет точнее подобрать объекты."
                 />
                 <div className="flex flex-col gap-2">
