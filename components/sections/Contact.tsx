@@ -210,14 +210,14 @@ export function Contact({ lang }: { lang: string }) {
                     </div>
                   )}
 
-                  <div className="mt-2 flex items-center justify-between gap-4">
+                  <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <p className="max-w-[34ch] text-xs leading-relaxed text-bone-faint">
                       {t.consent}
                     </p>
                     <button
                       type="submit"
                       disabled={status === "submitting"}
-                      className="shrink-0 rounded-full bg-bone px-7 py-3 text-sm font-medium text-ink transition-all duration-500 ease-smooth hover:bg-platinum-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="w-full shrink-0 rounded-full bg-bone px-7 py-3 text-sm font-medium text-ink transition-all duration-500 ease-smooth hover:bg-platinum-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                     >
                       {status === "submitting" ? t.submitting : t.submit}
                     </button>

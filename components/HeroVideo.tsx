@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Длительность кроссфейда на стыке цикла (сек).
 const FADE = 2.8;
@@ -9,15 +9,34 @@ const FADE = 2.8;
 // затухает, без резких границ по краям перехода.
 const ease = (p: number) => p * p * (3 - 2 * p);
 
-// Бесшовный цикл видео. Ролик идёт «день → ночь», и при обычном loop
-// случается резкий скачок с ночи обратно на утро. Здесь два слоя одного
-// и того же ролика плавно перекрывают друг друга в последние секунды:
-// ночь мягко растворяется в утре, стык становится незаметным.
+const cls =
+  "absolute inset-0 h-full w-full object-cover brightness-[0.82] contrast-[1.06] saturate-[0.92]";
+
+// Кинематографичный фон hero.
+//
+// Десктоп: два слоя одного ролика плавно перекрывают друг друга в последние
+// секунды («день → ночь» без резкого скачка при loop).
+//
+// Мобайл: ролик 16 МБ слишком тяжёл для перекрытия в два декодера. Грузим один
+// `<video>` с нативным loop и preload="metadata" — вдвое меньше памяти/декода,
+// без RAF-цикла кроссфейда и без двойной загрузки трафика.
 export function HeroVideo() {
   const aRef = useRef<HTMLVideoElement>(null);
   const bRef = useRef<HTMLVideoElement>(null);
+  // SSR-безопасно: стартуем как «мобайл» (один слой), на десктопе докручиваем
+  // второй слой и кроссфейд после монтирования.
+  const [desktop, setDesktop] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!desktop) return; // на мобайле — нативный loop, без кроссфейда
     const a = aRef.current;
     const b = bRef.current;
     if (!a || !b) return;
@@ -68,19 +87,34 @@ export function HeroVideo() {
     raf = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const cls =
-    "absolute inset-0 h-full w-full object-cover brightness-[0.82] contrast-[1.06] saturate-[0.92]";
+  }, [desktop]);
 
   return (
     <>
-      <video ref={aRef} className={cls} muted playsInline preload="auto">
+      <video
+        ref={aRef}
+        className={cls}
+        muted
+        playsInline
+        autoPlay
+        loop={!desktop}
+        preload={desktop ? "auto" : "metadata"}
+      >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
-      <video ref={bRef} className={cls} muted playsInline preload="auto" aria-hidden>
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Второй слой кроссфейда нужен только на десктопе. */}
+      {desktop && (
+        <video
+          ref={bRef}
+          className={cls}
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+      )}
     </>
   );
 }

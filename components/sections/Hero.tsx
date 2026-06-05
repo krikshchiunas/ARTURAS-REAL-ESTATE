@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -12,6 +12,17 @@ import { siteConfig, getDictionary } from "@/lib/i18n";
 export function Hero({ lang }: { lang: string }) {
   const t = getDictionary(lang).hero;
   const ref = useRef<HTMLElement>(null);
+  // Скролл-параллакс непрерывно композитит тяжёлый видеослой — на мобайле это
+  // даёт «дёрганый» скролл. Включаем эффект только на десктопе.
+  const [desktop, setDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -29,8 +40,8 @@ export function Hero({ lang }: { lang: string }) {
       className="relative h-[100svh] min-h-[640px] w-full overflow-hidden"
     >
       <motion.div
-        style={{ y: mediaY, scale: mediaScale }}
-        className="absolute inset-0 bg-ink will-change-transform"
+        style={desktop ? { y: mediaY, scale: mediaScale } : undefined}
+        className="absolute inset-0 bg-ink md:will-change-transform"
       >
         <HeroVideo />
       </motion.div>
@@ -54,7 +65,7 @@ export function Hero({ lang }: { lang: string }) {
       />
 
       <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={desktop ? { y: contentY, opacity: contentOpacity } : undefined}
         className="relative z-10 flex h-full flex-col justify-end pb-20 md:pb-28"
       >
         <div className="shell">
