@@ -25,7 +25,7 @@ export function Services({ lang }: { lang: string }) {
               className={`group relative ${s.span}`}
             >
               <div className="relative h-full overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
-                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-core bg-ink-900 p-7 md:p-8">
+                <div className="relative flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-core bg-ink-900 p-7 md:p-8">
                   {s.image && (
                     <>
                       <Image
@@ -45,7 +45,7 @@ export function Services({ lang }: { lang: string }) {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="relative mt-10">
-                    <h3 className="font-display text-2xl font-light tracking-tight text-bone md:text-3xl">
+                    <h3 className="font-display text-2xl font-light tracking-tight text-bone hyphens-auto break-words md:text-3xl">
                       {s.title}
                     </h3>
                     <p className="mt-3 max-w-sm text-sm leading-relaxed text-bone-muted">
