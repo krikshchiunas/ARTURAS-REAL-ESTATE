@@ -1,5 +1,445 @@
 import type { LocaleData } from "../types";
-import { en } from "./en";
 
-// TEMP: temporärer Platzhalter. Wird durch echte deutsche Übersetzung ersetzt.
-export const de: LocaleData = en;
+// Deutsch — bedeutungsbasierte Übersetzung der russischen Quelle, in einem
+// gehobenen Immobilien-Register (nicht wörtlich).
+export const de: LocaleData = {
+  dictionary: {
+    nav: {
+      approach: "Ansatz",
+      projects: "Projekte",
+      founder: "Über mich",
+      services: "Leistungen",
+      contact: "Kontakt",
+    },
+    a11y: {
+      mainNav: "Hauptnavigation",
+      menu: "Menü",
+      footerNav: "Fußzeilen-Navigation",
+      skipToContent: "Zum Inhalt springen",
+    },
+    common: {
+      whatsapp: "Auf WhatsApp schreiben",
+      telegram: "Telegram",
+      allChannels: "Alle Kanäle",
+      socialChannelLabel: "Telegram-Kanal",
+    },
+    hero: {
+      eyebrow: "Immobilien auf Phuket",
+      titleTop: "Kein Objekt.",
+      titleEmphasis: "Die richtige",
+      titleRest: " Entscheidung.",
+      body: "Immobilien auf Phuket, abgestimmt auf Ihr Ziel — Wohnen, Lebensstil, Mietertrag oder Investition. Wir verkaufen keine Objekte von der Liste.",
+    },
+    intro: {
+      manifesto:
+        "Wir verkaufen keine Immobilien. Wir helfen Ihnen, die richtige Entscheidung für Ihr Ziel zu treffen — damit der Kauf Ihr Leben bereichert und Ihr Kapital über Jahre hinweg für Sie arbeitet.",
+      goalsEyebrow: "Abgestimmt auf Ihr Ziel",
+      goals: [
+        "Wohnen",
+        "Lebensstil",
+        "Investition",
+        "Mietertrag",
+        "Kapital",
+        "Relocation",
+      ],
+    },
+    stats: {
+      eyebrow: "Dimension",
+      title: "Reputation, in Zahlen ausgedrückt",
+      body: "Fünfzehn Jahre am Immobilienmarkt und mehr als siebzig Projekte im Portfolio. Umfassende Begleitung Ihrer Transaktion auf Phuket — von der ersten Besichtigung bis zur laufenden Objektverwaltung.",
+    },
+    projectsSection: {
+      eyebrow: "Projekte",
+      heading: "Objekte, ausgewählt nach Ihrem Ziel",
+      cardCta: "Mehr erfahren",
+    },
+    founder: {
+      eyebrow: "Ein persönlicher Ansatz",
+      titleLead: "Hinter jeder Transaktion — ",
+      titleEmphasis: "ein Mensch",
+      p1: "15 Jahre in der Immobilienbranche. Mehr als 70 Projekte im Portfolio.",
+      p2: "Ich arbeite nicht mit Listings, sondern mit Ihrem Ziel — einem Umzug, einem Lebensstil, dem Erhalt von Kapital oder einem Mietertrag.",
+      p3: "Jedes Objekt auf Phuket bewerte ich nach Lebensqualität, Investitionspotenzial und Ihrer Zufriedenheit noch Jahre später.",
+      note: "Ich begleite jede Transaktion persönlich — vom ersten Anruf bis zur Schlüsselübergabe.",
+    },
+    services: {
+      eyebrow: "Leistungen",
+      title: "Eine private Infrastruktur rund um die Transaktion",
+      body: "Jede Phase — vom ersten Dossier bis zur Verwaltung des Assets — führt ein einziges Team. Ohne Vermittler, ohne Öffentlichkeit.",
+    },
+    contact: {
+      eyebrow: "Kontakt",
+      titleLead: "Schreiben Sie ",
+      titleEmphasis: "direkt",
+      body: "Am schnellsten erreichen Sie mich über WhatsApp oder Telegram. Nennen Sie mir Ihr Ziel, und ich stelle Ihnen passende Objekte auf Phuket zusammen.",
+      fields: {
+        name: "Name",
+        namePlaceholder: "Wie darf ich Sie ansprechen",
+        email: "E-Mail",
+        emailPlaceholder: "you@private.com",
+        budget: "Budget",
+        budgetPlaceholder: "Richtwert in $",
+        budgetHelper: "Hilft mir, Objekte präziser auszuwählen.",
+        message: "Ziel und Anfrage",
+        messagePlaceholder:
+          "Lage, Objekttyp, Ziel (Wohnen / Vermietung / Investition), Zeitrahmen",
+        telegram: "Telegram",
+        telegramPlaceholder: "@username oder Link",
+        whatsapp: "WhatsApp",
+        whatsappPlaceholder: "Ihre Telefonnummer",
+        optional: "optional",
+      },
+      errors: {
+        name: "Bitte geben Sie Ihren Namen an",
+        message: "Beschreiben Sie Ihr Ziel und Ihre Anfrage",
+        contact: "Geben Sie mindestens einen Kontakt an — Telegram oder WhatsApp",
+        generic: "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+        network:
+          "Ihre Anfrage konnte nicht gesendet werden. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+      },
+      consent:
+        "Ihre Anfrage geht direkt an Telegram. Mit dem Absenden des Formulars stimmen Sie der Verarbeitung Ihrer Daten zu.",
+      submit: "Anfrage senden",
+      submitting: "Wird gesendet…",
+      success: {
+        title: "Anfrage gesendet",
+        body: "Vielen Dank! Ich melde mich in Kürze über den von Ihnen angegebenen Kontakt bei Ihnen.",
+        again: "Weitere Anfrage senden",
+      },
+    },
+    footer: {
+      rights: "Alle Rechte vorbehalten.",
+      privacy: "Datenschutz",
+      terms: "Nutzungsbedingungen",
+    },
+    project: {
+      backToProjects: "Alle Projekte",
+      conceptEyebrow: "Konzept",
+      conceptTitle: "Über das Projekt",
+      learnMore: "Mehr erfahren",
+      galleryEyebrow: "Galerie",
+      galleryTitle: "Projektvisualisierungen",
+      galleryAlt: "Visualisierung {n}",
+      unitsEyebrow: "Grundrisse",
+      unitsTitle: "Typen und Flächen",
+      amenitiesEyebrow: "Infrastruktur",
+      amenitiesTitle: "Ausstattung und Service",
+      locationEyebrow: "Lage",
+      investmentEyebrow: "Investition",
+      investmentTitle: "Rendite und Zahlung",
+      paymentLabel: "Zahlungsplan",
+      featuresEyebrow: "Vorteile",
+      featuresTitle: "Warum dieses Projekt",
+      developerEyebrow: "Bauträger",
+      specEyebrow: "Eckdaten",
+      specTitle: "Wesentliche Merkmale",
+      ctaTitle: "Stimmen wir {name} auf Ihr Ziel ab",
+      ctaBody:
+        "Aktuelle Preise, Grundrisse und Konditionen — persönlich, vom ersten Anruf bis zur Schlüsselübergabe.",
+    },
+    meta: {
+      tagline: "Immobilien auf Phuket, abgestimmt auf Ihre Ziele",
+      region: "Phuket, Thailand",
+      description:
+        "Arturas Real Estate hilft Ihnen, Immobilien auf Phuket nach persönlichen Zielen auszuwählen: Wohnen, Lebensstil, Kapitalerhalt, Mietertrag und langfristige Investition. Wir verkaufen keine Objekte von der Liste — wir helfen Ihnen, die richtige Entscheidung zu treffen.",
+      homeTitle: "Arturas Real Estate — Immobilien auf Phuket, abgestimmt auf Ihre Ziele",
+    },
+  },
+  stats: [
+    { value: "15", label: "Jahre Erfahrung in der Immobilienbranche" },
+    { value: "70+", label: "Projekte im Portfolio" },
+    { value: "Phuket", label: "Kernregion der Tätigkeit" },
+    { value: "Schlüsselfertig", label: "von der Auswahl bis zur Objektverwaltung" },
+  ],
+  services: {
+    selection: {
+      title: "Objektauswahl",
+      body: "Auswahl eines Objekts für Ihr Ziel: Wohnen, Lebensstil, Mietertrag oder Investition.",
+    },
+    deal: {
+      title: "Begleitung der Transaktion",
+      body: "Vollständige Unterstützung von der Objektauswahl bis zur Eintragung des Eigentums.",
+    },
+    analysis: {
+      title: "Investitionsanalyse",
+      body: "Bewertung von Mietrendite, Wertsteigerungspotenzial und Ihrer Anlagestrategie.",
+    },
+    developer: {
+      title: "Prüfung des Bauträgers",
+      body: "Analyse von Reputation des Entwicklers, Projektqualität und Risiken vor dem Kauf.",
+    },
+    management: {
+      title: "Objektverwaltung",
+      body: "Lösungen für die Verwaltung Ihrer Immobilie nach dem Kauf.",
+    },
+    rental: {
+      title: "Vermietung",
+      body: "Vorbereitung und Positionierung Ihres Objekts für einen Mietertrag.",
+    },
+    relocation: {
+      title: "Relocation nach Thailand",
+      body: "Begleitung Ihres Umzugs: vom ersten Besuch bis zum Einrichten Ihres Lebens auf Phuket.",
+    },
+  },
+  projects: {
+    silhouette: {
+      name: "Silhouette",
+      developer: "The Zero Phuket",
+      developerNote:
+        "Ein britischer Bauträger mit über 25 Jahren Erfahrung und einem Verkaufsvolumen von mehr als £120M. Nach dem Prinzip „British Standard — Thai Excellence“, mit vollständig integriertem hauseigenem Management.",
+      location: "Nai Yang Beach",
+      type: "Eigentumswohnanlage",
+      priceFrom: "ab $125K",
+      keyPoints: ["350 m bis zum Strand", "Direkt am Sirinat-Park"],
+      summary:
+        "Eine Residenz am Nai Yang Beach mit einer prognostizierten Rendite von rund 11 % pro Jahr.",
+      concept:
+        "Eine flache Wohnanlage für „naturveredeltes“ Küstenwohnen, nur wenige Schritte vom Sirinat-Nationalpark an Phukets Westküste entfernt. Die EIA-genehmigte Öko-Architektur lässt sich vom Licht der Küste und von natürlichen Formen inspirieren und schafft eine private, niedrig verdichtete Gemeinschaft für alle, die Abgeschiedenheit, Naturnähe und Investitionsertrag suchen.",
+      highlights: [
+        { label: "Rendite", value: "≈ 11% ROI" },
+        { label: "Geschosse", value: "5 Geschosse" },
+        { label: "Residenzen", value: "150" },
+        { label: "Bis zum Strand", value: "350 m" },
+      ],
+      units: [
+        { type: "Studio", area: "29,5–36,3 m²" },
+        { type: "1 Schlafzimmer", area: "37,5–46 m²" },
+        { type: "1 Schlafzimmer +", area: "44,4–52,4 m²" },
+        { type: "2 Schlafzimmer", area: "53,9–66,7 m²" },
+        { type: "Penthouse Suite · 3 Schlafzimmer", area: "83,8–108,3 m²" },
+      ],
+      amenities: [
+        "Dachpool und Rooftop-Bar",
+        "Fitnessstudio, Spa, Sauna und Dampfbad",
+        "Eisbad und Erholungsbereich",
+        "Padel- und Pickleball-Plätze",
+        "Golfsimulator",
+        "Open-Air-Kino",
+        "Coworking und Besprechungsräume",
+        "Kinderclub",
+        "Restaurant und Wellness-Zentrum",
+        "EV-Ladestationen und solarbetriebener Shuttle",
+        "Tiefgarage",
+        "Concierge und Sicherheitsdienst rund um die Uhr",
+      ],
+      locationPoints: [
+        { label: "Nai Yang Beach", value: "350 m · 1 Min." },
+        { label: "Sirinat-Park", value: "600 m" },
+        { label: "Flughafen Phuket", value: "2,5 km · 5 Min." },
+        { label: "Nai Thon Beach", value: "10 Min." },
+        { label: "Blue Canyon Country Club", value: "12 Min." },
+        { label: "Laguna Golf Phuket", value: "26 Min." },
+      ],
+      features: [
+        "Prognostizierte Rendite von ~11 % ROI mit Wertsteigerungspotenzial in einer aufstrebenden Lage",
+        "Nur wenige Schritte bis zum Nai Yang Beach und zum Sirinat-Park",
+        "EIA-genehmigte, ökologisch nachhaltige Architektur: Solarpaneele, Regenwassernutzung",
+        "Vollständig integriertes hauseigenes Management und das Zero-Privilege-Programm",
+        "Britische Baustandards: über 25 Jahre Erfahrung, mehr als £120M Verkaufsvolumen",
+      ],
+      investment:
+        "Eine prognostizierte Rendite von rund 11 % ROI mit starkem Potenzial für langfristiges Wachstum. Objekt- und Mietverwaltung übernimmt das hauseigene Team des Bauträgers, Eigentümern steht das exklusive Zero-Privilege-Programm offen.",
+      payment:
+        "Reservierung ≈ $2.900, erste Zahlung nach 15 Tagen, danach ein flexibler Ratenplan. 10 % Rabatt bei vollständiger Zahlung.",
+      spec: [
+        { label: "Fertigstellung", value: "2028 (Beginn 2026)" },
+        { label: "Geschosse", value: "5 Geschosse" },
+        { label: "Residenzen", value: "150" },
+        { label: "Bebaute Fläche", value: "13.476 m²" },
+        { label: "Bauträger", value: "The Zero Phuket" },
+      ],
+    },
+    "ayana-heights": {
+      name: "AYANA Heights",
+      developer: "T.H Group",
+      developerNote:
+        "Ein internationales Unternehmen (China, Thailand, Spanien, Australien) in den Bereichen Immobilien, Hospitality und grüne Energie. Preisträger der PropertyGuru und Dot Property Awards 2020–2023.",
+      location: "Bangtao Bay · Meerblick",
+      type: "Eigentumswohnungen und Stadthäuser",
+      priceFrom: "ab $155K",
+      keyPoints: ["Meerblick 270°", "Eigener Park"],
+      summary:
+        "Residenzen mit Meerblick, eigenem AYANA Park und einem 270°-Panorama über das Meer.",
+      concept:
+        "Eine Premium-Anlage unter dem Leitmotiv „Flow your way“. Das Konzept beruht auf geringer Bebauungsdichte (Faktor 1,2) und großzügigen Abständen zwischen den Gebäuden — das sichert Privatsphäre und einen 270°-Panoramablick über das Meer. Fünf-Sterne-Service und hotelverwaltete Apartments für alle, die Naturnähe suchen.",
+      highlights: [
+        { label: "Rendite", value: "9–12% pro Jahr" },
+        { label: "Areal", value: "31 Rai · 8 Gebäude" },
+        { label: "Residenzen", value: "543" },
+        { label: "Pool", value: "1.800 m²" },
+      ],
+      units: [
+        { type: "Studio (A)", area: "37,6 m²" },
+        { type: "1 Schlafzimmer (B1)", area: "43,42 m²" },
+        { type: "1 Schlafzimmer Family (B2)", area: "57,57 m²" },
+        { type: "2 Schlafzimmer Family (B3)", area: "57,57 m²" },
+        { type: "2 Schlafzimmer · Meerblick (C)", area: "75,21 m²" },
+        { type: "3 Schlafzimmer · 270°-Panorama (D)", area: "112,89 m²" },
+        { type: "Penthouse (E) · Freehold", area: "360,79 m²" },
+      ],
+      amenities: [
+        "Pool mit 1.800 m²",
+        "Gemeinschaftsgarten mit 8.000 m²",
+        "AYANA Park",
+        "Fitnessraum und Sauna",
+        "Coworking",
+        "Kinderclub",
+        "Haustierfreundliche Bereiche",
+        "Lobby und Gemeinschaftslounge mit 1.000 m²",
+        "Zwei Aufzüge pro Gebäude",
+        "Über 260 Parkplätze",
+        "Sicherheitsdienst rund um die Uhr und Videoüberwachung",
+        "Elektronische Schlösser",
+      ],
+      locationPoints: [
+        { label: "Layan Beach", value: "3 Min." },
+        { label: "Bangtao Beach", value: "5 Min." },
+        { label: "Naithon Beach", value: "10 Min." },
+        { label: "Laguna Golf", value: "5 Min." },
+        { label: "Boat Avenue · Porto de Phuket", value: "10 Min." },
+        { label: "Flughafen Phuket", value: "25 Min." },
+      ],
+      features: [
+        "Geringe Bebauungsdichte (1,2) — Privatsphäre und Weite",
+        "270°-Panoramablick über das Meer",
+        "Fünf-Sterne-Service und hotelverwaltete Apartments",
+        "Privilegien für Eigentümer: Rabatte im Hotel, in Restaurants und im Spa, bevorzugte Buchung",
+        "Lage in der Nähe von Banyan Tree und Amanpuri",
+      ],
+      investment:
+        "Jährliche Mietrendite von 9–12 %, dazu eine Wertsteigerung von 20–50 % beim Wiederverkauf nach 3–5 Jahren. Verwaltung und Vermietung übernimmt ein professionelles Team; die Apartments sind hotelverwaltet. Servicegebühr ≈ $1,7/m² pro Monat.",
+      spec: [
+        { label: "Areal", value: "31 Rai · 49.600 m²" },
+        { label: "Gebäude", value: "8" },
+        { label: "Residenzen", value: "543" },
+        { label: "Penthouses", value: "Freehold" },
+        { label: "Bauträger", value: "T.H Group" },
+      ],
+    },
+    "sun-hills-layan": {
+      name: "Sun Hills Layan",
+      developer: "Sun Hills Development",
+      developerNote:
+        "Ein Bauträger mit Bauerfahrung seit 2009 und über 1,2 Mio. m² realisierter Fläche. Objekt- und Mietverwaltung durch Unicorn Hospitality (über 12 Hotels und mehr als 750 Apartments in mehr als 7 Ländern).",
+      location: "Layan",
+      type: "Eigentumswohnanlage",
+      priceFrom: "ab $89K",
+      keyPoints: ["Markenbotschafter — Khabib", "Vertikaler Garten"],
+      summary:
+        "Architektur des „vertikalen Gartens“ in Layan. Offizieller Markenbotschafter ist Khabib Nurmagomedov.",
+      concept:
+        "Eine Premium-Anlage mit der Architektur eines „vertikalen Gartens“: kaskadierende Terrassen, eingebettet in tropisches Grün, und mehrstöckige Pools im Zentrum. Offizieller Markenbotschafter ist Khabib Nurmagomedov; die Partnerschaft gründet auf den Werten von Disziplin und langfristigem Denken. Verwaltung und Betreuung durch Unicorn Hospitality, einen der führenden Hotelbetreiber Südostasiens.",
+      highlights: [
+        { label: "Rendite", value: "bis zu 10% pro Jahr" },
+        { label: "Fertigstellung", value: "01.12.2027" },
+        { label: "Residenzen", value: "585" },
+        { label: "Verwaltung", value: "Unicorn" },
+      ],
+      units: [
+        { type: "Studio", area: "26,5–31,4 m²" },
+        { type: "Studio + / 1 Schlafzimmer", area: "35,6–45 m²" },
+        { type: "1–2 Schlafzimmer", area: "47,7–53,4 m²" },
+        { type: "2 Schlafzimmer", area: "60,8–72,9 m²" },
+        { type: "2 Schlafzimmer + (B+B)", area: "85 m²" },
+      ],
+      amenities: [
+        "Mehrstöckige Pools unter freiem Himmel",
+        "Spa- und Whirlpool-Bereiche am Wasser",
+        "Fitnessstudio mit Panoramablick",
+        "Yoga-Studio",
+        "Restaurants und Fine-Dining-Bereiche",
+        "Lounge-Bereiche und Lobby",
+        "Coworking und Besprechungsräume",
+        "Kinderclub",
+        "Gestaltete Gärten und grüne Terrassen",
+      ],
+      locationPoints: [
+        { label: "Gebiet", value: "Layan, Westküste von Phuket" },
+        { label: "Strände Layan und Bangtao", value: "in der Nähe" },
+      ],
+      features: [
+        "Offizieller Markenbotschafter — Khabib Nurmagomedov",
+        "Architektur des „vertikalen Gartens“ mit kaskadierenden grünen Terrassen",
+        "Verwaltung durch Unicorn Hospitality — einen Top-Betreiber Südostasiens",
+        "Schlüsselfertiger Ausbau im Preis enthalten",
+        "Zinsfreie Ratenzahlung bis zur Fertigstellung",
+        "Nettorendite von ~9–10 %+ bei den wichtigsten Wohnungstypen",
+      ],
+      investment:
+        "Nettorendite ab ~7 %, bei Studios und 1-Schlafzimmer-Einheiten rund 9–10 %+ bis zum 8.–10. Jahr; ROI über 10 Jahre von bis zu 270 %+. Verwaltung und Vermietung durch Unicorn Hospitality. Der schlüsselfertige Ausbau ist bereits im Preis der Einheit enthalten.",
+      payment:
+        "Zinsfreie Ratenzahlung: 35 % Anzahlung, danach 15 % / 20 % / 20 % / 10 % — in Etappen bis zum 01.12.2027.",
+      spec: [
+        { label: "Fertigstellung", value: "01.12.2027" },
+        { label: "Residenzen", value: "585" },
+        { label: "Verwaltung", value: "Unicorn Hospitality" },
+        { label: "Bauträger", value: "Sun Hills Development" },
+      ],
+    },
+    "sun-hills-lakeside": {
+      name: "Sun Hills Lakeside",
+      developer: "Sun Hills Development",
+      developerNote:
+        "Ein Bauträger mit über 16 Jahren Erfahrung. Das Grundstück wurde bereits 2019 vollständig und ohne Kredite erworben. Verwaltung durch Unicorn Hospitality. EIA und Construction Permit liegen vor; Block A ist bis zur Dachkante errichtet.",
+      location: "Bang Tao · Laguna",
+      type: "Eigentumswohnanlage",
+      priceFrom: "≈ $228K",
+      keyPoints: ["Khabib Gym 1.500 m²", "7 Min. bis zum Strand"],
+      summary:
+        "Eine Residenz an den Laguna-Seen mit dem Trainingszentrum Khabib Gym. Offizieller Partner — Khabib Nurmagomedov.",
+      concept:
+        "Eine Premium-Residenz an den Laguna-Seen in Bang Tao, konzipiert als Hybrid aus Wohnen und Hotelbetrieb. Offizieller Partner des Projekts ist Khabib Nurmagomedov: Auf dem Areal entsteht ein Trainingszentrum von Weltklasse, das Khabib Gym mit 1.500 m², samt Programmen für Sport, Wellness und Regeneration. Ein Drei-in-eins-Asset: eine komfortable Umgebung zum Leben, stabiler Mietertrag und ein lohnender Wiederverkauf.",
+      highlights: [
+        { label: "Rendite", value: "bis zu 10% pro Jahr" },
+        { label: "Khabib Gym", value: "1.500 m²" },
+        { label: "Bis Layan Beach", value: "7 Min." },
+        { label: "Wertsteigerung", value: "ab 40%" },
+      ],
+      units: [
+        { type: "Studios", area: "30 / 35,6 / 40 / 47 / 48 m²" },
+        { type: "1 Schlafzimmer", area: "41,5 / 53,6 / 60 / 77 m²" },
+        { type: "2 Schlafzimmer", area: "71,2 / 89,2 m²" },
+        { type: "3 Schlafzimmer", area: "124,8 m²" },
+      ],
+      amenities: [
+        "Khabib Gym — ein Sportzentrum mit 1.500 m²",
+        "Wellness- und Spa-Zentrum",
+        "Dachpool + zwei Innenhof-Pools (24 m und 15 m)",
+        "Kinderpool",
+        "Rooftop-Bereiche mit 360°-Panorama",
+        "Restaurant mit 155 m² und Lounge-Bar",
+        "Coworking und Business-Bereiche",
+        "Kinderclub, Spielplätze und Sommerkino",
+        "Tiefgarage",
+        "Sicherheitsdienst rund um die Uhr und Shuttle zum Layan Beach",
+        "Mobile App und Service rund um die Uhr",
+        "Haustierfreundlich",
+      ],
+      locationPoints: [
+        { label: "Layan Beach", value: "7 Min." },
+        { label: "Highway", value: "5 Min." },
+        { label: "Porto de Phuket", value: "10 Min." },
+        { label: "Flughafen Phuket", value: "20 Min." },
+        { label: "Gebiet", value: "Bang Tao · Laguna" },
+      ],
+      features: [
+        "Offizielle Partnerschaft mit Khabib Nurmagomedov und dem Khabib Gym",
+        "Premium-Lage Bang Tao / Laguna mit Seeblick",
+        "Einstiegspreis 20–40 % unter vergleichbaren Projekten, Wertsteigerung ab 40 %",
+        "Ein Hybrid aus Wohnen und Hotel unter der Verwaltung von Unicorn Hospitality",
+        "Reiche Ausstattung: Sport, Spa, Pools, Restaurant, Coworking",
+        "Ganzjährige Auslastung von 75–85 %",
+      ],
+      investment:
+        "Eine Rendite von bis zu 10 % pro Jahr, eine Wertsteigerung von über 40 % während der Bauphase und eine durchschnittliche Jahresauslastung von 75–85 %. Verwaltung durch Unicorn Hospitality. Das Grundstück wurde 2019 vollständig erworben, EIA und Construction Permit liegen vor.",
+      payment:
+        "Ein Plan mit 5 Zahlungen: 30 % Anzahlung, danach 20 % (Juli 2026), 20 % (Dezember 2026), 20 % (April 2027), 10 % (September 2027). Ratenzahlung vom Bauträger bis März 2028 möglich.",
+      spec: [
+        { label: "Fertigstellung", value: "September 2027" },
+        { label: "Khabib Gym", value: "1.500 m²" },
+        { label: "Verwaltung", value: "Unicorn Hospitality" },
+        { label: "Bauträger", value: "Sun Hills Development" },
+      ],
+    },
+  },
+};
