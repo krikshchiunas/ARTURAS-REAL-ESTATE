@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/lib/site";
+import { siteConfig, getDictionary } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Socials } from "@/components/ui/Socials";
@@ -12,7 +12,9 @@ type FieldErrors = { name?: string; message?: string; contact?: string };
 
 // Контакт-CTA: крупное утверждение + стеклянная форма.
 // Заявка уходит напрямую в Telegram-бот через серверный роут /api/telegram-lead.
-export function Contact() {
+export function Contact({ lang }: { lang: string }) {
+  const t = getDictionary(lang).contact;
+  const common = getDictionary(lang).common;
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [errorMsg, setErrorMsg] = useState("");
@@ -32,10 +34,9 @@ export function Contact() {
 
     // Клиентская валидация по брифу.
     const next: FieldErrors = {};
-    if (!name) next.name = "Укажите имя";
-    if (!message) next.message = "Опишите цель и запрос";
-    if (!telegram && !whatsapp)
-      next.contact = "Укажите хотя бы один контакт — Telegram или WhatsApp";
+    if (!name) next.name = t.errors.name;
+    if (!message) next.message = t.errors.message;
+    if (!telegram && !whatsapp) next.contact = t.errors.contact;
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
@@ -54,9 +55,7 @@ export function Contact() {
 
       if (!res.ok || !json.ok) {
         setStatus("error");
-        setErrorMsg(
-          json.error || "Не удалось отправить заявку. Попробуйте ещё раз.",
-        );
+        setErrorMsg(json.error || t.errors.generic);
         return; // данные в полях сохраняются — форму не сбрасываем
       }
 
@@ -65,9 +64,7 @@ export function Contact() {
       setStatus("success");
     } catch {
       setStatus("error");
-      setErrorMsg(
-        "Не удалось отправить заявку. Проверьте соединение и попробуйте снова.",
-      );
+      setErrorMsg(t.errors.network);
     }
   };
 
@@ -76,35 +73,34 @@ export function Contact() {
       <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
           <Reveal>
-            <Eyebrow>Контакт</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-6 font-display text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
-              Напишите <em className="text-platinum-soft">напрямую</em>
+              {t.titleLead}<em className="text-platinum-soft">{t.titleEmphasis}</em>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-8 max-w-prose text-pretty leading-relaxed text-bone-muted">
-              Самый быстрый способ — написать в WhatsApp или Telegram. Расскажите
-              о цели, и я подберу объекты на Пхукете под ваш запрос.
+              {t.body}
             </p>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={site.contacts.whatsapp}>
-                Написать в WhatsApp
+              <MagneticButton href={siteConfig.contacts.whatsapp}>
+                {common.whatsapp}
               </MagneticButton>
-              <MagneticButton href={site.contacts.telegram} variant="ghost">
-                Telegram
+              <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+                {common.telegram}
               </MagneticButton>
             </div>
           </Reveal>
 
           <Reveal delay={0.2}>
             <div className="mt-12">
-              <p className="eyebrow mb-4">Все каналы</p>
-              <Socials />
+              <p className="eyebrow mb-4">{common.allChannels}</p>
+              <Socials lang={lang} />
             </div>
           </Reveal>
         </div>
@@ -113,7 +109,10 @@ export function Contact() {
           <Reveal delay={0.1}>
             <div className="glass rounded-bezel p-2">
               {status === "success" ? (
-                <SuccessPanel onReset={() => setStatus("idle")} />
+                <SuccessPanel
+                  onReset={() => setStatus("idle")}
+                  text={t.success}
+                />
               ) : (
                 <form
                   onSubmit={onSubmit}
@@ -123,26 +122,29 @@ export function Contact() {
                   <div className="grid gap-5 md:grid-cols-2">
                     <Field
                       id="name"
-                      label="Имя"
+                      label={t.fields.name}
                       required
-                      placeholder="Как к вам обращаться"
+                      placeholder={t.fields.namePlaceholder}
                       error={errors.name}
+                      optionalLabel={t.fields.optional}
                     />
                     <Field
                       id="email"
-                      label="Email"
+                      label={t.fields.email}
                       type="email"
                       optional
-                      placeholder="you@private.com"
+                      placeholder={t.fields.emailPlaceholder}
+                      optionalLabel={t.fields.optional}
                     />
                   </div>
 
                   <Field
                     id="budget"
-                    label="Бюджет"
+                    label={t.fields.budget}
                     optional
-                    placeholder="Ориентир в $"
-                    helper="Поможет точнее подобрать объекты."
+                    placeholder={t.fields.budgetPlaceholder}
+                    helper={t.fields.budgetHelper}
+                    optionalLabel={t.fields.optional}
                   />
 
                   <div className="flex flex-col gap-2">
@@ -150,7 +152,7 @@ export function Contact() {
                       htmlFor="message"
                       className="flex items-center gap-2 text-sm text-bone"
                     >
-                      <span>Цель и запрос</span>
+                      <span>{t.fields.message}</span>
                       <span aria-hidden className="text-platinum">
                         *
                       </span>
@@ -159,7 +161,7 @@ export function Contact() {
                       id="message"
                       name="message"
                       rows={4}
-                      placeholder="Локация, тип объекта, цель (жизнь / аренда / инвестиция), сроки"
+                      placeholder={t.fields.messagePlaceholder}
                       aria-invalid={errors.message ? true : undefined}
                       aria-describedby={
                         errors.message ? "message-error" : undefined
@@ -178,17 +180,19 @@ export function Contact() {
                   <div className="grid gap-5 md:grid-cols-2">
                     <Field
                       id="telegram"
-                      label="Telegram"
+                      label={t.fields.telegram}
                       optional
-                      placeholder="@username или ссылка"
+                      placeholder={t.fields.telegramPlaceholder}
                       invalid={Boolean(errors.contact)}
+                      optionalLabel={t.fields.optional}
                     />
                     <Field
                       id="whatsapp"
-                      label="WhatsApp"
+                      label={t.fields.whatsapp}
                       optional
-                      placeholder="Ваш номер телефона"
+                      placeholder={t.fields.whatsappPlaceholder}
                       invalid={Boolean(errors.contact)}
+                      optionalLabel={t.fields.optional}
                     />
                   </div>
                   {errors.contact && (
@@ -208,15 +212,14 @@ export function Contact() {
 
                   <div className="mt-2 flex items-center justify-between gap-4">
                     <p className="max-w-[34ch] text-xs leading-relaxed text-bone-faint">
-                      Заявка уйдёт напрямую в Telegram. Отправляя форму, вы
-                      соглашаетесь с обработкой данных.
+                      {t.consent}
                     </p>
                     <button
                       type="submit"
                       disabled={status === "submitting"}
                       className="shrink-0 rounded-full bg-bone px-7 py-3 text-sm font-medium text-ink transition-all duration-500 ease-smooth hover:bg-platinum-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      {status === "submitting" ? "Отправка…" : "Отправить заявку"}
+                      {status === "submitting" ? t.submitting : t.submit}
                     </button>
                   </div>
                 </form>
@@ -229,7 +232,13 @@ export function Contact() {
   );
 }
 
-function SuccessPanel({ onReset }: { onReset: () => void }) {
+function SuccessPanel({
+  onReset,
+  text,
+}: {
+  onReset: () => void;
+  text: { title: string; body: string; again: string };
+}) {
   return (
     <div className="flex flex-col items-center gap-5 rounded-core bg-ink-900/60 p-10 text-center md:p-14">
       <div className="flex h-14 w-14 items-center justify-center rounded-full border border-platinum/30 bg-platinum/10">
@@ -244,17 +253,17 @@ function SuccessPanel({ onReset }: { onReset: () => void }) {
         </svg>
       </div>
       <h3 className="font-display text-2xl font-light tracking-tight text-bone md:text-3xl">
-        Заявка отправлена
+        {text.title}
       </h3>
       <p className="max-w-prose text-pretty leading-relaxed text-bone-muted">
-        Спасибо! Я свяжусь с вами в ближайшее время по указанному контакту.
+        {text.body}
       </p>
       <button
         type="button"
         onClick={onReset}
         className="mt-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors duration-300 hover:text-bone"
       >
-        Отправить ещё одну заявку
+        {text.again}
       </button>
     </div>
   );
@@ -268,6 +277,7 @@ function Field({
   helper,
   required,
   optional,
+  optionalLabel = "необязательно",
   error,
   invalid,
 }: {
@@ -278,6 +288,7 @@ function Field({
   helper?: string;
   required?: boolean;
   optional?: boolean;
+  optionalLabel?: string;
   error?: string;
   invalid?: boolean;
 }) {
@@ -291,7 +302,7 @@ function Field({
             *
           </span>
         )}
-        {optional && <span className="text-xs text-bone-faint">необязательно</span>}
+        {optional && <span className="text-xs text-bone-faint">{optionalLabel}</span>}
       </label>
       <input
         id={id}

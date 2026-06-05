@@ -5,11 +5,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { HeroVideo } from "@/components/HeroVideo";
-import { site } from "@/lib/site";
+import { siteConfig, getDictionary } from "@/lib/i18n";
 
 // Кинематографичный hero. Видео из /public/hero.mp4 (поставляется клиентом),
 // poster-изображение работает как надёжный fallback и LCP-кадр.
-export function Hero() {
+export function Hero({ lang }: { lang: string }) {
+  const t = getDictionary(lang).hero;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -64,7 +65,7 @@ export function Hero() {
             className="eyebrow inline-flex items-center gap-2.5"
           >
             <span className="h-px w-6 bg-platinum/60" aria-hidden />
-            Недвижимость на Пхукете
+            {t.eyebrow}
           </motion.span>
 
           <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(3rem,9vw,8rem)] font-light leading-[0.95] tracking-tight text-balance">
@@ -74,7 +75,7 @@ export function Hero() {
               transition={{ duration: 1, ease: EASE, delay: 0.35 }}
               className="block"
             >
-              Не объект.
+              {t.titleTop}
             </motion.span>
             <motion.span
               initial={{ opacity: 0, y: 28 }}
@@ -82,7 +83,7 @@ export function Hero() {
               transition={{ duration: 1, ease: EASE, delay: 0.48 }}
               className="block text-platinum-soft"
             >
-              <em>Верное</em> решение.
+              <em>{t.titleEmphasis}</em>{t.titleRest}
             </motion.span>
           </h1>
 
@@ -92,8 +93,7 @@ export function Hero() {
             transition={{ duration: 0.9, ease: EASE, delay: 0.62 }}
             className="mt-8 max-w-prose text-pretty text-lg leading-relaxed text-bone-muted"
           >
-            Подбор недвижимости на Пхукете под вашу цель — жизнь, образ жизни,
-            арендный доход или инвестиции. Мы не продаём объекты.
+            {t.body}
           </motion.p>
 
           <motion.div
@@ -102,11 +102,11 @@ export function Hero() {
             transition={{ duration: 0.9, ease: EASE, delay: 0.74 }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
-            <MagneticButton href={site.contacts.whatsapp}>
-              Написать в WhatsApp
+            <MagneticButton href={siteConfig.contacts.whatsapp}>
+              {getDictionary(lang).common.whatsapp}
             </MagneticButton>
-            <MagneticButton href={site.contacts.telegram} variant="ghost">
-              Telegram
+            <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+              {getDictionary(lang).common.telegram}
             </MagneticButton>
           </motion.div>
         </div>

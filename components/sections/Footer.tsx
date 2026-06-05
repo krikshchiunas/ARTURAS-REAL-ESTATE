@@ -1,7 +1,17 @@
-import { site } from "@/lib/site";
+import { siteConfig, getDictionary } from "@/lib/i18n";
 import { Socials } from "@/components/ui/Socials";
 
-export function Footer() {
+const NAV_ITEMS = [
+  { href: "#approach", key: "approach" },
+  { href: "#projects", key: "projects" },
+  { href: "#founder", key: "founder" },
+  { href: "#services", key: "services" },
+  { href: "#contact", key: "contact" },
+] as const;
+
+export function Footer({ lang }: { lang: string }) {
+  const t = getDictionary(lang);
+  const meta = t.meta;
   const year = new Date().getFullYear();
 
   return (
@@ -12,42 +22,42 @@ export function Footer() {
         <div className="flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="font-display text-3xl font-light tracking-tight">
-              {site.name}
+              {siteConfig.name}
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-bone-muted">
-              {site.tagline}. {site.region}.
+              {meta.tagline}. {meta.region}.
             </p>
           </div>
 
           <div className="flex flex-col gap-8">
-            <nav aria-label="Навигация в подвале">
+            <nav aria-label={t.a11y.footerNav}>
               <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-bone-muted">
-                {site.nav.map((item) => (
+                {NAV_ITEMS.map((item) => (
                   <li key={item.href}>
                     <a
-                      href={item.href}
+                      href={`/${lang}${item.href}`}
                       className="transition-colors hover:text-bone"
                     >
-                      {item.label}
+                      {t.nav[item.key]}
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
-            <Socials className="md:justify-end" />
+            <Socials className="md:justify-end" lang={lang} />
           </div>
         </div>
 
         <div className="mt-16 flex flex-col gap-4 text-xs text-bone-faint md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} {site.name}. Все права защищены.
+            © {year} {siteConfig.name}. {t.footer.rights}
           </p>
           <div className="flex gap-6">
             <a href="#" className="transition-colors hover:text-bone-muted">
-              Приватность
+              {t.footer.privacy}
             </a>
             <a href="#" className="transition-colors hover:text-bone-muted">
-              Условия
+              {t.footer.terms}
             </a>
           </div>
         </div>

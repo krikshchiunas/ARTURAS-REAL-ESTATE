@@ -7,21 +7,27 @@ import { Founder } from "@/components/sections/Founder";
 import { Services } from "@/components/sections/Services";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
+import { locales, type Locale } from "@/lib/i18n/config";
 
-export default function Page() {
+export function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default function Page({ params }: { params: { lang: string } }) {
+  const lang = params.lang as Locale;
   return (
     <>
-      <Navbar />
+      <Navbar lang={lang} />
       <main id="main">
-        <Hero />
-        <Intro />
-        <Stats />
-        <Projects />
-        <Founder />
-        <Services />
-        <Contact />
+        <Hero lang={lang} />
+        <Intro lang={lang} />
+        <Stats lang={lang} />
+        <Projects lang={lang} />
+        <Founder lang={lang} />
+        <Services lang={lang} />
+        <Contact lang={lang} />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }

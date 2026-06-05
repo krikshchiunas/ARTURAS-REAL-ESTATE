@@ -1,25 +1,27 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { projects } from "@/lib/data";
+import { getDictionary, getProjects } from "@/lib/i18n";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
 // Каталог объектов. Лента листается ГОРИЗОНТАЛЬНО отдельным жестом
 // (трекпад / Shift+колесо / drag), а вертикальный скролл страницы при этом
 // идёт плавно вниз — без pin-перехвата и «торможения». На мобиле — вертикаль.
-export function Projects() {
+export function Projects({ lang }: { lang: string }) {
+  const t = getDictionary(lang).projectsSection;
+  const projects = getProjects(lang);
   return (
     <section id="projects" className="relative py-28">
       {/* Заголовок над лентой */}
       <div className="shell">
         <div className="flex flex-col gap-5">
           <Reveal>
-            <Eyebrow>Проекты</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="max-w-[20ch] font-display text-4xl font-light leading-[1.05] tracking-tight text-balance md:text-5xl">
-              Объекты, отобранные под цель
+              {t.heading}
             </h2>
           </Reveal>
         </div>
@@ -32,8 +34,8 @@ export function Projects() {
         {projects.map((p, i) => (
           <Link
             key={p.slug}
-            href={`/projects/${p.slug}`}
-            aria-label={`${p.name} — подробнее`}
+            href={`/${lang}/projects/${p.slug}`}
+            aria-label={`${p.name} — ${t.cardCta}`}
             className="group relative block shrink-0 md:w-[clamp(320px,38vw,460px)] md:snap-start"
           >
             <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06] transition-colors duration-500 group-hover:ring-white/15">
@@ -96,7 +98,7 @@ export function Projects() {
                     {/* CTA проявляется на ховере (на мобиле виден всегда) —
                         в покое витрина остаётся спокойной и воздушной */}
                     <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-all duration-500 ease-glass group-hover:text-bone md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100">
-                      Подробнее
+                      {t.cardCta}
                       <svg
                         width="14"
                         height="14"

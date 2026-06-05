@@ -1,4 +1,4 @@
-import { socials } from "@/lib/site";
+import { getSocials } from "@/lib/i18n";
 
 // Минималистичные монохромные глифы. Наследуют currentColor — без фирменных
 // цветов, в единой премиальной стилистике. Размер небольшой (14px).
@@ -15,7 +15,7 @@ const icons: Record<string, React.ReactNode> = {
       d="M21.5 4.3 2.9 11.5c-1.1.45-1.1 1.08-.2 1.36l4.73 1.48 1.83 5.62c.22.6.39.83.78.83.3 0 .43-.13.6-.3l2.28-2.22 4.74 3.5c.87.48 1.5.23 1.72-.81l3.1-14.63c.32-1.3-.34-1.89-1.18-1.53Zm-3.96 3.4-8.2 7.46c-.13.12-.18.27-.16.4l-.17 2.78-1.21-3.96 9.5-6.18c.21-.13.4.05.24.16Z"
     />
   ),
-  "Telegram канал": (
+  TelegramChannel: (
     <path
       fill="currentColor"
       d="M21.5 4.3 2.9 11.5c-1.1.45-1.1 1.08-.2 1.36l4.73 1.48 1.83 5.62c.22.6.39.83.78.83.3 0 .43-.13.6-.3l2.28-2.22 4.74 3.5c.87.48 1.5.23 1.72-.81l3.1-14.63c.32-1.3-.34-1.89-1.18-1.53Zm-3.96 3.4-8.2 7.46c-.13.12-.18.27-.16.4l-.17 2.78-1.21-3.96 9.5-6.18c.21-.13.4.05.24.16Z"
@@ -48,11 +48,18 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 // Список соцканалов. Текстовые ссылки с минималистичной иконкой-глифом.
-export function Socials({ className = "" }: { className?: string }) {
+export function Socials({
+  className = "",
+  lang,
+}: {
+  className?: string;
+  lang: string;
+}) {
+  const socials = getSocials(lang);
   return (
     <ul className={`flex flex-wrap gap-x-6 gap-y-2 ${className}`}>
       {socials.map((s) => (
-        <li key={s.label}>
+        <li key={s.key}>
           <a
             href={s.href}
             target="_blank"
@@ -66,7 +73,7 @@ export function Socials({ className = "" }: { className?: string }) {
               aria-hidden
               className="shrink-0 opacity-70 transition-opacity duration-300 group-hover:opacity-100"
             >
-              {icons[s.label]}
+              {icons[s.key]}
             </svg>
             {s.label}
             <svg

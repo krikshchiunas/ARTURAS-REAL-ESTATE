@@ -7,11 +7,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Socials } from "@/components/ui/Socials";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { site } from "@/lib/site";
+import { siteConfig, getDictionary } from "@/lib/i18n";
 
 // Блок личного бренда основателя. Фото слева (параллакс), позиция справа.
 // Фото основателя: файл лежит в /public/arturas.jpg.
-export function Founder() {
+export function Founder({ lang }: { lang: string }) {
+  const t = getDictionary(lang).founder;
+  const common = getDictionary(lang).common;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -31,7 +33,7 @@ export function Founder() {
               <motion.div style={{ y }} className="absolute inset-[-6%]">
                 <Image
                   src="/arturas.jpg"
-                  alt={`${site.founder}, основатель ${site.name}`}
+                  alt={`${siteConfig.founder}, ${siteConfig.name}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 42vw"
                   className="object-cover object-[center_25%]"
@@ -55,7 +57,7 @@ export function Founder() {
                   />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400/90 shadow-[0_0_6px_1px_rgba(52,211,153,0.45)]" />
                 </span>
-                {site.founder}
+                {siteConfig.founder}
               </div>
             </div>
           </Reveal>
@@ -63,49 +65,41 @@ export function Founder() {
 
         <div className="lg:col-span-7">
           <Reveal>
-            <Eyebrow>Личный подход</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-6 max-w-[16ch] font-display text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
-              За каждой сделкой — <em className="text-platinum-soft">один человек</em>
+              {t.titleLead}<em className="text-platinum-soft">{t.titleEmphasis}</em>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-8 max-w-prose space-y-5 text-pretty leading-relaxed">
-              <p className="text-bone">
-                15 лет в недвижимости. Более 70 объектов в портфеле.
-              </p>
-              <p className="text-bone-muted">
-                Я работаю не с листингом, а с вашей целью — переездом, образом
-                жизни, сохранением капитала или арендным доходом.
-              </p>
-              <p className="text-bone-muted">
-                Каждый объект на Пхукете оцениваю через качество жизни,
-                инвестиционный потенциал и вашу удовлетворённость спустя годы.
-              </p>
+              <p className="text-bone">{t.p1}</p>
+              <p className="text-bone-muted">{t.p2}</p>
+              <p className="text-bone-muted">{t.p3}</p>
             </div>
           </Reveal>
 
           <Reveal delay={0.14}>
             <p className="mt-7 flex items-center gap-3 text-sm leading-relaxed text-bone-muted">
               <span className="h-px w-6 shrink-0 bg-platinum/50" aria-hidden />
-              Сопровождаю сделки лично — от первого звонка до получения ключей.
+              {t.note}
             </p>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-10">
-              <Socials />
+              <Socials lang={lang} />
             </div>
           </Reveal>
 
           <Reveal delay={0.2}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={site.contacts.whatsapp}>
-                Написать в WhatsApp
+              <MagneticButton href={siteConfig.contacts.whatsapp}>
+                {common.whatsapp}
               </MagneticButton>
-              <MagneticButton href={site.contacts.telegram} variant="ghost">
-                Telegram
+              <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+                {common.telegram}
               </MagneticButton>
             </div>
           </Reveal>

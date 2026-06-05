@@ -4,27 +4,19 @@ import { Fragment, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-
-const goals = [
-  "Жизнь",
-  "Образ жизни",
-  "Инвестиции",
-  "Арендный доход",
-  "Капитал",
-  "Релокация",
-];
+import { getDictionary } from "@/lib/i18n";
 
 // Манифест-секция: одно крупное editorial-утверждение со скраб-подсветкой слов.
-export function Intro() {
+export function Intro({ lang }: { lang: string }) {
+  const t = getDictionary(lang).intro;
+  const goals = t.goals;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "end 0.4"],
   });
 
-  const line =
-    "Мы не продаём недвижимость. Мы помогаем выбрать верное решение под вашу цель: чтобы покупка делала жизнь лучше, а капитал работал на годы вперёд.";
-  const tokens = line.split(" ");
+  const tokens = t.manifesto.split(" ");
 
   return (
     <section id="approach" className="relative py-28 md:py-44">
@@ -42,7 +34,7 @@ export function Intro() {
           Лейбл задаёт контекст — это не случайные слова, а цели под подбор. */}
       <div className="mt-20 flex flex-col items-center gap-7 md:mt-28">
         <Reveal>
-          <Eyebrow>Подбираем под вашу цель</Eyebrow>
+          <Eyebrow>{t.goalsEyebrow}</Eyebrow>
         </Reveal>
         <Reveal delay={0.06}>
           <ul className="flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2.5 font-display text-xl font-light text-bone-muted md:gap-x-7 md:text-[1.7rem]">

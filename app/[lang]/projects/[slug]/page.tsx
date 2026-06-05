@@ -2,27 +2,31 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects, getProject } from "@/lib/data";
-import { site } from "@/lib/site";
+import { getDictionary, getProjects, getProject, siteConfig } from "@/lib/i18n";
+import { projectMeta } from "@/lib/i18n/meta";
+import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-type Params = { params: { slug: string } };
+type Params = { params: { lang: string; slug: string } };
 
-// Статические страницы под каждый объект (SSG).
+// Статические страницы под каждый объект и язык (SSG).
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return locales.flatMap((lang) =>
+    projectMeta.map((p) => ({ lang, slug: p.slug })),
+  );
 }
 
 export function generateMetadata({ params }: Params): Metadata {
-  const p = getProject(params.slug);
+  const lang = isLocale(params.lang) ? params.lang : "ru";
+  const p = getProject(lang, params.slug);
   if (!p) return {};
   return {
     title: p.name,
     description: p.summary,
     openGraph: {
-      title: `${p.name} — ${site.name}`,
+      title: `${p.name} — ${siteConfig.name}`,
       description: p.summary,
       images: [{ url: p.image }],
     },
@@ -41,20 +45,24 @@ function Heading({ eyebrow, title }: { eyebrow: string; title: string }) {
 }
 
 export default function ProjectPage({ params }: Params) {
-  const project = getProject(params.slug);
+  if (!isLocale(params.lang)) notFound();
+  const lang = params.lang as Locale;
+  const project = getProject(lang, params.slug);
   if (!project) notFound();
 
+  const t = getDictionary(lang).project;
+  const projects = getProjects(lang);
   const index = projects.findIndex((p) => p.slug === project.slug);
   const number = String(index + 1).padStart(2, "0");
 
   return (
     <>
-      <Navbar />
+      <Navbar lang={lang} />
       <main id="main" className="relative pt-32 md:pt-40">
         {/* Шапка */}
         <div className="shell">
           <Link
-            href="/#projects"
+            href={`/${lang}#projects`}
             className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors hover:text-bone"
           >
             <svg
@@ -73,7 +81,7 @@ export default function ProjectPage({ params }: Params) {
                 strokeLinejoin="round"
               />
             </svg>
-            Все проекты
+            {t.backToProjects}
           </Link>
 
           <header className="mt-10 flex flex-col gap-6 md:mt-14">
@@ -134,17 +142,17 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Концепция" title="О проекте" />
+              <Heading eyebrow={t.conceptEyebrow} title={t.conceptTitle} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <p className="text-pretty text-xl font-light leading-relaxed text-bone md:text-2xl">
                 {project.concept}
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <MagneticButton href={site.contacts.whatsapp}>
-                  Узнать подробнее
+                <MagneticButton href={siteConfig.contacts.whatsapp}>
+                  {t.learnMore}
                 </MagneticButton>
-                <MagneticButton href={site.contacts.telegram} variant="ghost">
+                <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
                   Telegram
                 </MagneticButton>
               </div>
@@ -154,7 +162,7 @@ export default function ProjectPage({ params }: Params) {
 
         {/* Галерея */}
         <section className="shell mt-20 md:mt-28">
-          <Heading eyebrow="Галерея" title="Визуализации проекта" />
+          <Heading eyebrow={t.galleryEyebrow} title={t.galleryTitle} />
           <div className="mt-10 grid gap-3 md:grid-cols-2 md:gap-4">
             {project.gallery.map((src, i) => (
               <div
@@ -170,7 +178,10 @@ export default function ProjectPage({ params }: Params) {
                 >
                   <Image
                     src={src}
-                    alt={`${project.name} — визуализация ${i + 1}`}
+                    alt={`${project.name} — ${t.galleryAlt.replace(
+                      "{n}",
+                      String(i + 1),
+                    )}`}
                     fill
                     sizes={i === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
                     className="object-cover"
@@ -185,7 +196,7 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Планировки" title="Типы и площади" />
+              <Heading eyebrow={t.unitsEyebrow} title={t.unitsTitle} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <dl className="flex flex-col">
@@ -209,7 +220,7 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Инфраструктура" title="Удобства и сервис" />
+              <Heading eyebrow={t.amenitiesEyebrow} title={t.amenitiesTitle} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <ul className="grid gap-x-10 gap-y-4 sm:grid-cols-2">
@@ -231,7 +242,7 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Расположение" title={project.location} />
+              <Heading eyebrow={t.locationEyebrow} title={project.location} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <dl className="flex flex-col">
@@ -253,7 +264,7 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Инвестиции" title="Доходность и оплата" />
+              <Heading eyebrow={t.investmentEyebrow} title={t.investmentTitle} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <p className="text-pretty text-lg leading-relaxed text-bone-muted">
@@ -261,7 +272,7 @@ export default function ProjectPage({ params }: Params) {
               </p>
               {project.payment ? (
                 <div className="mt-8 rounded-core bg-white/[0.03] p-6 ring-1 ring-white/[0.06] md:p-8">
-                  <span className="eyebrow">План оплаты</span>
+                  <span className="eyebrow">{t.paymentLabel}</span>
                   <p className="mt-3 text-[15px] leading-relaxed text-bone">
                     {project.payment}
                   </p>
@@ -275,7 +286,7 @@ export default function ProjectPage({ params }: Params) {
         <section className="shell mt-20 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
-              <Heading eyebrow="Преимущества" title="Почему этот проект" />
+              <Heading eyebrow={t.featuresEyebrow} title={t.featuresTitle} />
             </div>
             <div className="md:col-span-8 md:col-start-5">
               <ul className="flex flex-col">
@@ -302,7 +313,7 @@ export default function ProjectPage({ params }: Params) {
           <section className="shell mt-20 md:mt-28">
             <div className="grid gap-10 md:grid-cols-12 md:gap-16">
               <div className="md:col-span-4">
-                <Heading eyebrow="Застройщик" title={project.developer} />
+                <Heading eyebrow={t.developerEyebrow} title={project.developer} />
               </div>
               <div className="md:col-span-8 md:col-start-5">
                 <p className="text-pretty text-lg leading-relaxed text-bone-muted">
@@ -315,7 +326,7 @@ export default function ProjectPage({ params }: Params) {
 
         {/* Ключевые параметры */}
         <section className="shell mt-20 md:mt-28">
-          <Heading eyebrow="Параметры" title="Ключевые характеристики" />
+          <Heading eyebrow={t.specEyebrow} title={t.specTitle} />
           <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] md:grid-cols-3 lg:grid-cols-5">
             {project.spec.map((s) => (
               <div key={s.label} className="bg-ink-900 p-6">
@@ -334,18 +345,15 @@ export default function ProjectPage({ params }: Params) {
             <div className="flex flex-col items-start gap-8 rounded-core bg-ink-900 p-10 md:flex-row md:items-center md:justify-between md:p-14">
               <div>
                 <h2 className="max-w-[18ch] font-display text-3xl font-light leading-tight tracking-tight text-balance md:text-4xl">
-                  Подберём {project.name} под вашу цель
+                  {t.ctaTitle.replace("{name}", project.name)}
                 </h2>
-                <p className="mt-4 max-w-prose text-bone-muted">
-                  Актуальные цены, планировки и условия — лично, от первого
-                  звонка до получения ключей.
-                </p>
+                <p className="mt-4 max-w-prose text-bone-muted">{t.ctaBody}</p>
               </div>
               <div className="flex shrink-0 flex-wrap items-center gap-4">
-                <MagneticButton href={site.contacts.whatsapp}>
-                  Написать в WhatsApp
+                <MagneticButton href={siteConfig.contacts.whatsapp}>
+                  {getDictionary(lang).common.whatsapp}
                 </MagneticButton>
-                <MagneticButton href={site.contacts.telegram} variant="ghost">
+                <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
                   Telegram
                 </MagneticButton>
               </div>
@@ -353,7 +361,7 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }

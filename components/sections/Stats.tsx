@@ -1,27 +1,27 @@
-import { stats } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { getDictionary, getStats } from "@/lib/i18n";
 
 // Асимметричная раскладка цифр: ведущее утверждение + смещённая сетка.
 // Не три равные карточки.
-export function Stats() {
+export function Stats({ lang }: { lang: string }) {
+  const t = getDictionary(lang).stats;
+  const stats = getStats(lang);
   return (
     <section className="relative py-28 md:py-40">
       <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <Reveal>
-            <Eyebrow>Масштаб</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-6 max-w-[12ch] font-display text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
-              Репутация, выраженная в цифрах
+              {t.title}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-8 max-w-prose text-pretty leading-relaxed text-bone-muted">
-              Пятнадцать лет на рынке недвижимости и более семидесяти объектов
-              в портфеле. Полное сопровождение сделок на Пхукете — от первого
-              просмотра до управления объектом.
+              {t.body}
             </p>
           </Reveal>
         </div>

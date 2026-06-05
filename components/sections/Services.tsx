@@ -1,24 +1,26 @@
 import Image from "next/image";
-import { services } from "@/lib/data";
+import { getDictionary, getServices } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 // Асимметричный bento. Точное число ячеек = числу услуг, есть визуальная вариация
 // (две ячейки с изображениями). Double-bezel оболочка вместо плоских карточек.
-export function Services() {
+export function Services({ lang }: { lang: string }) {
+  const t = getDictionary(lang).services;
+  const services = getServices(lang);
   return (
     <section id="services" className="relative py-28 md:py-40">
       <div className="shell">
         <SectionHeading
-          eyebrow="Сервис"
-          title={<>Закрытая инфраструктура вокруг сделки</>}
-          body="Каждый этап — от первого досье до управления активом — ведёт одна команда. Без посредников и публичности."
+          eyebrow={t.eyebrow}
+          title={<>{t.title}</>}
+          body={t.body}
         />
 
         <div className="mt-16 grid auto-rows-[minmax(180px,auto)] gap-4 md:mt-20 md:grid-cols-6">
           {services.map((s, i) => (
             <Reveal
-              key={s.title}
+              key={s.key}
               delay={i * 0.06}
               className={`group relative ${s.span}`}
             >
