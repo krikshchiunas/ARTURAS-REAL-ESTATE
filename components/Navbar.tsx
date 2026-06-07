@@ -135,15 +135,6 @@ export function Navbar({ lang }: { lang: string }) {
           </AnimatePresence>
         </div>
 
-        <a
-          href={siteConfig.contacts.whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-2 hidden rounded-full bg-bone px-5 py-2 text-sm font-medium text-ink transition-colors duration-500 ease-smooth hover:bg-platinum-soft md:inline-block"
-        >
-          WhatsApp
-        </a>
-
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
