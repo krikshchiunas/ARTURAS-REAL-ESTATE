@@ -46,22 +46,46 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   // layout [lang] не размонтируется при переходах внутри локали, поэтому Lenis
   // сохраняет позицию скролла предыдущей страницы — и новая страница (например,
   // карточка проекта) открывается «с середины». При смене маршрута возвращаем
-  // скролл наверх; если в URL есть якорь — прокручиваем к нужной секции.
+  // скролл наверх; если в URL есть якорь (например /ru#projects из кнопки «Все
+  // проекты») — прокручиваем к нужной секции.
+  //
+  // Важно: секции целевой страницы могут ещё не быть в DOM в момент срабатывания
+  // эффекта (стриминг/догрузка), а Lenis считает позицию якоря по текущей
+  // верстке. Поэтому повторяем попытку на следующем кадре и с небольшой
+  // задержкой — иначе переход «к секции» иногда срывается в скролл наверх.
   useEffect(() => {
-    const lenis = lenisRef.current;
-    const hash = window.location.hash;
+    let raf = 0;
+    const timers: number[] = [];
 
-    if (hash) {
-      const el = document.querySelector(hash);
+    const apply = () => {
+      const lenis = lenisRef.current;
+      const hash = window.location.hash;
+      const el = hash ? document.querySelector(hash) : null;
+
       if (el) {
         if (lenis) lenis.scrollTo(el as HTMLElement, { offset: -110 });
-        else el.scrollIntoView();
-        return;
+        else (el as HTMLElement).scrollIntoView();
+        return true;
       }
-    }
 
-    if (lenis) lenis.scrollTo(0, { immediate: true });
-    else window.scrollTo(0, 0);
+      if (!hash) {
+        if (lenis) lenis.scrollTo(0, { immediate: true });
+        else window.scrollTo(0, 0);
+        return true;
+      }
+      // Есть якорь, но цель ещё не отрисована — попробуем позже.
+      return false;
+    };
+
+    apply();
+    raf = requestAnimationFrame(apply);
+    timers.push(window.setTimeout(apply, 120));
+    timers.push(window.setTimeout(apply, 350));
+
+    return () => {
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
+    };
   }, [pathname]);
 
   return <>{children}</>;

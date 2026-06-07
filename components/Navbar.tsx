@@ -53,11 +53,11 @@ export function Navbar({ lang }: { lang: string }) {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
-      className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 md:top-6"
+      className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 md:top-6"
     >
       <nav
         aria-label={t.a11y.mainNav}
-        className={`glass flex items-center gap-2 rounded-full transition-all duration-500 ease-glass ${
+        className={`glass pointer-events-auto flex items-center gap-2 rounded-full transition-all duration-500 ease-glass ${
           scrolled ? "py-2 pl-5 pr-2 shadow-bezel" : "py-2.5 pl-6 pr-2.5"
         }`}
       >
@@ -178,7 +178,7 @@ export function Navbar({ lang }: { lang: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="glass absolute top-[72px] left-4 right-4 rounded-bezel p-3 md:hidden"
+            className="glass pointer-events-auto absolute top-[72px] left-4 right-4 rounded-bezel p-3 md:hidden"
           >
             <ul className="flex flex-col">
               {NAV_ITEMS.map((item) => (
