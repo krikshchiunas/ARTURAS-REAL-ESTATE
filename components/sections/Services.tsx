@@ -2,11 +2,9 @@ import { getDictionary } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-// Сервис как последовательный процесс: пронумерованные шаги, связанные в поток.
-// На мобиле — одна колонка-таймлайн сверху вниз. На десктопе — две колонки,
-// заполняемые по столбцам (1–5 вниз, затем 6–9 вниз), как на эскизе.
-const ROWS = 5; // граница переноса во вторую колонку на десктопе
-
+// Сервис как сетка 3×3 из плиток: в каждой — мелкая мет­ка «Шаг 0X»,
+// крупная полупрозрачная цифра-водяной знак и текст шага внизу.
+// На мобиле — одна колонка, на планшете — две, на десктопе — три.
 export function Services({ lang }: { lang: string }) {
   const t = getDictionary(lang).services;
   const steps = t.steps;
@@ -15,33 +13,23 @@ export function Services({ lang }: { lang: string }) {
       <div className="shell">
         <SectionHeading eyebrow={t.eyebrow} title={<>{t.title}</>} body={t.body} />
 
-        <ol className="mt-16 flex flex-col md:mt-20 md:grid md:grid-flow-col md:grid-cols-2 md:grid-rows-5 md:gap-x-16 lg:gap-x-24">
+        <ol className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 lg:grid-cols-3">
           {steps.map((step, i) => {
-            const isLast = i === steps.length - 1;
-            // На десктопе элемент на границе колонки (каждый ROWS-й) не тянет линию вниз.
-            const isColumnEnd = (i + 1) % ROWS === 0;
+            const num = String(i + 1).padStart(2, "0");
             return (
-              <Reveal key={step} delay={(i % ROWS) * 0.05}>
-                <li className="flex gap-5">
-                  {/* Узел + соединительная линия, тянущаяся к следующему шагу */}
-                  <div className="flex flex-col items-center self-stretch">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ink-900 font-mono text-sm text-platinum ring-1 ring-white/10">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {!isLast && (
-                      <span
-                        aria-hidden
-                        className={`mt-2 w-px flex-1 bg-gradient-to-b from-white/20 to-white/5 ${
-                          isColumnEnd ? "md:hidden" : ""
-                        }`}
-                      />
-                    )}
-                  </div>
-                  <p
-                    className={`max-w-md pt-3 text-pretty text-[15px] leading-relaxed text-bone-muted md:text-base ${
-                      isLast ? "pb-0" : "pb-10"
-                    }`}
+              <Reveal key={step} delay={(i % 3) * 0.06}>
+                <li className="group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-[18px] bg-gradient-to-br from-ink-700 to-ink-800 p-6 ring-1 ring-white/[0.06] transition-colors duration-500 ease-smooth hover:ring-white/15 md:p-7">
+                  {/* Крупная цифра-водяной знак */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -top-3 right-2 select-none font-display text-[6rem] leading-none text-platinum/10"
                   >
+                    {num}
+                  </span>
+                  <span className="relative font-mono text-xs uppercase tracking-[0.1em] text-platinum">
+                    {t.stepLabel} {num}
+                  </span>
+                  <p className="relative mt-6 text-pretty text-[15px] leading-snug text-bone md:text-base">
                     {step}
                   </p>
                 </li>

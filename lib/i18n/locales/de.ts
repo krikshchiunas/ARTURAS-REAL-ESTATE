@@ -56,6 +56,7 @@ export const de: LocaleData = {
       eyebrow: "Ablauf",
       title: "Service",
       body: "Sie erhalten umfassende Begleitung und Unterstützung in jeder Phase der Transaktion.",
+      stepLabel: "Schritt",
       steps: [
         "Ermittlung Ihrer Ziele und Bedürfnisse",
         "Auswahl der besten Objekte für Ihre Aufgaben",
