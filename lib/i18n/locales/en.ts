@@ -31,17 +31,9 @@ export const en: LocaleData = {
       body: "Curated investment property on Phuket island for capital growth, passive income and long-term preservation of your wealth.",
     },
     intro: {
+      eyebrow: "How I work",
       manifesto:
-        "We don't sell real estate. We help you make the right decision for your goal — so the purchase makes life better and your capital works for years to come.",
-      goalsEyebrow: "Matched to your goal",
-      goals: [
-        "Living",
-        "Lifestyle",
-        "Investment",
-        "Rental income",
-        "Capital",
-        "Relocation",
-      ],
+        "You don't just get a selection of good properties — only the options that truly match your goals, objectives and strategy. My main task is not to sell you a property, but to help you reach your goal through real estate.",
     },
     stats: {
       eyebrow: "Scale",

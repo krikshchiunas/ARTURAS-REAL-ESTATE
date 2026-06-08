@@ -1,15 +1,15 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getDictionary } from "@/lib/i18n";
 
-// Манифест-секция: одно крупное editorial-утверждение со скраб-подсветкой слов.
+// Манифест-секция: заголовок + одно крупное editorial-утверждение
+// со скраб-подсветкой слов по мере скролла.
 export function Intro({ lang }: { lang: string }) {
   const t = getDictionary(lang).intro;
-  const goals = t.goals;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -21,6 +21,11 @@ export function Intro({ lang }: { lang: string }) {
   return (
     <section id="approach" className="relative py-28 md:py-44">
       <div ref={ref} className="shell">
+        <Reveal>
+          <div className="mb-12 flex justify-center md:mb-16">
+            <Eyebrow>{t.eyebrow}</Eyebrow>
+          </div>
+        </Reveal>
         <p className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-[0.3em] gap-y-1 text-center font-display text-3xl font-light leading-[1.25] tracking-tight md:text-5xl md:leading-[1.2]">
           {tokens.map((word, i) => {
             const start = i / tokens.length;
@@ -28,28 +33,6 @@ export function Intro({ lang }: { lang: string }) {
             return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word}</Word>;
           })}
         </p>
-      </div>
-
-      {/* Направления подбора: статичная осмысленная строка вместо бегущей ленты.
-          Лейбл задаёт контекст — это не случайные слова, а цели под подбор. */}
-      <div className="mt-20 flex flex-col items-center gap-7 md:mt-28">
-        <Reveal>
-          <Eyebrow>{t.goalsEyebrow}</Eyebrow>
-        </Reveal>
-        <Reveal delay={0.06}>
-          <ul className="flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2.5 font-display text-xl font-light text-bone-muted md:gap-x-7 md:text-[1.7rem]">
-            {goals.map((goal, i) => (
-              <Fragment key={goal}>
-                <li>{goal}</li>
-                {i < goals.length - 1 && (
-                  <li aria-hidden className="flex items-center">
-                    <span className="h-[3px] w-[3px] rounded-full bg-platinum/50" />
-                  </li>
-                )}
-              </Fragment>
-            ))}
-          </ul>
-        </Reveal>
       </div>
     </section>
   );

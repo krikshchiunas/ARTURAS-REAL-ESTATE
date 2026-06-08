@@ -47,9 +47,8 @@ export type Dictionary = {
     body: string;
   };
   intro: {
+    eyebrow: string;
     manifesto: string;
-    goalsEyebrow: string;
-    goals: string[];
   };
   stats: { eyebrow: string; title: string; body: string };
   projectsSection: { eyebrow: string; heading: string; cardCta: string };

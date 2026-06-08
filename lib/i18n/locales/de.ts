@@ -31,17 +31,9 @@ export const de: LocaleData = {
       body: "Auswahl von Anlageimmobilien auf der Insel Phuket für Kapitalwachstum, passives Einkommen und den langfristigen Erhalt Ihres Vermögens.",
     },
     intro: {
+      eyebrow: "Arbeitsweise",
       manifesto:
-        "Wir verkaufen keine Immobilien. Wir helfen Ihnen, die richtige Entscheidung für Ihr Ziel zu treffen — damit der Kauf Ihr Leben bereichert und Ihr Kapital über Jahre hinweg für Sie arbeitet.",
-      goalsEyebrow: "Abgestimmt auf Ihr Ziel",
-      goals: [
-        "Wohnen",
-        "Lebensstil",
-        "Investition",
-        "Mietertrag",
-        "Kapital",
-        "Relocation",
-      ],
+        "Sie erhalten nicht einfach eine Auswahl guter Objekte, sondern nur jene Optionen, die wirklich zu Ihren Zielen, Aufgaben und Ihrer Strategie passen. Meine wichtigste Aufgabe ist nicht, Ihnen ein Objekt zu verkaufen, sondern Ihnen zu helfen, Ihr Ziel mit Immobilien zu erreichen.",
     },
     stats: {
       eyebrow: "Dimension",
