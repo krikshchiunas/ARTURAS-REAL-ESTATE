@@ -19,7 +19,7 @@ export const th: LocaleData = {
     },
     common: {
       whatsapp: "ส่งข้อความผ่าน WhatsApp",
-      telegram: "Telegram",
+      telegram: "ส่งข้อความผ่าน Telegram",
       allChannels: "ทุกช่องทาง",
       socialChannelLabel: "ช่อง Telegram",
     },
@@ -72,8 +72,8 @@ export const th: LocaleData = {
     contact: {
       eyebrow: "ติดต่อ",
       titleLead: "ติดต่อ",
-      titleEmphasis: "โดยตรง",
-      body: "วิธีที่เร็วที่สุดคือ WhatsApp หรือ Telegram บอกเป้าหมายของคุณ แล้วผมจะคัดสรรทรัพย์ในภูเก็ตที่เหมาะกับคุณ",
+      titleEmphasis: "อย่างรวดเร็ว",
+      body: "เลือกช่องทางที่สะดวกสำหรับคุณ — WhatsApp, Telegram หรือส่งคำขอ ข้อความเพียงข้อความเดียวในวันนี้อาจเป็นจุดเริ่มต้นของหนึ่งในการลงทุนที่ดีที่สุดในชีวิตของคุณ",
       fields: {
         name: "ชื่อ",
         namePlaceholder: "ให้เรียกคุณว่าอย่างไรดี",

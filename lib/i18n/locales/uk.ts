@@ -19,7 +19,7 @@ export const uk: LocaleData = {
     },
     common: {
       whatsapp: "Написати у WhatsApp",
-      telegram: "Telegram",
+      telegram: "Написати у Telegram",
       allChannels: "Усі канали",
       socialChannelLabel: "Канал у Telegram",
     },
@@ -70,10 +70,10 @@ export const uk: LocaleData = {
       ],
     },
     contact: {
-      eyebrow: "Контакт",
-      titleLead: "Напишіть ",
-      titleEmphasis: "напряму",
-      body: "Найшвидший спосіб — написати у WhatsApp або Telegram. Розкажіть про мету, і я доберу об'єкти на Пхукеті під ваш запит.",
+      eyebrow: "Контакти",
+      titleLead: "Швидкий ",
+      titleEmphasis: "зв'язок",
+      body: "Оберіть зручний спосіб зв'язку — WhatsApp, Telegram або надсилання заявки. Одне повідомлення сьогодні може стати початком однієї з найкращих інвестицій у Вашому житті.",
       fields: {
         name: "Ім'я",
         namePlaceholder: "Як до вас звертатися",

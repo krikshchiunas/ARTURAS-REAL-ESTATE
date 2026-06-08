@@ -19,7 +19,7 @@ export const de: LocaleData = {
     },
     common: {
       whatsapp: "Auf WhatsApp schreiben",
-      telegram: "Telegram",
+      telegram: "Auf Telegram schreiben",
       allChannels: "Alle Kanäle",
       socialChannelLabel: "Telegram-Kanal",
     },
@@ -71,9 +71,9 @@ export const de: LocaleData = {
     },
     contact: {
       eyebrow: "Kontakt",
-      titleLead: "Schreiben Sie ",
-      titleEmphasis: "direkt",
-      body: "Am schnellsten erreichen Sie mich über WhatsApp oder Telegram. Nennen Sie mir Ihr Ziel, und ich stelle Ihnen passende Objekte auf Phuket zusammen.",
+      titleLead: "Schneller ",
+      titleEmphasis: "Kontakt",
+      body: "Wählen Sie den für Sie passenden Weg — WhatsApp, Telegram oder eine Anfrage. Eine Nachricht heute kann der Beginn einer der besten Investitionen Ihres Lebens sein.",
       fields: {
         name: "Name",
         namePlaceholder: "Wie darf ich Sie ansprechen",

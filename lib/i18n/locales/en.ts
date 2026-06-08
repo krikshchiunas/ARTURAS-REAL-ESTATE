@@ -19,7 +19,7 @@ export const en: LocaleData = {
     },
     common: {
       whatsapp: "Message on WhatsApp",
-      telegram: "Telegram",
+      telegram: "Message on Telegram",
       allChannels: "All channels",
       socialChannelLabel: "Telegram channel",
     },
@@ -70,10 +70,10 @@ export const en: LocaleData = {
       ],
     },
     contact: {
-      eyebrow: "Contact",
-      titleLead: "Get in touch ",
-      titleEmphasis: "directly",
-      body: "The fastest way is WhatsApp or Telegram. Tell me your goal and I'll shortlist Phuket properties that fit it.",
+      eyebrow: "Contacts",
+      titleLead: "Quick ",
+      titleEmphasis: "connection",
+      body: "Choose the way that suits you — WhatsApp, Telegram or sending a request. One message today can be the start of one of the best investments of your life.",
       fields: {
         name: "Name",
         namePlaceholder: "How should I address you",
