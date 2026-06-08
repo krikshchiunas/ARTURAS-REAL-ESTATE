@@ -58,7 +58,6 @@ export type Dictionary = {
     titleEmphasis: string;
     p1: string;
     p2: string;
-    p3: string;
     note: string;
   };
   services: { eyebrow: string; title: string; body: string; steps: string[] };

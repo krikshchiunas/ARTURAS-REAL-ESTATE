@@ -48,10 +48,9 @@ export const de: LocaleData = {
       eyebrow: "Ein persönlicher Ansatz",
       titleLead: "Hinter jeder Transaktion — ",
       titleEmphasis: "ein Mensch",
-      p1: "15 Jahre in der Immobilienbranche. Mehr als 70 Projekte im Portfolio.",
-      p2: "Ich arbeite nicht mit Listings, sondern mit Ihrem Ziel — einem Umzug, einem Lebensstil, dem Erhalt von Kapital oder einem Mietertrag.",
-      p3: "Jedes Objekt auf Phuket bewerte ich nach Lebensqualität, Investitionspotenzial und Ihrer Zufriedenheit noch Jahre später.",
-      note: "Ich begleite jede Transaktion persönlich — vom ersten Anruf bis zur Schlüsselübergabe.",
+      p1: "15 Jahre Erfahrung in Immobilien und Objektbewertung helfen, für Kunden die besten Lösungen am Markt zu finden.",
+      p2: "Jedes Objekt wird unter Berücksichtigung Ihrer Ziele, Ihres Budgets und der Wertsteigerungsperspektiven ausgewählt.",
+      note: "Vollständige Begleitung — von der Auswahl der Immobilie bis zur Schlüsselübergabe und der weiteren Verwaltung des Objekts.",
     },
     services: {
       eyebrow: "Ablauf",

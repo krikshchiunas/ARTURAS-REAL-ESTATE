@@ -48,10 +48,9 @@ export const en: LocaleData = {
       eyebrow: "A personal approach",
       titleLead: "Behind every deal — ",
       titleEmphasis: "one person",
-      p1: "15 years in real estate. More than 70 projects in the portfolio.",
-      p2: "I don't work with listings — I work with your goal: a move, a lifestyle, preserving capital or earning rental income.",
-      p3: "I assess every Phuket property through quality of life, investment potential and how satisfied you'll be years from now.",
-      note: "I handle each deal personally — from the first call to the handover of keys.",
+      p1: "15 years of experience in real estate and property valuation help find the best solutions on the market for clients.",
+      p2: "Every property is selected with your goals, budget and value-growth prospects in mind.",
+      note: "Full support — from choosing the property to receiving the keys and ongoing management of the asset.",
     },
     services: {
       eyebrow: "Process",

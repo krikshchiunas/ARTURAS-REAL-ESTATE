@@ -76,7 +76,6 @@ export function Founder({ lang }: { lang: string }) {
             <div className="mt-8 max-w-prose space-y-5 text-pretty leading-relaxed">
               <p className="text-bone">{t.p1}</p>
               <p className="text-bone-muted">{t.p2}</p>
-              <p className="text-bone-muted">{t.p3}</p>
             </div>
           </Reveal>
 
