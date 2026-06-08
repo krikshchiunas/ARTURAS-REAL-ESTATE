@@ -233,11 +233,11 @@ export const ru: LocaleData = {
       payment:
         "Бронирование ≈ $2 900, первый платёж через 15 дней, далее гибкая рассрочка. Скидка 10% при полной оплате.",
       spec: [
-        { label: "Срок сдачи", value: "2028 (старт 2026)" },
         { label: "Этажность", value: "5 этажей" },
         { label: "Резиденций", value: "150" },
         { label: "Площадь застройки", value: "13 476 м²" },
         { label: "Застройщик", value: "The Zero Phuket" },
+        { label: "Ввод в эксплуатацию", value: "2028 (старт 2026)" },
       ],
     },
     "ayana-heights": {
@@ -361,10 +361,10 @@ export const ru: LocaleData = {
       payment:
         "Рассрочка без удорожания: первоначальный взнос 35%, далее 15% / 20% / 20% / 10% — поэтапно до 01.12.2027.",
       spec: [
-        { label: "Срок сдачи", value: "01.12.2027" },
         { label: "Резиденций", value: "585" },
         { label: "Управление", value: "Unicorn Hospitality" },
         { label: "Застройщик", value: "Sun Hills Development" },
+        { label: "Ввод в эксплуатацию", value: "01.12.2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -426,10 +426,10 @@ export const ru: LocaleData = {
       payment:
         "План на 5 платежей: взнос 30%, далее 20% (июль 2026), 20% (декабрь 2026), 20% (апрель 2027), 10% (сентябрь 2027). Рассрочка от застройщика — до марта 2028.",
       spec: [
-        { label: "Срок сдачи", value: "Сентябрь 2027" },
         { label: "Khabib Gym", value: "1 500 м²" },
         { label: "Управление", value: "Unicorn Hospitality" },
         { label: "Застройщик", value: "Sun Hills Development" },
+        { label: "Ввод в эксплуатацию", value: "Сентябрь 2027" },
       ],
     },
   },

@@ -233,11 +233,11 @@ export const de: LocaleData = {
       payment:
         "Reservierung ≈ $2.900, erste Zahlung nach 15 Tagen, danach ein flexibler Ratenplan. 10 % Rabatt bei vollständiger Zahlung.",
       spec: [
-        { label: "Fertigstellung", value: "2028 (Beginn 2026)" },
         { label: "Geschosse", value: "5 Geschosse" },
         { label: "Residenzen", value: "150" },
         { label: "Bebaute Fläche", value: "13.476 m²" },
         { label: "Bauträger", value: "The Zero Phuket" },
+        { label: "Fertigstellung", value: "2028 (Beginn 2026)" },
       ],
     },
     "ayana-heights": {
@@ -361,10 +361,10 @@ export const de: LocaleData = {
       payment:
         "Zinsfreie Ratenzahlung: 35 % Anzahlung, danach 15 % / 20 % / 20 % / 10 % — in Etappen bis zum 01.12.2027.",
       spec: [
-        { label: "Fertigstellung", value: "01.12.2027" },
         { label: "Residenzen", value: "585" },
         { label: "Verwaltung", value: "Unicorn Hospitality" },
         { label: "Bauträger", value: "Sun Hills Development" },
+        { label: "Fertigstellung", value: "01.12.2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -426,10 +426,10 @@ export const de: LocaleData = {
       payment:
         "Ein Plan mit 5 Zahlungen: 30 % Anzahlung, danach 20 % (Juli 2026), 20 % (Dezember 2026), 20 % (April 2027), 10 % (September 2027). Ratenzahlung vom Bauträger bis März 2028 möglich.",
       spec: [
-        { label: "Fertigstellung", value: "September 2027" },
         { label: "Khabib Gym", value: "1.500 m²" },
         { label: "Verwaltung", value: "Unicorn Hospitality" },
         { label: "Bauträger", value: "Sun Hills Development" },
+        { label: "Fertigstellung", value: "September 2027" },
       ],
     },
   },

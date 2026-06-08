@@ -233,11 +233,11 @@ export const uk: LocaleData = {
       payment:
         "Бронювання ≈ $2 900, перший платіж за 15 днів, далі гнучка розстрочка. Знижка 10% за повної оплати.",
       spec: [
-        { label: "Термін здачі", value: "2028 (старт 2026)" },
         { label: "Поверховість", value: "5 поверхів" },
         { label: "Резиденцій", value: "150" },
         { label: "Площа забудови", value: "13 476 м²" },
         { label: "Забудовник", value: "The Zero Phuket" },
+        { label: "Введення в експлуатацію", value: "2028 (старт 2026)" },
       ],
     },
     "ayana-heights": {
@@ -361,10 +361,10 @@ export const uk: LocaleData = {
       payment:
         "Розстрочка без подорожчання: початковий внесок 35%, далі 15% / 20% / 20% / 10% — поетапно до 01.12.2027.",
       spec: [
-        { label: "Термін здачі", value: "01.12.2027" },
         { label: "Резиденцій", value: "585" },
         { label: "Управління", value: "Unicorn Hospitality" },
         { label: "Забудовник", value: "Sun Hills Development" },
+        { label: "Введення в експлуатацію", value: "01.12.2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -426,10 +426,10 @@ export const uk: LocaleData = {
       payment:
         "План на 5 платежів: внесок 30%, далі 20% (липень 2026), 20% (грудень 2026), 20% (квітень 2027), 10% (вересень 2027). Розстрочка від забудовника — до березня 2028.",
       spec: [
-        { label: "Термін здачі", value: "Вересень 2027" },
         { label: "Khabib Gym", value: "1 500 м²" },
         { label: "Управління", value: "Unicorn Hospitality" },
         { label: "Забудовник", value: "Sun Hills Development" },
+        { label: "Введення в експлуатацію", value: "Вересень 2027" },
       ],
     },
   },

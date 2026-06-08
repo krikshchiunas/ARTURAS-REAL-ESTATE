@@ -233,11 +233,11 @@ export const en: LocaleData = {
       payment:
         "Reservation ≈ $2,900, first payment after 15 days, then a flexible instalment plan. 10% discount on full payment.",
       spec: [
-        { label: "Completion", value: "2028 (start 2026)" },
         { label: "Floors", value: "5 floors" },
         { label: "Residences", value: "150" },
         { label: "Built area", value: "13,476 m²" },
         { label: "Developer", value: "The Zero Phuket" },
+        { label: "Completion", value: "2028 (start 2026)" },
       ],
     },
     "ayana-heights": {
@@ -361,10 +361,10 @@ export const en: LocaleData = {
       payment:
         "Interest-free instalments: a 35% down payment, then 15% / 20% / 20% / 10% — in stages until 01.12.2027.",
       spec: [
-        { label: "Completion", value: "01.12.2027" },
         { label: "Residences", value: "585" },
         { label: "Management", value: "Unicorn Hospitality" },
         { label: "Developer", value: "Sun Hills Development" },
+        { label: "Completion", value: "01.12.2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -426,10 +426,10 @@ export const en: LocaleData = {
       payment:
         "A 5-payment plan: a 30% down payment, then 20% (July 2026), 20% (December 2026), 20% (April 2027), 10% (September 2027). Developer instalments available until March 2028.",
       spec: [
-        { label: "Completion", value: "September 2027" },
         { label: "Khabib Gym", value: "1,500 m²" },
         { label: "Management", value: "Unicorn Hospitality" },
         { label: "Developer", value: "Sun Hills Development" },
+        { label: "Completion", value: "September 2027" },
       ],
     },
   },

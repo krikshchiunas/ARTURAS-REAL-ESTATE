@@ -233,11 +233,11 @@ export const th: LocaleData = {
       payment:
         "เงินจอง ≈ $2,900 ชำระงวดแรกหลัง 15 วัน จากนั้นผ่อนชำระแบบยืดหยุ่น ส่วนลด 10% เมื่อชำระเต็มจำนวน",
       spec: [
-        { label: "กำหนดแล้วเสร็จ", value: "2028 (เริ่ม 2026)" },
         { label: "จำนวนชั้น", value: "5 ชั้น" },
         { label: "เรสซิเดนซ์", value: "150" },
         { label: "พื้นที่ก่อสร้าง", value: "13,476 ตร.ม." },
         { label: "ผู้พัฒนา", value: "The Zero Phuket" },
+        { label: "กำหนดแล้วเสร็จ", value: "2028 (เริ่ม 2026)" },
       ],
     },
     "ayana-heights": {
@@ -361,10 +361,10 @@ export const th: LocaleData = {
       payment:
         "ผ่อนชำระไม่มีดอกเบี้ย: เงินดาวน์ 35% จากนั้น 15% / 20% / 20% / 10% — เป็นงวดจนถึง 01.12.2027",
       spec: [
-        { label: "กำหนดแล้วเสร็จ", value: "01.12.2027" },
         { label: "เรสซิเดนซ์", value: "585" },
         { label: "การบริหาร", value: "Unicorn Hospitality" },
         { label: "ผู้พัฒนา", value: "Sun Hills Development" },
+        { label: "กำหนดแล้วเสร็จ", value: "01.12.2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -426,10 +426,10 @@ export const th: LocaleData = {
       payment:
         "แผนชำระ 5 งวด: เงินดาวน์ 30% จากนั้น 20% (กรกฎาคม 2026), 20% (ธันวาคม 2026), 20% (เมษายน 2027), 10% (กันยายน 2027) ผ่อนชำระกับผู้พัฒนาได้จนถึงมีนาคม 2028",
       spec: [
-        { label: "กำหนดแล้วเสร็จ", value: "กันยายน 2027" },
         { label: "Khabib Gym", value: "1,500 ตร.ม." },
         { label: "การบริหาร", value: "Unicorn Hospitality" },
         { label: "ผู้พัฒนา", value: "Sun Hills Development" },
+        { label: "กำหนดแล้วเสร็จ", value: "กันยายน 2027" },
       ],
     },
   },
