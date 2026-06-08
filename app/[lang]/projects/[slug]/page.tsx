@@ -260,54 +260,6 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </section>
 
-        {/* Инвестиции */}
-        <section className="shell mt-20 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.investmentEyebrow} title={t.investmentTitle} />
-            </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <p className="text-pretty text-lg leading-relaxed text-bone-muted">
-                {project.investment}
-              </p>
-              {project.payment ? (
-                <div className="mt-8 rounded-core bg-white/[0.03] p-6 ring-1 ring-white/[0.06] md:p-8">
-                  <span className="eyebrow">{t.paymentLabel}</span>
-                  <p className="mt-3 text-[15px] leading-relaxed text-bone">
-                    {project.payment}
-                  </p>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </section>
-
-        {/* Почему этот проект */}
-        <section className="shell mt-20 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.featuresEyebrow} title={t.featuresTitle} />
-            </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <ul className="flex flex-col">
-                {project.features.map((f, i) => (
-                  <li
-                    key={f}
-                    className="flex items-baseline gap-5 border-t border-white/[0.07] py-5 first:border-t-0"
-                  >
-                    <span className="font-mono text-xs text-platinum">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-[15px] leading-relaxed text-bone-muted">
-                      {f}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
         {/* Застройщик */}
         {project.developer && project.developerNote ? (
           <section className="shell mt-20 md:mt-28">
