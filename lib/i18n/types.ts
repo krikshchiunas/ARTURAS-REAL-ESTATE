@@ -50,7 +50,7 @@ export type Dictionary = {
     eyebrow: string;
     manifesto: string;
   };
-  stats: { eyebrow: string; title: string; body: string };
+  stats: { title: string; body: string };
   projectsSection: { eyebrow: string; heading: string; cardCta: string };
   founder: {
     eyebrow: string;

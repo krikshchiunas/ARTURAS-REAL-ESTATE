@@ -36,9 +36,8 @@ export const en: LocaleData = {
         "You don't just get a selection of good properties — only the options that truly match your goals, objectives and strategy. My main task is not to sell you a property, but to help you reach your goal through real estate.",
     },
     stats: {
-      eyebrow: "Scale",
       title: "Reputation, measured in numbers",
-      body: "Fifteen years in the property market and more than seventy projects in the portfolio. End-to-end deal support in Phuket — from the first viewing to ongoing property management.",
+      body: "Behind every number is hands-on experience in property analysis, risk assessment and working with investments.",
     },
     projectsSection: {
       eyebrow: "Projects",
@@ -138,10 +137,10 @@ export const en: LocaleData = {
     },
   },
   stats: [
-    { value: "15", label: "years of real-estate experience" },
-    { value: "70+", label: "projects in the portfolio" },
-    { value: "Phuket", label: "core region of work" },
-    { value: "Turnkey", label: "from selection to property management" },
+    { value: "15+", label: "years of real-estate experience" },
+    { value: "500+", label: "investment models calculated" },
+    { value: "200+", label: "properties analyzed in detail" },
+    { value: "50+", label: "properties passing strict investment screening" },
   ],
   services: {
     selection: {

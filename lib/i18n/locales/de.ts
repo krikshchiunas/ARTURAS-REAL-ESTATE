@@ -36,9 +36,8 @@ export const de: LocaleData = {
         "Sie erhalten nicht einfach eine Auswahl guter Objekte, sondern nur jene Optionen, die wirklich zu Ihren Zielen, Aufgaben und Ihrer Strategie passen. Meine wichtigste Aufgabe ist nicht, Ihnen ein Objekt zu verkaufen, sondern Ihnen zu helfen, Ihr Ziel mit Immobilien zu erreichen.",
     },
     stats: {
-      eyebrow: "Dimension",
       title: "Reputation, in Zahlen ausgedrückt",
-      body: "Fünfzehn Jahre am Immobilienmarkt und mehr als siebzig Projekte im Portfolio. Umfassende Begleitung Ihrer Transaktion auf Phuket — von der ersten Besichtigung bis zur laufenden Objektverwaltung.",
+      body: "Hinter jeder Zahl steht praktische Erfahrung in Immobilienanalyse, Risikobewertung und Arbeit mit Investitionen.",
     },
     projectsSection: {
       eyebrow: "Projekte",
@@ -138,10 +137,10 @@ export const de: LocaleData = {
     },
   },
   stats: [
-    { value: "15", label: "Jahre Erfahrung in der Immobilienbranche" },
-    { value: "70+", label: "Projekte im Portfolio" },
-    { value: "Phuket", label: "Kernregion der Tätigkeit" },
-    { value: "Schlüsselfertig", label: "von der Auswahl bis zur Objektverwaltung" },
+    { value: "15+", label: "Jahre Erfahrung in der Immobilienbranche" },
+    { value: "500+", label: "durchgerechnete Investitionsmodelle" },
+    { value: "200+", label: "detailliert analysierte Objekte" },
+    { value: "50+", label: "Objekte nach strenger Investitionsauswahl" },
   ],
   services: {
     selection: {

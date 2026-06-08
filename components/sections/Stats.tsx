@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/ui/Reveal";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getDictionary, getStats } from "@/lib/i18n";
 
 // Асимметричная раскладка цифр: ведущее утверждение + смещённая сетка.
@@ -12,10 +11,7 @@ export function Stats({ lang }: { lang: string }) {
       <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <Reveal>
-            <Eyebrow>{t.eyebrow}</Eyebrow>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="mt-6 max-w-[12ch] font-display text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
+            <h2 className="max-w-[12ch] font-display text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
               {t.title}
             </h2>
           </Reveal>
