@@ -99,9 +99,11 @@ export default function ProjectPage({ params }: Params) {
                 {project.location}
                 {project.developer ? ` · ${project.developer}` : ""}
               </p>
-              <span className="font-display text-2xl font-light text-platinum-soft">
-                {project.priceFrom}
-              </span>
+              {project.priceFrom ? (
+                <span className="font-display text-2xl font-light text-platinum-soft">
+                  {project.priceFrom}
+                </span>
+              ) : null}
             </div>
           </header>
         </div>

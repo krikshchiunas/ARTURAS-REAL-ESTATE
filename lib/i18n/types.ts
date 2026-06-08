@@ -17,7 +17,7 @@ export type ProjectText = {
   developerNote?: string;
   location: string;
   type: string;
-  priceFrom: string;
+  priceFrom?: string;
   keyPoints: string[];
   summary: string;
   concept: string;
