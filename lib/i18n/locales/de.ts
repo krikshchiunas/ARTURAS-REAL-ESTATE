@@ -54,9 +54,20 @@ export const de: LocaleData = {
       note: "Ich begleite jede Transaktion persönlich — vom ersten Anruf bis zur Schlüsselübergabe.",
     },
     services: {
-      eyebrow: "Leistungen",
-      title: "Eine private Infrastruktur rund um die Transaktion",
-      body: "Jede Phase — vom ersten Dossier bis zur Verwaltung des Assets — führt ein einziges Team. Ohne Vermittler, ohne Öffentlichkeit.",
+      eyebrow: "Ablauf",
+      title: "Service",
+      body: "Sie erhalten umfassende Begleitung und Unterstützung in jeder Phase der Transaktion.",
+      steps: [
+        "Ermittlung Ihrer Ziele und Bedürfnisse",
+        "Auswahl der besten Objekte für Ihre Aufgaben",
+        "Organisation und Durchführung von Besichtigungen",
+        "Verhandlung zusätzlicher Rabatte und Boni mit dem Bauträger",
+        "Vorbereitung und Prüfung der Unterlagen für die Transaktion",
+        "Vertragsunterzeichnung und Begleitung der Zahlungen",
+        "Baukontrolle und regelmäßiges Monitoring des Objekts",
+        "Professionelle Abnahme der Immobilie nach Fertigstellung",
+        "Übergabe des Objekts an die Verwaltung für passives Einkommen",
+      ],
     },
     contact: {
       eyebrow: "Kontakt",

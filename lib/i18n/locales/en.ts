@@ -54,9 +54,20 @@ export const en: LocaleData = {
       note: "I handle each deal personally — from the first call to the handover of keys.",
     },
     services: {
-      eyebrow: "Services",
-      title: "A private infrastructure around the deal",
-      body: "Every stage — from the first dossier to managing the asset — is led by one team. No intermediaries, no publicity.",
+      eyebrow: "Process",
+      title: "Service",
+      body: "You receive full support and guidance at every stage of the deal.",
+      steps: [
+        "Identifying your goals and needs",
+        "Selecting the best properties for your objectives",
+        "Arranging and conducting viewings",
+        "Negotiating additional discounts and bonuses with the developer",
+        "Preparing and reviewing the transaction documents",
+        "Signing the contract and overseeing the settlements",
+        "Construction oversight and regular monitoring of the property",
+        "Professional handover inspection after construction is completed",
+        "Handing the property over to management for passive income",
+      ],
     },
     contact: {
       eyebrow: "Contact",
