@@ -11,6 +11,10 @@ import { Reveal } from "@/components/ui/Reveal";
 export function Projects({ lang }: { lang: string }) {
   const t = getDictionary(lang).projectsSection;
   const projects = getProjects(lang);
+  // Локация (район) выводится только на английском, независимо от языка интерфейса.
+  const enLocations = new Map(
+    getProjects("en").map((p) => [p.slug, p.location]),
+  );
   return (
     <section id="projects" className="relative py-28">
       {/* Заголовок над лентой */}
@@ -52,30 +56,22 @@ export function Projects({ lang }: { lang: string }) {
                     aria-hidden
                     className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent"
                   />
-                  {/* Тип — второстепенная характеристика, держим тихо */}
+                  {/* Порядковый номер — тихий маркер карточки */}
                   <div className="absolute left-6 top-6 flex items-center gap-3">
                     <span className="font-mono text-xs text-platinum">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-xs uppercase tracking-[0.18em] text-bone-faint">
-                      {p.type}
-                    </span>
                   </div>
 
                   <div className="absolute inset-x-6 bottom-6">
-                    {/* Приоритет 2–4: название доминирует, локация и цена ниже по тону */}
-                    <div className="flex items-end justify-between gap-4">
-                      <div className="min-w-0">
-                        <h3 className="font-display text-3xl font-light tracking-tight text-bone md:text-4xl">
-                          {p.name}
-                        </h3>
-                        <p className="mt-1.5 text-sm text-bone-muted">
-                          {p.location}
-                        </p>
-                      </div>
-                      <span className="shrink-0 font-display text-xl font-light text-platinum-soft">
-                        {p.priceFrom}
-                      </span>
+                    {/* Приоритет 2–3: название доминирует, локация ниже по тону */}
+                    <div className="min-w-0">
+                      <h3 className="font-display text-3xl font-light tracking-tight text-bone md:text-4xl">
+                        {p.name}
+                      </h3>
+                      <p className="mt-1.5 text-sm text-bone-muted">
+                        {enLocations.get(p.slug) ?? p.location}
+                      </p>
                     </div>
 
                     {/* 1–2 ключевых преимущества: тихая строка, сканируется
