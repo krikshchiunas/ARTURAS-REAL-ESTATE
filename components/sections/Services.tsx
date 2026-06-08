@@ -26,10 +26,7 @@ export function Services({ lang }: { lang: string }) {
                   >
                     {num}
                   </span>
-                  <span className="relative font-mono text-xs uppercase tracking-[0.1em] text-platinum">
-                    {t.stepLabel} {num}
-                  </span>
-                  <p className="relative mt-6 text-pretty text-[15px] leading-snug text-bone md:text-base">
+                  <p className="relative mt-auto text-pretty text-[15px] leading-snug text-bone md:text-base">
                     {step}
                   </p>
                 </li>
