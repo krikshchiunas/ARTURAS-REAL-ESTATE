@@ -79,7 +79,7 @@ export function Hero({ lang }: { lang: string }) {
             {t.eyebrow}
           </motion.span>
 
-          <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(3rem,9vw,8rem)] font-light leading-[0.95] tracking-tight text-balance">
+          <h1 className="mt-6 max-w-[20ch] font-display text-[clamp(1.9rem,4.6vw,4rem)] font-light leading-[1.07] tracking-tight text-balance">
             <motion.span
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}

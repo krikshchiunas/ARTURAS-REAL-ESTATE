@@ -25,10 +25,10 @@ export const en: LocaleData = {
     },
     hero: {
       eyebrow: "Real estate in Phuket",
-      titleTop: "Not a property.",
-      titleEmphasis: "The right",
-      titleRest: " decision.",
-      body: "Property in Phuket matched to your goal — living, lifestyle, rental income or investment. We don't sell listings.",
+      titleTop: "Real estate won't make you rich overnight.",
+      titleEmphasis: "It makes you rich over 10 years.",
+      titleRest: "",
+      body: "Curated investment property on Phuket island for capital growth, passive income and long-term preservation of your wealth.",
     },
     intro: {
       manifesto:

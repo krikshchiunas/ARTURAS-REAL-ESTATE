@@ -25,10 +25,10 @@ export const de: LocaleData = {
     },
     hero: {
       eyebrow: "Immobilien auf Phuket",
-      titleTop: "Kein Objekt.",
-      titleEmphasis: "Die richtige",
-      titleRest: " Entscheidung.",
-      body: "Immobilien auf Phuket, abgestimmt auf Ihr Ziel — Wohnen, Lebensstil, Mietertrag oder Investition. Wir verkaufen keine Objekte von der Liste.",
+      titleTop: "Immobilien machen Sie nicht über Nacht reich.",
+      titleEmphasis: "Sie machen Sie in 10 Jahren reich.",
+      titleRest: "",
+      body: "Auswahl von Anlageimmobilien auf der Insel Phuket für Kapitalwachstum, passives Einkommen und den langfristigen Erhalt Ihres Vermögens.",
     },
     intro: {
       manifesto:
