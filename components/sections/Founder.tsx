@@ -75,15 +75,9 @@ export function Founder({ lang }: { lang: string }) {
           <Reveal delay={0.1}>
             <div className="mt-8 max-w-prose space-y-5 text-pretty leading-relaxed">
               <p className="text-bone">{t.p1}</p>
-              <p className="text-bone-muted">{t.p2}</p>
+              <p className="text-bone">{t.p2}</p>
+              <p className="text-bone">{t.note}</p>
             </div>
-          </Reveal>
-
-          <Reveal delay={0.14}>
-            <p className="mt-7 flex items-center gap-3 text-sm leading-relaxed text-bone-muted">
-              <span className="h-px w-6 shrink-0 bg-platinum/50" aria-hidden />
-              {t.note}
-            </p>
           </Reveal>
 
           <Reveal delay={0.15}>

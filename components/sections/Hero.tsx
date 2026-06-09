@@ -69,17 +69,7 @@ export function Hero({ lang }: { lang: string }) {
         className="relative z-10 flex h-full flex-col justify-end pb-20 md:pb-28"
       >
         <div className="shell">
-          <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
-            className="eyebrow inline-flex items-center gap-2.5"
-          >
-            <span className="h-px w-6 bg-platinum/60" aria-hidden />
-            {t.eyebrow}
-          </motion.span>
-
-          <h1 className="mt-6 max-w-[20ch] font-display text-[clamp(1.9rem,4.6vw,4rem)] font-light leading-[1.07] tracking-tight text-balance">
+          <h1 className="max-w-[20ch] font-display text-[clamp(1.9rem,4.6vw,4rem)] font-light leading-[1.07] tracking-tight text-balance">
             <motion.span
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}

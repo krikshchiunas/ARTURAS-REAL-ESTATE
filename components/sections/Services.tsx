@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 // Сервис как сетка 3×3 из плиток: в каждой — мелкая мет­ка «Шаг 0X»,
 // крупная полупрозрачная цифра-водяной знак и текст шага внизу.
-// На мобиле — одна колонка, на планшете — две, на десктопе — три.
+// На мобиле и планшете — две колонки, на десктопе — три.
 export function Services({ lang }: { lang: string }) {
   const t = getDictionary(lang).services;
   const steps = t.steps;
@@ -13,7 +13,7 @@ export function Services({ lang }: { lang: string }) {
       <div className="shell">
         <SectionHeading eyebrow={t.eyebrow} title={<>{t.title}</>} body={t.body} />
 
-        <ol className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 lg:grid-cols-3">
+        <ol className="mt-16 grid grid-cols-2 gap-4 md:mt-20 lg:grid-cols-3">
           {steps.map((step, i) => {
             const num = String(i + 1).padStart(2, "0");
             return (

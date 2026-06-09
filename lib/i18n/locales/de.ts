@@ -196,10 +196,10 @@ export const de: LocaleData = {
       concept:
         "Eine flache Wohnanlage für „naturveredeltes“ Küstenwohnen, nur wenige Schritte vom Sirinat-Nationalpark an Phukets Westküste entfernt. Die EIA-genehmigte Öko-Architektur lässt sich vom Licht der Küste und von natürlichen Formen inspirieren und schafft eine private, niedrig verdichtete Gemeinschaft für alle, die Abgeschiedenheit, Naturnähe und Investitionsertrag suchen.",
       highlights: [
-        { label: "Rendite", value: "≈ 11% ROI" },
         { label: "Geschosse", value: "5 Geschosse" },
-        { label: "Residenzen", value: "150" },
-        { label: "Bis zum Strand", value: "350 m" },
+        { label: "Bebaute Fläche", value: "13.476 m²" },
+        { label: "Bauträger", value: "The Zero Phuket" },
+        { label: "Fertigstellung", value: "Juni 2028" },
       ],
       units: [
         { type: "Studio", area: "29,5–36,3 m²" },
@@ -246,7 +246,7 @@ export const de: LocaleData = {
         { label: "Residenzen", value: "150" },
         { label: "Bebaute Fläche", value: "13.476 m²" },
         { label: "Bauträger", value: "The Zero Phuket" },
-        { label: "Fertigstellung", value: "2028 (Beginn 2026)" },
+        { label: "Fertigstellung", value: "Juni 2028" },
       ],
     },
     "ayana-heights": {
@@ -262,10 +262,10 @@ export const de: LocaleData = {
       concept:
         "Eine Premium-Anlage unter dem Leitmotiv „Flow your way“. Das Konzept beruht auf geringer Bebauungsdichte (Faktor 1,2) und großzügigen Abständen zwischen den Gebäuden — das sichert Privatsphäre und einen 270°-Panoramablick über das Meer. Fünf-Sterne-Service und hotelverwaltete Apartments für alle, die Naturnähe suchen.",
       highlights: [
-        { label: "Rendite", value: "9–12% pro Jahr" },
-        { label: "Areal", value: "31 Rai · 8 Gebäude" },
-        { label: "Residenzen", value: "543" },
-        { label: "Pool", value: "1.800 m²" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "T.H Group" },
+        { label: "Fertigstellung", value: "Ende 2027" },
       ],
       units: [
         { type: "Studio (A)", area: "37,6 m²" },
@@ -328,10 +328,10 @@ export const de: LocaleData = {
       concept:
         "Eine Premium-Anlage mit der Architektur eines „vertikalen Gartens“: kaskadierende Terrassen, eingebettet in tropisches Grün, und mehrstöckige Pools im Zentrum. Offizieller Markenbotschafter ist Khabib Nurmagomedov; die Partnerschaft gründet auf den Werten von Disziplin und langfristigem Denken. Verwaltung und Betreuung durch Unicorn Hospitality, einen der führenden Hotelbetreiber Südostasiens.",
       highlights: [
-        { label: "Rendite", value: "bis zu 10% pro Jahr" },
-        { label: "Fertigstellung", value: "01.12.2027" },
-        { label: "Residenzen", value: "585" },
-        { label: "Verwaltung", value: "Unicorn" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "Sun Hills Development" },
+        { label: "Fertigstellung", value: "Ende 2027" },
       ],
       units: [
         { type: "Studio", area: "26,5–31,4 m²" },
@@ -371,7 +371,7 @@ export const de: LocaleData = {
         { label: "Residenzen", value: "585" },
         { label: "Verwaltung", value: "Unicorn Hospitality" },
         { label: "Bauträger", value: "Sun Hills Development" },
-        { label: "Fertigstellung", value: "01.12.2027" },
+        { label: "Fertigstellung", value: "Ende 2027" },
       ],
     },
     "sun-hills-lakeside": {
@@ -387,10 +387,10 @@ export const de: LocaleData = {
       concept:
         "Eine Premium-Residenz an den Laguna-Seen in Bang Tao, konzipiert als Hybrid aus Wohnen und Hotelbetrieb. Offizieller Partner des Projekts ist Khabib Nurmagomedov: Auf dem Areal entsteht ein Trainingszentrum von Weltklasse, das Khabib Gym mit 1.500 m², samt Programmen für Sport, Wellness und Regeneration. Ein Drei-in-eins-Asset: eine komfortable Umgebung zum Leben, stabiler Mietertrag und ein lohnender Wiederverkauf.",
       highlights: [
-        { label: "Rendite", value: "bis zu 10% pro Jahr" },
-        { label: "Khabib Gym", value: "1.500 m²" },
-        { label: "Bis Layan Beach", value: "7 Min." },
-        { label: "Wertsteigerung", value: "ab 40%" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "Sun Hills Development" },
+        { label: "Fertigstellung", value: "September 2027" },
       ],
       units: [
         { type: "Studios", area: "30 / 35,6 / 40 / 47 / 48 m²" },
@@ -451,10 +451,10 @@ export const de: LocaleData = {
       concept:
         "Eine moderne Eigentumsanlage direkt am Nai Yang Beach, neben dem Sirinat-Nationalpark und dem Kiefernwald. Neun niedrige Wohngebäude umschließen drei gestaltete Zonen — Laguna, Costa und Foresta — mit über 13.000 m² Gemeinschaftsfläche, Lagunenpools, Strandrasen und einem privaten Spazierweg, der direkt zum Sand führt.",
       highlights: [
-        { label: "Zum Strand", value: "Erste Reihe" },
-        { label: "Residenzen", value: "542" },
-        { label: "Anlagen", value: "53" },
-        { label: "Gebäude", value: "9 + Parkhaus" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "The Title" },
+        { label: "Fertigstellung", value: "Q2 2028" },
       ],
       units: [
         { type: "1 Schlafzimmer M", area: "33–35 m²" },
@@ -517,10 +517,10 @@ export const de: LocaleData = {
       concept:
         "Eine ruhige Strandgemeinschaft an der Soi Naiyang 2, nur 400 m vom Nai Yang Beach und neben dem Sirinat-Nationalpark. Sechs siebenstöckige Gebäude im modernen Ocean-Architekturstil umgeben über 1.050 m² Anlagen und 3.750 m² Grünfläche, gestaltet für mehrere Generationen und auf vier Säulen gebaut: Nachhaltigkeit, Wohlbefinden, Service und Technologie.",
       highlights: [
-        { label: "Zum Strand", value: "400 m" },
-        { label: "Residenzen", value: "814" },
-        { label: "Gebäude", value: "6 × 7 Etagen" },
-        { label: "Zum Flughafen", value: "5 Min." },
+        { label: "Geschosse", value: "7 Geschosse" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "The Title" },
+        { label: "Fertigstellung", value: "Fertiggestellt" },
       ],
       units: [
         { type: "1 Schlafzimmer S", area: "26–28 m²" },
@@ -569,7 +569,7 @@ export const de: LocaleData = {
         { label: "Gebäude", value: "6 × 7 Etagen" },
         { label: "Grundstücksfläche", value: "22.053 m²" },
         { label: "Bauträger", value: "The Title" },
-        { label: "Fertigstellung", value: "2026" },
+        { label: "Fertigstellung", value: "Fertiggestellt" },
       ],
     },
     olive: {
@@ -585,10 +585,10 @@ export const de: LocaleData = {
       concept:
         "Eine modern-klassische mediterrane, naturnahe Gemeinschaft an den grünen Hängen über Nai Yang — „wo Glück wächst und das Leben gedeiht“. Zwei haustierfreundliche Wohngebäude und ein eigenes Anlagengebäude liegen inmitten einer Olivenhain-Landschaft, mit Dachpools, Gartenlounges und Geschäften im Erdgeschoss, wenige Minuten vom Strand und vom Flughafen Phuket entfernt.",
       highlights: [
-        { label: "Stil", value: "Mediterran" },
-        { label: "Residenzen", value: "291" },
-        { label: "Anlagen", value: "29" },
-        { label: "Etagen", value: "8" },
+        { label: "Geschosse", value: "8 Geschosse" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "The Title" },
+        { label: "Fertigstellung", value: "Q2 2029" },
       ],
       units: [
         { type: "1 Schlafzimmer", area: "Auf Anfrage" },
@@ -647,10 +647,10 @@ export const de: LocaleData = {
       concept:
         "Gardens of Eden ist das erste Projekt auf Phuket, das um einen eigenen Park herum gebaut wurde: Nur 30% des Geländes sind bebaut, die übrigen 70% bestehen aus gestalteten Parks, Gärten und Seen. Das geschlossene, bewachte Resort liegt nur 50 m vom Bang Tao Beach entfernt und entfaltet sich über drei Phasen — Eden, Park und Lake Residences — plus die Etro Residences, die ersten Wohnungen Thailands in Zusammenarbeit mit dem legendären italienischen Modehaus Etro. Ein 1.000 m² großes Wellnesszentrum, der weiße „Blue Lagoon“-Sandpool, ein Open-Air-Kino, acht Restaurants und ein 3,5 km langer Spazierweg machen das Resort zu einer eigenen Welt, während die gesamte Verkehrsinfrastruktur am Rand unterirdisch verläuft.",
       highlights: [
-        { label: "Zum Strand", value: "50 m" },
-        { label: "Grünfläche", value: "70%" },
-        { label: "Wellness-Gym", value: "1.000 m²" },
-        { label: "Phasen", value: "3" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "—" },
+        { label: "Fertigstellung", value: "Q1 2029" },
       ],
       units: [
         { type: "1 Schlafzimmer", area: "49–75 m²" },
@@ -697,7 +697,7 @@ export const de: LocaleData = {
         { label: "Phasen", value: "3" },
         { label: "Bebauung", value: "30% des Geländes" },
         { label: "Eigentumsform", value: "Leasehold / Freehold" },
-        { label: "Fertigstellung", value: "2026–2029" },
+        { label: "Fertigstellung", value: "Q1 2029" },
       ],
     },
     "layan-green-park": {
@@ -713,10 +713,10 @@ export const de: LocaleData = {
       concept:
         "Layan Green Park ist eine grüne, niedrig gebaute Resort-Community inmitten tropischer Gärten zwischen Layan und Bang Tao an der Westküste Phukets. Das Projekt ist nach dem EDGE-Green-Building-Standard mit energie- und wassersparender Technik errichtet und wird vollständig schlüsselfertig übergeben — inklusive Designermöbel, Einbauküche und Geräten. Die Residenzen verfügen über 2,7 m Deckenhöhe, SPC-Böden und zentrale Warmwasserversorgung. Phase 1 wurde 2024 übergeben, Phase 2 wird 2026 fertiggestellt; vor Ort betreibt La Green Hotel & Residence ein professionelles verwaltetes Mietprogramm.",
       highlights: [
-        { label: "Zum Strand", value: "2 Min." },
-        { label: "Deckenhöhe", value: "2,7 m" },
-        { label: "Grundrisse", value: "30+" },
-        { label: "Zertifizierung", value: "EDGE green" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "Villacarte Group" },
+        { label: "Fertigstellung", value: "Ende 2026" },
       ],
       units: [
         { type: "Studios", area: "30–37 m²" },
@@ -759,7 +759,7 @@ export const de: LocaleData = {
         { label: "Deckenhöhe", value: "2,7 m" },
         { label: "Grundrisse", value: "30+" },
         { label: "Zertifizierung", value: "EDGE green" },
-        { label: "Fertigstellung", value: "2024 / 2026" },
+        { label: "Fertigstellung", value: "Ende 2026" },
       ],
     },
     "layan-verde": {
@@ -774,10 +774,10 @@ export const de: LocaleData = {
       concept:
         "Layan Verde ist ein großflächiges Resort-Condominium auf einem 7,5 Hektar großen grünen Hang im Gebiet Bang Tao, zwei Fahrminuten vom Layan Beach entfernt. Die bionische Architektur verbindet organische, von der Natur inspirierte Formen mit kaskadierenden begrünten Terrassen, über 300 Pflanzenarten und mehr als 30.000 m² Landschaftsgestaltung des Büros SHMA. Die Anlage wird als hotelgeführtes Condominium nach 5-Sterne-Standards von Dusit International betrieben und ist BOI-zertifiziert. Zwei Kollektionen — Luxury (5 Gebäude, 93 Residenzen) und Premium (10 Gebäude, 681 Residenzen) — teilen sich 65 Infrastruktureinrichtungen, darunter zwei Hotels, einen Ocean Club, ein Wellnesscenter und neun Pools.",
       highlights: [
-        { label: "Zum Strand", value: "2 Min." },
-        { label: "Gelände", value: "7,5 ha" },
-        { label: "Pools", value: "9" },
-        { label: "Einrichtungen", value: "65" },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "—" },
+        { label: "Fertigstellung", value: "Ende 2028" },
       ],
       units: [
         { type: "Premium · Studio", area: "ab 37,3 m²" },
@@ -824,7 +824,7 @@ export const de: LocaleData = {
         { label: "Residenzen", value: "774" },
         { label: "Kollektionen", value: "Luxury / Premium" },
         { label: "Management", value: "Dusit International" },
-        { label: "Fertigstellung", value: "2028" },
+        { label: "Fertigstellung", value: "Ende 2028" },
       ],
     },
     "the-ozone": {
@@ -838,10 +838,10 @@ export const de: LocaleData = {
       concept:
         "The Ozone Condominium ist ein modernes Luxus-Niedrigbau-Projekt mit 164 Residenzen auf acht Etagen, einen Kilometer von Laguna Phuket und Boat Avenue im Herzen von Bang Tao. Konzipiert für großzügiges Wohnen mit freiem Ausblick, öffnet sich in jeder Wohnung eine raumhohe Verglasung zum Laguna-Golfplatz, zu den Bergen oder zu üppigen tropischen Gärten und verwischt die Grenze zwischen Innen und Außen. Drei Wohnungstypen — Ein-Zimmer-, Zwei-Zimmer- und Maisonette-Zwei-Zimmer-Grundrisse — werden ergänzt durch einen großen L-förmigen Pool, ein gut ausgestattetes Fitnesscenter und angelegte Außenanlagen.",
       highlights: [
-        { label: "Etagen", value: "8" },
-        { label: "Residenzen", value: "164" },
-        { label: "Zu Laguna", value: "1 km" },
-        { label: "Wohnungstypen", value: "3" },
+        { label: "Geschosse", value: "8 Geschosse" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "The Ozone Group" },
+        { label: "Fertigstellung", value: "Fertiggestellt" },
       ],
       units: [
         { type: "1 Schlafzimmer · Typ A", area: "42 m²" },
@@ -897,10 +897,10 @@ export const de: LocaleData = {
       concept:
         "Bellevue Beachfront ist das zweite Projekt der Marke Bellevue in einer seltenen Lage in erster Strandreihe, nur 50 Meter vom Layan Beach an der ruhigen Nordwestküste Phukets. Niedrige Gebäude mit sanft geschwungenen Balkonen rahmen begrünte Innenhöfe und einen Resort-Pool. Jede Residenz ist modern gestaltet, mit Küchenzeile oder Pantry, Frühstücksbar oder Essbereich, komfortablen Schlafzimmern und — in vielen Grundrissen — einem privaten Balkon. Eine große Lobby und Rezeption runden einen ruhigen Lebensstil am Strand ab, wenige Minuten von Bang Tao, Laguna und Boat Avenue.",
       highlights: [
-        { label: "Zum Strand", value: "50 m" },
-        { label: "Gebäude", value: "6" },
-        { label: "Wohnungstypen", value: "4" },
-        { label: "Bang Tao Beach", value: "4 Min." },
+        { label: "Geschosse", value: "—" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "Bellevue" },
+        { label: "Fertigstellung", value: "Oktober 2026" },
       ],
       units: [
         { type: "Studio", area: "32 m²" },
@@ -957,10 +957,10 @@ export const de: LocaleData = {
       concept:
         "Siamese Bangtao liegt in einer der begehrtesten Lagen Phukets, nur wenige Minuten von den Stränden und dem lebhaften Treiben Bang Taos entfernt. Drei niedrige Gebäude mit je sieben Geschossen umrahmen fünf Infinity-Pools am See, die Residenzen reichen von kompakten Studios bis zu großzügigen Maisonetten. Realisiert von einem Konsortium führender thailändischer Entwickler, verbindet das Projekt mutige, moderne Architektur mit einem außergewöhnlichen Ausstattungsprogramm — Wellness, Sport, Co-Working und Gastronomie — für alle, die in einer der stärksten Vermietungslagen der Insel leben, entspannen und verdienen möchten.",
       highlights: [
-        { label: "Gebäude", value: "3" },
-        { label: "Geschosse", value: "7" },
-        { label: "Pools am See", value: "5" },
-        { label: "Fertigstellung", value: "Q2 2027" },
+        { label: "Geschosse", value: "7 Geschosse" },
+        { label: "Bebaute Fläche", value: "—" },
+        { label: "Bauträger", value: "Siamese Stone" },
+        { label: "Fertigstellung", value: "August 2027" },
       ],
       units: [
         { type: "Studio", area: "30 m²" },
@@ -1001,7 +1001,7 @@ export const de: LocaleData = {
         { label: "Gebäude", value: "3" },
         { label: "Geschosse", value: "7" },
         { label: "Wohnungstypen", value: "4" },
-        { label: "Fertigstellung", value: "Q2 2027" },
+        { label: "Fertigstellung", value: "August 2027" },
         { label: "Entwickler", value: "Siamese Stone" },
       ],
     },

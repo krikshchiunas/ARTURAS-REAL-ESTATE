@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 // Каталог объектов. Лента листается ГОРИЗОНТАЛЬНО отдельным жестом
 // (трекпад / Shift+колесо / drag), а вертикальный скролл страницы при этом
-// идёт плавно вниз — без pin-перехвата и «торможения». На мобиле — вертикаль.
+// идёт плавно вниз — без pin-перехвата и «торможения». Горизонталь и на мобиле.
 export function Projects({ lang }: { lang: string }) {
   const t = getDictionary(lang).projectsSection;
   const projects = getProjects(lang);
@@ -34,13 +34,13 @@ export function Projects({ lang }: { lang: string }) {
       {/* Лента: вертикальная на мобиле, горизонтальный скроллер на десктопе.
           snap-x для аккуратной остановки на карточках; скроллбар скрыт —
           подглядывающие соседние карточки сами подсказывают, что листается вбок. */}
-      <div className="mt-14 flex flex-col gap-8 px-6 md:mt-16 md:flex-row md:gap-10 md:overflow-x-auto md:overscroll-x-contain md:px-[max(2rem,calc((100vw-1440px)/2+2rem))] md:pb-6 md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden md:snap-x md:snap-mandatory">
+      <div className="mt-14 flex snap-x snap-mandatory flex-row gap-6 overflow-x-auto overscroll-x-contain px-6 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-16 md:gap-10 md:px-[max(2rem,calc((100vw-1440px)/2+2rem))]">
         {projects.map((p, i) => (
           <Link
             key={p.slug}
             href={`/${lang}/projects/${p.slug}`}
             aria-label={`${p.name} — ${t.cardCta}`}
-            className="group relative block shrink-0 md:w-[clamp(320px,38vw,460px)] md:snap-start"
+            className="group relative block w-[78vw] shrink-0 snap-start sm:w-[58vw] md:w-[clamp(320px,38vw,460px)]"
           >
             <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06] transition-colors duration-500 group-hover:ring-white/15">
               <div className="relative overflow-hidden rounded-core bg-ink-900">
