@@ -26,6 +26,7 @@ export function HeroVideo() {
   // SSR-безопасно: стартуем как «мобайл» (один слой), на десктопе докручиваем
   // второй слой и кроссфейд после монтирования.
   const [desktop, setDesktop] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -33,6 +34,30 @@ export function HeroVideo() {
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // iOS в Low Power Mode блокирует автоплей и рисует поверх видео системную
+  // кнопку Play. Пока видео реально не играет, держим его прозрачным (кнопка
+  // невидима вместе с ним), показывая постер-подложку; play() пробуем сразу
+  // и повторяем по первому жесту — в Low Power Mode iOS разрешает запуск
+  // только из обработчика касания.
+  useEffect(() => {
+    const v = aRef.current;
+    if (!v) return;
+
+    const onPlaying = () => setPlaying(true);
+    v.addEventListener("playing", onPlaying);
+
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    window.addEventListener("click", tryPlay, { once: true });
+
+    return () => {
+      v.removeEventListener("playing", onPlaying);
+      window.removeEventListener("touchstart", tryPlay);
+      window.removeEventListener("click", tryPlay);
+    };
   }, []);
 
   useEffect(() => {
@@ -91,14 +116,29 @@ export function HeroVideo() {
 
   return (
     <>
+      {/* Постер-подложка: LCP-кадр и фон на случай заблокированного автоплея. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/hero-poster.jpg"
+        alt=""
+        aria-hidden
+        loading="eager"
+        fetchPriority="high"
+        className={cls}
+      />
       <video
         ref={aRef}
-        className={cls}
+        className={`${cls} ${
+          desktop
+            ? ""
+            : `transition-opacity duration-700 ${playing ? "opacity-100" : "opacity-0"}`
+        }`}
         muted
         playsInline
         autoPlay
         loop={!desktop}
         preload={desktop ? "auto" : "metadata"}
+        poster="/hero-poster.jpg"
       >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
