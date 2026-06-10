@@ -169,20 +169,22 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </section>
 
-        {/* Галерея */}
+        {/* Галерея. На телефоне — горизонтальная лента со свайпом (как витрина
+            проектов на главной): вертикальный скролл страницы не «съедается»
+            десятком фото подряд. На десктопе — прежняя сетка. */}
         <section className="shell mt-16 md:mt-28">
           <Heading eyebrow={t.galleryEyebrow} title={t.galleryTitle} />
-          <div className="mt-10 grid gap-3 md:grid-cols-2 md:gap-4">
+          <div className="-mx-[var(--shell-px)] mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-pl-[var(--shell-px)] px-[var(--shell-px)] pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0">
             {project.gallery.map((src, i) => (
               <div
                 key={src}
-                className={`relative overflow-hidden rounded-core bg-ink-900 ring-1 ring-white/[0.06] ${
+                className={`relative w-[78vw] shrink-0 snap-start overflow-hidden rounded-core bg-ink-900 ring-1 ring-white/[0.06] md:w-auto md:shrink md:snap-none ${
                   i === 0 ? "md:col-span-2" : ""
                 }`}
               >
                 <div
-                  className={`relative w-full ${
-                    i === 0 ? "aspect-[16/9]" : "aspect-[4/3]"
+                  className={`relative aspect-[4/3] w-full ${
+                    i === 0 ? "md:aspect-[16/9]" : ""
                   }`}
                 >
                   <Image
@@ -192,7 +194,7 @@ export default function ProjectPage({ params }: Params) {
                       String(i + 1),
                     )}`}
                     fill
-                    sizes={i === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                    sizes={i === 0 ? "(max-width: 768px) 78vw, 100vw" : "(max-width: 768px) 78vw, 50vw"}
                     className="object-cover"
                   />
                 </div>
@@ -331,6 +333,31 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </section>
       </main>
+
+      {/* Плавающая кнопка возврата (только телефон): всегда на виду, чтобы
+          из любого места страницы вернуться к проектам без скролла наверх. */}
+      <Link
+        href={`/${lang}#projects`}
+        className="glass fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-40 inline-flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full px-5 py-3 text-xs uppercase tracking-[0.18em] text-bone shadow-bezel md:hidden"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden
+        >
+          <path
+            d="M11 7H3M6.5 3.5L3 7l3.5 3.5"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        {t.backToProjects}
+      </Link>
+
       <Footer lang={lang} />
     </>
   );
