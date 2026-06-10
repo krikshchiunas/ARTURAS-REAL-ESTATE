@@ -69,7 +69,7 @@ export function Hero({ lang }: { lang: string }) {
         className="relative z-10 flex h-full flex-col justify-end pb-20 md:pb-28"
       >
         <div className="shell">
-          <h1 className="max-w-[20ch] font-display text-[clamp(1.9rem,4.6vw,4rem)] font-light leading-[1.07] tracking-tight text-balance">
+          <h1 className="max-w-[20ch] font-display text-[clamp(2rem,4.6vw,4rem)] font-light leading-[1.07] tracking-tight text-balance">
             <motion.span
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export function Hero({ lang }: { lang: string }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.62 }}
-            className="mt-8 max-w-prose text-pretty text-lg leading-relaxed text-bone-muted"
+            className="mt-6 max-w-prose text-pretty text-base leading-relaxed text-bone-muted md:mt-8 md:text-lg"
           >
             {t.body}
           </motion.p>
@@ -101,12 +101,19 @@ export function Hero({ lang }: { lang: string }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.74 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 md:mt-10"
           >
-            <MagneticButton href={siteConfig.contacts.whatsapp}>
+            <MagneticButton
+              href={siteConfig.contacts.whatsapp}
+              className="w-full justify-between sm:w-auto"
+            >
               {getDictionary(lang).common.whatsapp}
             </MagneticButton>
-            <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+            <MagneticButton
+              href={siteConfig.contacts.telegram}
+              variant="ghost"
+              className="w-full justify-between sm:w-auto"
+            >
               {getDictionary(lang).common.telegram}
             </MagneticButton>
           </motion.div>

@@ -15,7 +15,7 @@ export function Footer({ lang }: { lang: string }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative pb-12 pt-24 md:pt-32">
+    <footer className="relative pb-[calc(3rem+env(safe-area-inset-bottom))] pt-16 md:pt-32">
       <div className="shell">
         <div className="hairline mb-12" />
 
@@ -48,7 +48,7 @@ export function Footer({ lang }: { lang: string }) {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 text-xs text-bone-faint md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-4 text-xs text-bone-faint md:mt-16 md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {siteConfig.name}. {t.footer.rights}
           </p>

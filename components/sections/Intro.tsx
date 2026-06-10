@@ -19,7 +19,7 @@ export function Intro({ lang }: { lang: string }) {
   const tokens = t.manifesto.split(" ");
 
   return (
-    <section id="approach" className="relative py-28 md:py-44">
+    <section id="approach" className="relative py-20 md:py-44">
       <div ref={ref} className="shell">
         <Reveal>
           <div className="mb-12 flex justify-center md:mb-16">

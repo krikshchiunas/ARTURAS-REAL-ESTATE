@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   motion,
@@ -48,16 +48,43 @@ export function Navbar({ lang }: { lang: string }) {
     setScrolled((prev) => (prev === next ? prev : next));
   });
 
+  // Пока мобильное меню открыто, страница под ним не должна прокручиваться.
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      root.style.overflow = prev;
+    };
+  }, [open]);
+
   return (
     <motion.header
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
-      className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 md:top-6"
+      className="pointer-events-none fixed inset-x-0 top-[max(1rem,env(safe-area-inset-top))] z-50 flex justify-center px-4 md:top-6"
     >
+      {/* Затемнение под мобильным меню: absolute от шапки, чтобы не зависеть
+          от transform-контекста motion.header; тап по нему закрывает меню. */}
+      <AnimatePresence>
+        {open && (
+          <motion.button
+            type="button"
+            aria-label={t.a11y.menu}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            onClick={() => setOpen(false)}
+            className="pointer-events-auto absolute inset-x-0 -top-6 h-[100dvh] cursor-default bg-ink/70 backdrop-blur-sm md:hidden"
+          />
+        )}
+      </AnimatePresence>
       <nav
         aria-label={t.a11y.mainNav}
-        className={`glass pointer-events-auto flex items-center gap-2 rounded-full transition-all duration-500 ease-glass ${
+        className={`glass pointer-events-auto relative z-10 flex items-center gap-2 rounded-full transition-all duration-500 ease-glass ${
           scrolled ? "py-2 pl-5 pr-2 shadow-bezel" : "py-2.5 pl-6 pr-2.5"
         }`}
       >
@@ -169,7 +196,7 @@ export function Navbar({ lang }: { lang: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="glass pointer-events-auto absolute top-[72px] left-4 right-4 rounded-bezel p-3 md:hidden"
+            className="pointer-events-auto absolute top-[72px] left-4 right-4 z-10 max-h-[calc(100dvh-6.5rem)] overflow-y-auto rounded-bezel bg-ink-800/95 p-3 shadow-bezel ring-1 ring-white/10 backdrop-blur-2xl md:hidden"
           >
             <ul className="flex flex-col">
               {NAV_ITEMS.map((item) => (

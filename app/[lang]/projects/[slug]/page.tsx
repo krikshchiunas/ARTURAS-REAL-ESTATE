@@ -58,7 +58,7 @@ export default function ProjectPage({ params }: Params) {
   return (
     <>
       <Navbar lang={lang} />
-      <main id="main" className="relative pt-32 md:pt-40">
+      <main id="main" className="relative pt-28 md:pt-40">
         {/* Шапка */}
         <div className="shell">
           <Link
@@ -111,7 +111,7 @@ export default function ProjectPage({ params }: Params) {
         {/* Крупный кадр */}
         <div className="shell mt-12 md:mt-16">
           <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-core bg-ink-900">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-core bg-ink-900 md:aspect-[16/10]">
               <Image
                 src={project.image}
                 alt={project.name}
@@ -141,7 +141,7 @@ export default function ProjectPage({ params }: Params) {
         </div>
 
         {/* Концепция + CTA */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
               <Heading eyebrow={t.conceptEyebrow} title={t.conceptTitle} />
@@ -150,11 +150,18 @@ export default function ProjectPage({ params }: Params) {
               <p className="text-pretty text-xl font-light leading-relaxed text-bone md:text-2xl">
                 {project.concept}
               </p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <MagneticButton href={siteConfig.contacts.whatsapp}>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <MagneticButton
+                  href={siteConfig.contacts.whatsapp}
+                  className="w-full justify-between sm:w-auto"
+                >
                   {t.learnMore}
                 </MagneticButton>
-                <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+                <MagneticButton
+                  href={siteConfig.contacts.telegram}
+                  variant="ghost"
+                  className="w-full justify-between sm:w-auto"
+                >
                   Telegram
                 </MagneticButton>
               </div>
@@ -163,7 +170,7 @@ export default function ProjectPage({ params }: Params) {
         </section>
 
         {/* Галерея */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <Heading eyebrow={t.galleryEyebrow} title={t.galleryTitle} />
           <div className="mt-10 grid gap-3 md:grid-cols-2 md:gap-4">
             {project.gallery.map((src, i) => (
@@ -195,7 +202,7 @@ export default function ProjectPage({ params }: Params) {
         </section>
 
         {/* Планировки */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
               <Heading eyebrow={t.unitsEyebrow} title={t.unitsTitle} />
@@ -219,7 +226,7 @@ export default function ProjectPage({ params }: Params) {
         </section>
 
         {/* Инфраструктура */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
               <Heading eyebrow={t.amenitiesEyebrow} title={t.amenitiesTitle} />
@@ -241,7 +248,7 @@ export default function ProjectPage({ params }: Params) {
         </section>
 
         {/* Расположение */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <div className="grid gap-10 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
               <Heading eyebrow={t.locationEyebrow} title={project.location} />
@@ -264,7 +271,7 @@ export default function ProjectPage({ params }: Params) {
 
         {/* Застройщик */}
         {project.developer && project.developerNote ? (
-          <section className="shell mt-20 md:mt-28">
+          <section className="shell mt-16 md:mt-28">
             <div className="grid gap-10 md:grid-cols-12 md:gap-16">
               <div className="md:col-span-4">
                 <Heading eyebrow={t.developerEyebrow} title={project.developer} />
@@ -279,9 +286,11 @@ export default function ProjectPage({ params }: Params) {
         ) : null}
 
         {/* Ключевые параметры */}
-        <section className="shell mt-20 md:mt-28">
+        <section className="shell mt-16 md:mt-28">
           <Heading eyebrow={t.specEyebrow} title={t.specTitle} />
-          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] md:grid-cols-3 lg:grid-cols-5">
+          {/* При нечётном числе параметров последняя ячейка на мобиле растягивается
+              на всю строку — иначе в сетке остаётся пустая «дыра». */}
+          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] max-md:[&>div:last-child:nth-child(odd)]:col-span-2 md:grid-cols-3 lg:grid-cols-5">
             {project.spec.map((s) => (
               <div key={s.label} className="bg-ink-900 p-6">
                 <dt className="text-xs uppercase tracking-[0.14em] text-bone-faint">
@@ -294,20 +303,27 @@ export default function ProjectPage({ params }: Params) {
         </section>
 
         {/* Финальный CTA */}
-        <section className="shell mt-24 md:mt-32">
+        <section className="shell mt-20 md:mt-32">
           <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
-            <div className="flex flex-col items-start gap-8 rounded-core bg-ink-900 p-10 md:flex-row md:items-center md:justify-between md:p-14">
+            <div className="flex flex-col items-stretch gap-8 rounded-core bg-ink-900 p-7 sm:items-start sm:p-10 md:flex-row md:items-center md:justify-between md:p-14">
               <div>
                 <h2 className="max-w-[18ch] font-display text-3xl font-light leading-tight tracking-tight text-balance md:text-4xl">
                   {t.ctaTitle.replace("{name}", project.name)}
                 </h2>
                 <p className="mt-4 max-w-prose text-bone-muted">{t.ctaBody}</p>
               </div>
-              <div className="flex shrink-0 flex-wrap items-center gap-4">
-                <MagneticButton href={siteConfig.contacts.whatsapp}>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <MagneticButton
+                  href={siteConfig.contacts.whatsapp}
+                  className="w-full justify-between sm:w-auto"
+                >
                   {getDictionary(lang).common.whatsapp}
                 </MagneticButton>
-                <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+                <MagneticButton
+                  href={siteConfig.contacts.telegram}
+                  variant="ghost"
+                  className="w-full justify-between sm:w-auto"
+                >
                   Telegram
                 </MagneticButton>
               </div>

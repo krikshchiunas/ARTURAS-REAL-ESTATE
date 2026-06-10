@@ -3,3 +3,7 @@ node_modules/
 
 # macOS
 .DS_Store
+
+Properties/
+.next/
+node_modules/

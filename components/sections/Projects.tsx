@@ -16,7 +16,7 @@ export function Projects({ lang }: { lang: string }) {
     getProjects("en").map((p) => [p.slug, p.location]),
   );
   return (
-    <section id="projects" className="relative py-28">
+    <section id="projects" className="relative py-20 md:py-28">
       {/* Заголовок над лентой */}
       <div className="shell">
         <div className="flex flex-col gap-5">
@@ -34,7 +34,7 @@ export function Projects({ lang }: { lang: string }) {
       {/* Лента: вертикальная на мобиле, горизонтальный скроллер на десктопе.
           snap-x для аккуратной остановки на карточках; скроллбар скрыт —
           подглядывающие соседние карточки сами подсказывают, что листается вбок. */}
-      <div className="mt-14 flex snap-x snap-mandatory flex-row gap-6 overflow-x-auto overscroll-x-contain px-6 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-16 md:gap-10 md:px-[max(2rem,calc((100vw-1440px)/2+2rem))]">
+      <div className="mt-10 flex snap-x snap-mandatory flex-row gap-5 overflow-x-auto overscroll-x-contain px-[var(--shell-px)] pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-16 md:gap-10 md:px-[max(2rem,calc((100vw-1440px)/2+2rem))]">
         {projects.map((p, i) => (
           <Link
             key={p.slug}

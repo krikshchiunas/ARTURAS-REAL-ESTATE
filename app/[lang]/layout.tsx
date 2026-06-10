@@ -84,6 +84,9 @@ export const viewport: Viewport = {
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
+  // Edge-to-edge на iPhone: фон уходит под чёлку/индикатор,
+  // отступы безопасных зон добавлены через env(safe-area-inset-*).
+  viewportFit: "cover",
 };
 
 export default function LangLayout({

@@ -22,10 +22,10 @@ export function Founder({ lang }: { lang: string }) {
   const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
   return (
-    <section id="founder" className="relative py-28 md:py-40">
+    <section id="founder" className="relative py-20 md:py-40">
       <div
         ref={ref}
-        className="shell grid items-center gap-14 lg:grid-cols-12 lg:gap-20"
+        className="shell grid items-center gap-10 lg:grid-cols-12 lg:gap-20"
       >
         <div className="lg:col-span-5">
           <Reveal>
@@ -87,11 +87,18 @@ export function Founder({ lang }: { lang: string }) {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={siteConfig.contacts.whatsapp}>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <MagneticButton
+                href={siteConfig.contacts.whatsapp}
+                className="w-full justify-between sm:w-auto"
+              >
                 {common.whatsapp}
               </MagneticButton>
-              <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+              <MagneticButton
+                href={siteConfig.contacts.telegram}
+                variant="ghost"
+                className="w-full justify-between sm:w-auto"
+              >
                 {common.telegram}
               </MagneticButton>
             </div>

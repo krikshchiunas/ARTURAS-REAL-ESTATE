@@ -69,8 +69,8 @@ export function Contact({ lang }: { lang: string }) {
   };
 
   return (
-    <section id="contact" className="relative py-28 md:py-40">
-      <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-20">
+    <section id="contact" className="relative py-20 md:py-40">
+      <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
           <Reveal>
             <Eyebrow>{t.eyebrow}</Eyebrow>
@@ -87,11 +87,18 @@ export function Contact({ lang }: { lang: string }) {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={siteConfig.contacts.whatsapp}>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <MagneticButton
+                href={siteConfig.contacts.whatsapp}
+                className="w-full justify-between sm:w-auto"
+              >
                 {common.whatsapp}
               </MagneticButton>
-              <MagneticButton href={siteConfig.contacts.telegram} variant="ghost">
+              <MagneticButton
+                href={siteConfig.contacts.telegram}
+                variant="ghost"
+                className="w-full justify-between sm:w-auto"
+              >
                 {common.telegram}
               </MagneticButton>
             </div>
@@ -117,7 +124,7 @@ export function Contact({ lang }: { lang: string }) {
                 <form
                   onSubmit={onSubmit}
                   noValidate
-                  className="flex flex-col gap-5 rounded-core bg-ink-900/60 p-7 md:p-9"
+                  className="flex flex-col gap-5 rounded-core bg-ink-900/60 p-5 sm:p-7 md:p-9"
                 >
                   <div className="grid gap-5 md:grid-cols-2">
                     <Field
