@@ -1,13 +1,24 @@
 // Языко-НЕЗАВИСИМЫЕ данные сайта: ссылки, имена брендов, пути к картинкам,
 // порядок объектов и услуг, раскладка bento. Тексты — в файлах локалей.
 
+// Боевой адрес сайта. На Vercel задаётся переменной NEXT_PUBLIC_SITE_URL
+// (Production Domain). Пока она не задана — используется заглушка, чтобы сборка
+// и метаданные не падали. ВАЖНО для рекламы/SEO: до запуска кампаний задать
+// реальный домен в переменных окружения Vercel.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://arturas-realestate.example";
+
+// Номер WhatsApp в международном формате без "+" — для ссылок wa.me.
+const WHATSAPP_NUMBER = "380667808098";
+
 // Бренд и каналы связи. Не переводятся.
 export const siteConfig = {
   name: "Arturas Real Estate",
   founder: "Артурас",
-  url: "https://arturas-realestate.example",
+  url: SITE_URL,
   contacts: {
-    whatsapp: "https://wa.me/380667808098",
+    whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
     telegram: "https://t.me/arturas0788",
     telegramChannel: "https://t.me/arturas_invest",
     instagram:
@@ -16,6 +27,15 @@ export const siteConfig = {
     tiktok: "https://www.tiktok.com/@arturas_krik?_r=1&_t=ZG-96WU3EI43P6",
   },
 } as const;
+
+// Ссылка на WhatsApp с предзаполненным текстом первого сообщения.
+// Предзаполненное сообщение заметно повышает конверсию в диалог: человеку не
+// нужно ничего печатать, а агент сразу видит контекст (какой объект/страница).
+export function whatsappHref(message?: string): string {
+  const base = siteConfig.contacts.whatsapp;
+  if (!message) return base;
+  return `${base}?text=${encodeURIComponent(message)}`;
+}
 
 // Соцканалы: стабильный key (для иконки) + href. Label берётся из словаря,
 // но у брендов он один на всех языках (кроме «Telegram канал»).

@@ -22,6 +22,12 @@ export const ru: LocaleData = {
       telegram: "Написать в Telegram",
       allChannels: "Все каналы",
       socialChannelLabel: "Telegram канал",
+      whatsappPrefill: "Здравствуйте! Интересует недвижимость на Пхукете.",
+    },
+    cookie: {
+      text: "Мы используем файлы cookie для аналитики и улучшения сайта.",
+      accept: "Принять",
+      decline: "Отклонить",
     },
     hero: {
       eyebrow: "Недвижимость на Пхукете",

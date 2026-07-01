@@ -22,6 +22,12 @@ export const th: LocaleData = {
       telegram: "ส่งข้อความผ่าน Telegram",
       allChannels: "ทุกช่องทาง",
       socialChannelLabel: "ช่อง Telegram",
+      whatsappPrefill: "สวัสดีครับ/ค่ะ สนใจอสังหาริมทรัพย์ในภูเก็ต",
+    },
+    cookie: {
+      text: "เราใช้คุกกี้เพื่อการวิเคราะห์และปรับปรุงเว็บไซต์",
+      accept: "ยอมรับ",
+      decline: "ปฏิเสธ",
     },
     hero: {
       eyebrow: "อสังหาริมทรัพย์ในภูเก็ต",

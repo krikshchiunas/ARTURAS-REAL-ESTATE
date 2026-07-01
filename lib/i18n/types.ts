@@ -38,7 +38,14 @@ export type ServiceText = { title: string; body: string };
 export type Dictionary = {
   nav: { approach: string; projects: string; founder: string; services: string; contact: string };
   a11y: { mainNav: string; menu: string; footerNav: string; skipToContent: string };
-  common: { whatsapp: string; telegram: string; allChannels: string; socialChannelLabel: string };
+  common: {
+    whatsapp: string;
+    telegram: string;
+    allChannels: string;
+    socialChannelLabel: string;
+    whatsappPrefill: string; // предзаполненный текст первого сообщения в WhatsApp
+  };
+  cookie: { text: string; accept: string; decline: string };
   hero: {
     eyebrow: string;
     titleTop: string;

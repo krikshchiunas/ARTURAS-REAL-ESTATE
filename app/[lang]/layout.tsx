@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Ambient } from "@/components/Ambient";
 import { Grain } from "@/components/Grain";
+import { Analytics, GtmNoScript } from "@/components/Analytics";
+import { CookieConsent } from "@/components/CookieConsent";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import {
   htmlLang,
   isLocale,
@@ -124,6 +127,7 @@ export default function LangLayout({
       suppressHydrationWarning
     >
       <body>
+        <GtmNoScript />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -137,6 +141,9 @@ export default function LangLayout({
         <Ambient />
         <Grain />
         <SmoothScroll>{children}</SmoothScroll>
+        <FloatingWhatsApp lang={lang} />
+        <Analytics />
+        <CookieConsent lang={lang} />
       </body>
     </html>
   );

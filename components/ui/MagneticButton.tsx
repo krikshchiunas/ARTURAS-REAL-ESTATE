@@ -13,6 +13,7 @@ type Props = {
   children: React.ReactNode;
   variant?: "primary" | "ghost";
   className?: string;
+  onClick?: () => void;
 };
 
 // Магнитная кнопка с button-in-button иконкой. Непрерывные значения держим в
@@ -22,6 +23,7 @@ export function MagneticButton({
   children,
   variant = "primary",
   className = "",
+  onClick,
 }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
   const reduce = useReducedMotion();
@@ -61,6 +63,7 @@ export function MagneticButton({
       ref={ref}
       href={href}
       {...external}
+      onClick={onClick}
       style={{ x: sx, y: sy }}
       onMouseMove={onMove}
       onMouseLeave={reset}

@@ -4,6 +4,7 @@ import {
   serviceMeta,
   siteConfig,
   socialChannels,
+  whatsappHref,
 } from "./meta";
 import type {
   Dictionary,
@@ -88,4 +89,4 @@ export function getSocials(locale: string): Social[] {
   }));
 }
 
-export { siteConfig };
+export { siteConfig, whatsappHref };

@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getDictionary, getProjects, getProject, siteConfig } from "@/lib/i18n";
+import {
+  getDictionary,
+  getProjects,
+  getProject,
+  siteConfig,
+  whatsappHref,
+} from "@/lib/i18n";
 import { projectMeta } from "@/lib/i18n/meta";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { Navbar } from "@/components/Navbar";
@@ -152,7 +158,9 @@ export default function ProjectPage({ params }: Params) {
               </p>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <MagneticButton
-                  href={siteConfig.contacts.whatsapp}
+                  href={whatsappHref(
+                    `${getDictionary(lang).common.whatsappPrefill} (${project.name})`,
+                  )}
                   className="w-full justify-between sm:w-auto"
                 >
                   {t.learnMore}
@@ -316,7 +324,9 @@ export default function ProjectPage({ params }: Params) {
               </div>
               <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <MagneticButton
-                  href={siteConfig.contacts.whatsapp}
+                  href={whatsappHref(
+                    `${getDictionary(lang).common.whatsappPrefill} (${project.name})`,
+                  )}
                   className="w-full justify-between sm:w-auto"
                 >
                   {getDictionary(lang).common.whatsapp}

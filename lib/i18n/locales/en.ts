@@ -22,6 +22,12 @@ export const en: LocaleData = {
       telegram: "Message on Telegram",
       allChannels: "All channels",
       socialChannelLabel: "Telegram channel",
+      whatsappPrefill: "Hello! I'm interested in property in Phuket.",
+    },
+    cookie: {
+      text: "We use cookies for analytics and to improve the site.",
+      accept: "Accept",
+      decline: "Decline",
     },
     hero: {
       eyebrow: "Real estate in Phuket",

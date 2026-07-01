@@ -13,7 +13,35 @@ type LeadPayload = {
   message?: unknown;
   telegram?: unknown;
   whatsapp?: unknown;
+  attribution?: unknown;
 };
+
+// Источник трафика (UTM/реферер) — какая кампания/объявление привели заявку.
+const ATTR_FIELDS = [
+  ["utm_source", "Источник"],
+  ["utm_medium", "Канал"],
+  ["utm_campaign", "Кампания"],
+  ["utm_term", "Ключ"],
+  ["utm_content", "Объявление"],
+  ["gclid", "Google click id"],
+  ["fbclid", "Meta click id"],
+  ["referrer", "Реферер"],
+  ["landing", "Страница входа"],
+] as const;
+
+function formatAttribution(attribution: unknown): string[] {
+  if (!attribution || typeof attribution !== "object") return [];
+  const a = attribution as Record<string, unknown>;
+  const lines: string[] = [];
+  for (const [key, label] of ATTR_FIELDS) {
+    const raw = a[key];
+    if (typeof raw === "string" && raw.trim()) {
+      lines.push(`${label}: ${raw.trim().slice(0, 300)}`);
+    }
+  }
+  if (lines.length === 0) return [];
+  return ["", "📊 Источник:", ...lines];
+}
 
 const LIMIT = {
   name: 200,
@@ -90,6 +118,7 @@ export async function POST(request: Request) {
     "",
     "📞 WhatsApp:",
     whatsapp || dash,
+    ...formatAttribution(body.attribution),
     "",
     "🕒 Дата:",
     date,

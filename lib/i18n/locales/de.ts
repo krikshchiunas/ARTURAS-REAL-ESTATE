@@ -22,6 +22,12 @@ export const de: LocaleData = {
       telegram: "Auf Telegram schreiben",
       allChannels: "Alle Kanäle",
       socialChannelLabel: "Telegram-Kanal",
+      whatsappPrefill: "Hallo! Ich interessiere mich für Immobilien auf Phuket.",
+    },
+    cookie: {
+      text: "Wir verwenden Cookies für Analysen und zur Verbesserung der Website.",
+      accept: "Akzeptieren",
+      decline: "Ablehnen",
     },
     hero: {
       eyebrow: "Immobilien auf Phuket",

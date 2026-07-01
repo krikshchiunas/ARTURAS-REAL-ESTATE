@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { siteConfig, getDictionary } from "@/lib/i18n";
+import { siteConfig, getDictionary, whatsappHref } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Socials } from "@/components/ui/Socials";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { events } from "@/lib/analytics";
+import { getAttribution } from "@/lib/attribution";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = { name?: string; message?: string; contact?: string };
@@ -47,7 +49,15 @@ export function Contact({ lang }: { lang: string }) {
       const res = await fetch("/api/telegram-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, budget, message, telegram, whatsapp }),
+        body: JSON.stringify({
+          name,
+          email,
+          budget,
+          message,
+          telegram,
+          whatsapp,
+          attribution: getAttribution(),
+        }),
       });
       const json: { ok?: boolean; error?: string } = await res
         .json()
@@ -62,6 +72,8 @@ export function Contact({ lang }: { lang: string }) {
       form.reset();
       setErrors({});
       setStatus("success");
+      // Конверсия: заявка с формы. Настраивается как цель в GA4 → импорт в Google Ads.
+      events.lead("form");
     } catch {
       setStatus("error");
       setErrorMsg(t.errors.network);
@@ -89,8 +101,9 @@ export function Contact({ lang }: { lang: string }) {
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <MagneticButton
-                href={siteConfig.contacts.whatsapp}
+                href={whatsappHref(common.whatsappPrefill)}
                 className="w-full justify-between sm:w-auto"
+                onClick={() => events.whatsapp("contact_section")}
               >
                 {common.whatsapp}
               </MagneticButton>
@@ -98,6 +111,7 @@ export function Contact({ lang }: { lang: string }) {
                 href={siteConfig.contacts.telegram}
                 variant="ghost"
                 className="w-full justify-between sm:w-auto"
+                onClick={() => events.telegram("contact_section")}
               >
                 {common.telegram}
               </MagneticButton>

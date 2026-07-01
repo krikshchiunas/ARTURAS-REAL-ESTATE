@@ -22,6 +22,12 @@ export const uk: LocaleData = {
       telegram: "Написати у Telegram",
       allChannels: "Усі канали",
       socialChannelLabel: "Канал у Telegram",
+      whatsappPrefill: "Вітаю! Цікавить нерухомість на Пхукеті.",
+    },
+    cookie: {
+      text: "Ми використовуємо файли cookie для аналітики та покращення сайту.",
+      accept: "Прийняти",
+      decline: "Відхилити",
     },
     hero: {
       eyebrow: "Нерухомість на Пхукеті",

@@ -8,8 +8,9 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { siteConfig, getDictionary } from "@/lib/i18n";
+import { siteConfig, getDictionary, whatsappHref } from "@/lib/i18n";
 import { locales, localeShort, localeName } from "@/lib/i18n/config";
+import { events } from "@/lib/analytics";
 import { EASE } from "@/lib/motion";
 
 // Якорные секции навигации. Сами якоря язык-независимы, подписи берутся из словаря.
@@ -228,10 +229,13 @@ export function Navbar({ lang }: { lang: string }) {
               </li>
               <li className="mt-2">
                 <a
-                  href={siteConfig.contacts.whatsapp}
+                  href={whatsappHref(t.common.whatsappPrefill)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    events.whatsapp("navbar");
+                    setOpen(false);
+                  }}
                   className="block rounded-2xl bg-bone px-4 py-3 text-center font-medium text-ink"
                 >
                   WhatsApp
