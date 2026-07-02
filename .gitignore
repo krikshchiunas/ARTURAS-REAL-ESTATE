@@ -1,6 +1,11 @@
 node_modules/
 .next/
 
+# Секреты — НИКОГДА не коммитим (.env.example можно, он без значений)
+.env
+.env.local
+.env*.local
+
 # macOS
 .DS_Store
 

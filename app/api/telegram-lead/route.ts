@@ -14,7 +14,40 @@ type LeadPayload = {
   telegram?: unknown;
   whatsapp?: unknown;
   attribution?: unknown;
+  // Скрытое honeypot-поле: настоящий человек его не видит и не заполняет,
+  // бот — заполняет. Если пришло непустым — тихо отклоняем заявку.
+  company?: unknown;
 };
+
+// ─── Простое ограничение частоты (rate limit) ───────────────────────────────
+// Best-effort защита от спама: не больше N заявок с одного IP за окно времени.
+// Хранится в памяти инстанса — на serverless сбрасывается при холодном старте,
+// но отсекает быстрые залповые отправки. Для жёсткой защиты нужен внешний
+// стор (см. заметку в конце). Достаточно как обязательный минимум.
+const RATE_LIMIT = { max: 5, windowMs: 60_000 };
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT.windowMs);
+  recent.push(now);
+  hits.set(ip, recent);
+  // Периодическая чистка карты, чтобы память не росла бесконечно.
+  if (hits.size > 5000) hits.clear();
+  return recent.length > RATE_LIMIT.max;
+}
+
+function getClientIp(request: Request): string {
+  const fwd = request.headers.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0].trim();
+  return request.headers.get("x-real-ip") ?? "unknown";
+}
+
+// Мягкая проверка email: не пускаем очевидный мусор, но не блокируем реальные.
+function isValidEmail(value: string): boolean {
+  if (!value) return true; // email необязателен
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 200;
+}
 
 // Источник трафика (UTM/реферер) — какая кампания/объявление привели заявку.
 const ATTR_FIELDS = [
@@ -61,11 +94,22 @@ function fail(error: string, status: number) {
 }
 
 export async function POST(request: Request) {
+  // Ограничение частоты — до разбора тела, чтобы дёшево отсекать залпы.
+  if (isRateLimited(getClientIp(request))) {
+    return fail("Слишком много заявок. Подождите минуту и попробуйте снова.", 429);
+  }
+
   let body: LeadPayload;
   try {
     body = (await request.json()) as LeadPayload;
   } catch {
     return fail("Некорректный запрос.", 400);
+  }
+
+  // Honeypot: скрытое поле заполнено → это бот. Отвечаем «ок», чтобы не
+  // подсказывать спамеру о защите, но ничего не отправляем.
+  if (clean(body.company, 200)) {
+    return NextResponse.json({ ok: true });
   }
 
   const name = clean(body.name, LIMIT.name);
@@ -80,6 +124,7 @@ export async function POST(request: Request) {
   if (!message) return fail("Опишите цель и запрос.", 400);
   if (!telegram && !whatsapp)
     return fail("Укажите Telegram или WhatsApp для связи.", 400);
+  if (!isValidEmail(email)) return fail("Проверьте адрес email.", 400);
 
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;

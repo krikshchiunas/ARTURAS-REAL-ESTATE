@@ -33,6 +33,7 @@ export function Contact({ lang }: { lang: string }) {
     const message = get("message");
     const telegram = get("telegram");
     const whatsapp = get("whatsapp");
+    const company = get("company"); // honeypot — у людей всегда пусто
 
     // Клиентская валидация по брифу.
     const next: FieldErrors = {};
@@ -56,6 +57,7 @@ export function Contact({ lang }: { lang: string }) {
           message,
           telegram,
           whatsapp,
+          company,
           attribution: getAttribution(),
         }),
       });
@@ -140,6 +142,16 @@ export function Contact({ lang }: { lang: string }) {
                   noValidate
                   className="flex flex-col gap-5 rounded-core bg-ink-900/60 p-5 sm:p-7 md:p-9"
                 >
+                  {/* Honeypot от ботов: скрыт от людей и скринридеров,
+                      исключён из табуляции. Заполнен → заявка молча отклоняется. */}
+                  <input
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
                   <div className="grid gap-5 md:grid-cols-2">
                     <Field
                       id="name"
