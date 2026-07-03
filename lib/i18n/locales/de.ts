@@ -1184,5 +1184,540 @@ export const de: LocaleData = {
         },
       ],
     },
+    "rental-yield-phuket-by-area": {
+      title:
+        "Reale Mietrendite auf Phuket 2026 nach Lage: Zahlen ohne Marketing-Glanz",
+      description:
+        "Wie Sie die reale Nettomietrendite auf Phuket berechnen, Rendite- und Auslastungsspannen für Bang Tao, Layan, Laguna, Nai Yang, Cherng Talay und die älteren Touristenbezirke. Was Rendite am schnellsten frisst und wie Sie die Lage passend zum Ziel wählen.",
+      category: "Investitionsanalyse",
+      readingMinutes: 10,
+      intro:
+        "Reale Rendite sind nicht die «garantierten 5–7%» aus dem Marketing-Prospekt. Es ist die Nettorendite nach Steuern, Managementgebühren, Service Charges und Leerstandszeiten. Dieser Leitfaden zeigt realistische Renditespannen für jede investitionswürdige Lage auf Phuket, die Faktoren, die die Rendite am stärksten mindern, und eine Faustregel zur Lageauswahl je nach Ziel.",
+      sections: [
+        {
+          heading: "Wie man Rendite richtig berechnet",
+          paragraphs: [
+            "Drei Kennzahlen, die nicht zu verwechseln sind. Bruttorendite = Jahresmieteinnahmen / Kaufpreis — nützlich für einen schnellen Vergleich, aber irreführend. Nettorendite = (Einnahmen − Management − Service Charge − Steuern − Leerstand − Verschleiß) / Gesamttransaktionskosten. Cash-on-Cash-Return bezieht Ratenzahlungen und tatsächlich eingesetztes Eigenkapital ein — die ehrlichste Kennzahl für Off-Plan-Investoren.",
+            "Häufig übersehene Gesamtkosten: Transfer Fee und Sinking Fund bei Registrierung, Überweisungsgebühren, Möblierung (400–800 Tsd. THB für 1-Zimmer), erste Service-Charge-Periode, erste Monate ohne Mieter, Versicherung, Möbelabschreibung.",
+            "Die stärksten Renditefresser: Management Fee 20–25% vom Brutto, Service Charge 50–90 THB/m²/Monat, 15% Quellensteuer für Nichtansässige, Reparaturen und Erneuerung alle 3–5 Jahre, Leerstand in der Nebensaison.",
+          ],
+          bullets: [
+            "Bruttorendite — nur für schnellen Vergleich",
+            "Nettorendite — reale Rendite nach allen Abzügen",
+            "Cash-on-Cash — mit Ratenzahlungen und Leverage",
+            "Gesamtkosten = Preis + Möbel + Fees + erste Leerstandsmonate",
+          ],
+        },
+        {
+          heading: "Bang Tao — der stärkste Mietmarkt",
+          paragraphs: [
+            "Bang Tao ist das Epizentrum internationaler Vermietungsnachfrage auf Phuket. Boat Avenue, Porto de Phuket, riesige Auswahl an Restaurants, Golfclubs, das benachbarte Layan 5–10 Minuten entfernt. Ganzjährige Nachfrage aus Asien, Europa, dem Nahen Osten und aus dem Inland.",
+            "Bruttorendite: 8–12% off-plan, 6–9% fertig. Nettorendite nach allen Kosten: 5–8%. Auslastung: 75–85% p.a. bei professionellem Management. ADR (durchschnittlicher Übernachtungspreis): 3.500–7.500 THB für 1-Zimmer-Condos, 8.000–15.000 THB für 2-Zimmer-Lakefront.",
+            "Besonderheit: echte Shoulder Season — solide Zahlen Mai–Oktober, nicht nur im Winter. Schnellste Wiederverkaufsliquidität auf der Insel. Die Standardlage für Off-Plan-Investitionen.",
+          ],
+          bullets: [
+            "Bruttorendite: 8–12% (off-plan), 6–9% (fertig)",
+            "Nettorendite: 5–8%",
+            "Auslastung: 75–85% p.a.",
+            "Ganzjährige Nachfrage, breite Herkunftsmärkte",
+          ],
+        },
+        {
+          heading: "Layan — Premium mit Kapitalzuwachs",
+          paragraphs: [
+            "Layan ist die ruhige Enklave zwischen Bang Tao und Cherng Talay. Geringere Neubaudichte als Bang Tao, daher schnellerer Preisanstieg. Anspruchsvollere Gäste, längere Aufenthalte, weniger Kurzzeit-Turnover.",
+            "Bruttorendite: 7–10%. Nettorendite: 5–7%. Auslastung: 70–80%. Durchschnittliche Aufenthaltsdauer: 2–4 Wochen (gegen 3–7 Tage in Patong) — deutlich geringere operative Belastung.",
+            "Kapitalzuwachs: 6–10% p.a. bei starkem Entwickler. Beste Lage für langfristigen Bestand.",
+          ],
+          bullets: [
+            "Bruttorendite: 7–10%",
+            "Nettorendite: 5–7%",
+            "Durchschnittliche Aufenthaltsdauer: 2–4 Wochen",
+            "Kapitalzuwachs: 6–10% p.a.",
+          ],
+        },
+        {
+          heading: "Laguna Phuket — Ökosystem mit 25-jähriger Historie",
+          paragraphs: [
+            "Laguna ist Phukets älteste integrierte Resortanlage (Banyan Tree, Angsana, Cassia, Dusit). Eigene Strände, Golf, internationale Klinik, Schule, Familieninfrastruktur.",
+            "Bruttorendite: 6–9%. Nettorendite: 4–6%. Auslastung: 80–90% — die berechenbarste Nachfrage auf der Insel. Höherer Einstiegspreis, niedrigere Rendite, aber minimales Risiko.",
+            "Track Record: In 25+ Jahren hat kein Projekt in Laguna beim Wiederverkauf verloren. Faktisch der Phuket-Safehaven.",
+          ],
+          bullets: [
+            "Bruttorendite: 6–9%",
+            "Nettorendite: 4–6%",
+            "Auslastung: 80–90% — die stabilste der Insel",
+            "Track Record: 25+ Jahre ohne Preisverluste",
+          ],
+        },
+        {
+          heading: "Nai Yang — aufsteigende Beachfront-Lage",
+          paragraphs: [
+            "Nai Yang liegt im Nordwesten neben dem Sirinat National Park. Direkter Strandzugang ohne Bebauung, 15 Minuten vom Flughafen — kritisch für Kurzzeitvermietung. Junger Markt mit niedriger Basis und hohem Upside.",
+            "Bruttorendite: 9–12% off-plan. Nettorendite: 6–8%. Auslastung: 65–75% — stärkere Saisonalität als Bang Tao. Hochsaison: November–April.",
+            "Hauptrisiko: junger Markt, Wiederverkaufsliquidität geringer als Bang Tao/Layan. Optimal für mittelfristigen Bestand (5–7 Jahre) für Vermietung.",
+          ],
+          bullets: [
+            "Bruttorendite: 9–12% off-plan",
+            "Nettorendite: 6–8%",
+            "Auslastung: 65–75%, stärkere Saisonalität",
+            "15 Min zum Flughafen — Vorteil für Kurzzeitmiete",
+          ],
+        },
+        {
+          heading: "Cherng Talay, Kamala, Kata, Karon, Patong",
+          paragraphs: [
+            "Cherng Talay grenzt an Bang Tao — abgeleitete Nachfrage mit ähnlicher Rendite bei etwas niedrigerem Einstiegspreis. Kamala — Premium-Villen, schwieriger für Kurzzeitvermietung.",
+            "Kata, Karon, Patong — das historische Tourismuszentrum. Vorteile: etablierte Nachfrage, günstigerer Einstieg. Nachteile: alter Bestand, hohe Konkurrenz, kurze durchschnittliche Aufenthaltsdauer, ADR niedriger als Bang Tao/Layan.",
+            "Bruttorendite: 5–8%. Nettorendite: 3–5%. Gut für Kaufen–Renovieren–Verkaufen, schwach für reines Buy-and-Hold.",
+          ],
+          bullets: [
+            "Cherng Talay: Bang-Tao-nahe Rendite, niedrigerer Einstieg",
+            "Kata/Karon: Nettorendite 3–5%",
+            "Patong: hohe Konkurrenz, kurze Aufenthalte",
+            "Beste Nutzung: Value-Add-Renovierung, nicht Buy-and-Hold",
+          ],
+        },
+        {
+          heading: "Ein realer Nettorenditerechner (ohne Glanz)",
+          paragraphs: [
+            "1-Zimmer-Condo in Bang Tao, off-plan, 5,5 Mio. THB. Jährliche Bruttoeinnahmen: 480 Tsd. THB (Bruttorendite 8,7%).",
+            "Abzug vom Brutto: Management Fee 25% (−120k), Service Charge (−30k), 15% Quellensteuer für Nichtansässige (−72k), Reserve für Reparaturen und Leerstand (−30k). Nettoeinkommen: 228 Tsd. THB — Nettorendite 4,1%.",
+            "Die «garantierten 6–7% auf Kaufpreis» aus Hotel-managed Programmen sind keine Nettorendite, sondern ein fester Kupon, meist nur für die ersten 3–5 Jahre. Immer nachfragen, um welche Kennzahl es geht.",
+          ],
+        },
+        {
+          heading: "So passen Sie die Lage zum Ziel",
+          bullets: [
+            "Stetiges Einkommen + niedriges Risiko: Laguna, große Bang-Tao-Projekte mit Hotel-Management",
+            "Maximale ROI: Off-Plan in Nai Yang oder Bang Tao mit Top-Entwickler",
+            "Langfristiger Kapitalzuwachs: Layan",
+            "Schnellste Exit-Liquidität: Bang Tao oder Laguna",
+            "Eigennutzung + passive Vermietung: Laguna, Nai Yang",
+            "Nicht empfohlen als reine Investition: Patong (hohe Konkurrenz, schwacher ADR)",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Welche Nettorendite ist auf Phuket 2026 realistisch?",
+          a: "5–8% netto p.a. auf starken Off-Plan-Projekten in Bang Tao, Layan und Nai Yang bei professionellem Management. Die 5–7% Garantien sind ein fixer Kupon aus dem Hotel-managed-Programm, keine Nettorendite.",
+        },
+        {
+          q: "Bang Tao oder Layan für Investment?",
+          a: "Bang Tao bei Priorität Liquidität, ganzjährige Nachfrage und schneller Exit. Layan bei Priorität Kapitalzuwachs, geringere operative Belastung und längere Aufenthalte. Portfolios kombinieren häufig beide.",
+        },
+        {
+          q: "Was frisst Rendite am schnellsten?",
+          a: "20–25% Management Fee, 15% Quellensteuer für Nichtansässige und Leerstand in der Nebensaison — plus Service Charge und Möbelabschreibung. Brutto-zu-Netto-Lücke typisch 3–5 Prozentpunkte.",
+        },
+        {
+          q: "Wie lange steht eine Phuket-Wohnung leer?",
+          a: "In Bang Tao und Laguna bei professionellem Management: 15–25% (Auslastung 75–85%). In Nai Yang: 25–35% (stärkere Saisonalität). In Patong: bis zu 40% in der Nebensaison.",
+        },
+        {
+          q: "Ist Patong 2026 als reine Renditeanlage geeignet?",
+          a: "Eher nein. Hohe Konkurrenz, alter Bestand, kurze Aufenthalte. Funktioniert für Kaufen–Renovieren–Verkaufen, nicht für langfristige Vermietungsrendite.",
+        },
+        {
+          q: "Wie überprüfe ich, ob eine beworbene Rendite realistisch ist?",
+          a: "Fragen Sie den Entwickler oder Operator nach realen Zahlen aus bereits übergebenen Projekten: durchschnittlicher ADR nach Wohnungstyp, tatsächliche Auslastung der letzten 12 Monate, Zahlungsstruktur. Können sie diese Zahlen nicht liefern — Warnzeichen.",
+        },
+      ],
+    },
+    "off-plan-risks-due-diligence": {
+      title:
+        "Off-Plan auf Phuket: 5 Hauptrisiken und die vollständige Due-Diligence-Checkliste 2026",
+      description:
+        "Strukturierte Analyse der wichtigsten Risiken beim Off-Plan-Kauf in Thailand — Entwicklerausfall, Foreign-Quota-Erschöpfung, Übergabeverzögerung, Ausstattungsqualität, schwache Betriebsphase — plus vollständige Due-Diligence-Checkliste für ausländische Käufer.",
+      category: "Rechtsleitfaden",
+      readingMinutes: 11,
+      intro:
+        "Off-Plan bringt Sie 20–35% günstiger in ein Projekt und liefert bei starkem Entwickler den höchsten ROI. Der Preis dafür: reale Bau- und Rechtsrisiken, die im Marketing nicht auftauchen. Dieser Leitfaden deckt die 5 zentralen Risiken beim Phuket-Off-Plan und eine Due-Diligence-Checkliste, die rund 90% davon eliminiert.",
+      sections: [
+        {
+          heading: "Warum Off-Plan auf Phuket funktioniert",
+          paragraphs: [
+            "Off-Plan ist das Standardformat für Investitionsdeals auf der Insel. Gestaffelte Zahlung: 1–3% Reservierung, 20–30% bei SPA, 40–60% während des Baus, 10–20% bei Übergabe. Einstiegspreis 20–35% unter Fertigstellungspreis, bei starkem Entwickler ist die ROI 1,5–2× so hoch wie bei fertigen Einheiten.",
+            "Auch die Entwicklerökonomie favorisiert Off-Plan — Geld fließt vor Fertigstellung, senkt Bankkreditbedarf und macht Frühzeichnerrabatte möglich. Aber genau hier entstehen Risiken: Teil der Entwickler finanziert den Bau mit Käufergeld und hat bei Verkaufsverlangsamung keine Reserve.",
+          ],
+        },
+        {
+          heading: "Risiko 1: Entwickler-Insolvenz oder Baustopp",
+          paragraphs: [
+            "Das schlimmstmögliche Szenario. Bei Insolvenz vor Übergabe sind Käufergelder ohne Escrow nicht vollständig geschützt — der Thai Condominium Act garantiert keine automatische Rückerstattung.",
+            "Risikominderung: nur Entwickler mit ≥3 übergebenen Projekten, Bankbestätigung der Finanzierung und idealerweise Escrow. MOC-Registrierung, Klagestand und Übergabehistorie prüfen.",
+          ],
+          bullets: [
+            "Escrow für Zahlungen vor Übergabe fordern",
+            "Mindestens 3 zuvor übergebene Projekte",
+            "Klageprüfung durch thailändischen Anwalt",
+            "Bankbestätigung der Projektfinanzierung",
+          ],
+        },
+        {
+          heading: "Risiko 2: Foreign Quota und Leasehold-Substitution",
+          paragraphs: [
+            "Per Gesetz können 49% der verkaufbaren Fläche eines Kondominiums an Ausländer im Freehold gehen. In gefragten Projekten sind diese 6–12 Monate früh vergriffen. Später einsteigende Käufer bekommen Leasehold — rechtlich schwächer, oft aber unter derselben «Freehold»-Vermarktung.",
+            "Wichtig: Leasehold ist legal und funktionsfähig — muss aber bewusst gewählt sein. Wenn Freehold versprochen, im SPA aber Leasehold steht — entweder Fehler des Agenten oder gezielte Irreführung.",
+          ],
+          bullets: [
+            "Schriftliche Foreign-Quota-Bestätigung zum SPA-Datum",
+            "SPA nennt explizit: Freehold oder Leasehold",
+            "Preisdifferenz Freehold/Leasehold typisch 5–15%",
+            "Leasehold ist okay — aber bewusst gewählt",
+          ],
+        },
+        {
+          heading: "Risiko 3: Übergabeverzögerung und Strafmechanismen",
+          paragraphs: [
+            "Durchschnittliche Off-Plan-Verzögerung in Thailand: 3–9 Monate über geplantem Übergabedatum. Manchmal 12+. Das verschiebt die IRR: geplante Rendite ab Jahr N wird Jahr N+1.",
+            "Was der SPA enthalten muss: konkretes Completion-Datum, Strafklausel (typisch 5–15% p.a. auf gezahlte Beträge), Rücktrittsrecht des Käufers mit Rückerstattung nach definierter Verzögerungsdauer (12–24 Monate).",
+          ],
+          bullets: [
+            "Verzugsstrafe: 5–15% p.a. auf gezahlte Summen",
+            "Rücktrittsrecht: nach 12–24 Monaten Verzug",
+            "Chargeback-Mechanismus bei Projektabbruch",
+            "Explizite Daten, nicht «Q4 2028» ohne Tag",
+          ],
+        },
+        {
+          heading: "Risiko 4: Ausstattungsqualität vs. Musterwohnung",
+          paragraphs: [
+            "Die Musterwohnung ist ein Schaufenster — Top-Möbel, kuratierte Beleuchtung, stylische Accessoires. Serienlieferung weicht oft ab: andere Fliesen, günstigere Sanitäranlagen, «gleichwertige» Materialsubstitutionen.",
+            "Was der Vertrag fixieren muss: Materialspezifikation (Boden, Sanitär, Küche, Verglasung), Verpflichtung zur Bereitstellung eines Äquivalents bei Nichtverfügbarkeit, Garantie auf Ausbau (1 Jahr) und Konstruktion (5 Jahre).",
+            "Snagging ist Pflicht: Inspektion mit Checkliste vor Abnahmeunterschrift. Professionelle Snagging-Firmen verlangen 5–15 Tsd. THB pro Einheit.",
+          ],
+          bullets: [
+            "Materialspezifikation am SPA angehängt",
+            "Substitutionsformel bei Materialengpass",
+            "Garantie: 1 Jahr Ausbau, 5 Jahre Konstruktion",
+            "Pflicht: professionelles Snagging vor Abnahme",
+          ],
+        },
+        {
+          heading: "Risiko 5: schwacher Betrieb und Vermietungsversagen",
+          paragraphs: [
+            "Auch ein gut gebautes Projekt erreicht die versprochene Rendite nicht, wenn der Operator schwach ist — schlechtes Marketing, niedriger ADR, lange Leerstände. Kritisch bei Hotel-managed Objekten, wo Ihr Einkommen direkt vom Operator abhängt.",
+            "Zu prüfen: wer der Operator ist (externe Marke Dusit/Marriott/Wyndham oder In-House), wie viele Objekte in Verwaltung, öffentliche Auslastungs- und RevPAR-Zahlen aus dem bestehenden Portfolio.",
+          ],
+          bullets: [
+            "Operator: bekannte Marke oder bewährtes In-House-Team",
+            "Portfolio: ≥5 übergebene Objekte",
+            "Öffentliche Auslastungs-/RevPAR-Zahlen",
+            "Transparente Revenue-Split-Konditionen im Vertrag",
+          ],
+        },
+        {
+          heading: "Off-Plan-Due-Diligence-Checkliste",
+          bullets: [
+            "Chanote (Grundbuch) auf das Grundstück",
+            "Baugenehmigung erteilt und gültig",
+            "EIA (Umweltverträglichkeitsprüfung) genehmigt",
+            "Bedingung Condominium Registration Permit nach Übergabe",
+            "Entwicklergesellschaft MOC-registriert, keine Klagen",
+            "≥3 zuvor übergebene Projekte mit Daten und Adressen",
+            "Escrow für Zahlungen vor Übergabe",
+            "SPA: explizites Completion-Datum, Verzugsstrafe, Chargeback",
+            "SPA: Materialspezifikation angehängt",
+            "Foreign Quota am SPA-Datum — schriftliche Entwicklerbestätigung",
+            "SPA nennt explizit: Freehold oder Leasehold",
+            "Vermietungsoperator und dessen Portfolio bekannt",
+            "Reserve für Snagging und erste Service-Charge-Periode",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Wie riskant ist eine Off-Plan-Transaktion in Thailand?",
+          a: "Bei einem Entwickler mit ≥3 übergebenen Projekten, Escrow und sauber formuliertem SPA — Risiko vergleichbar mit Fertigkauf plus Zeitrisiko. Bei schwachem Entwickler und ohne Due Diligence — potenzieller Verlust von 20–30%+ des eingesetzten Kapitals.",
+        },
+        {
+          q: "Was passiert, wenn der Entwickler die Übergabe verpasst?",
+          a: "Blick in die Strafklausel des SPA. Standard: 5–15% p.a. auf gezahlte Beträge und Rücktrittsrecht mit Rückerstattung nach 12–24 Monaten Verzögerung. Wirkt nur, wenn die Klausel sauber formuliert ist.",
+        },
+        {
+          q: "Lohnt es sich, die volle Summe für einen Rabatt vorab zu zahlen?",
+          a: "Meist nein. Ratenzahlung schützt Sie — bei Baustopp ist ein Teil unbezahlt. Ein 3–7% Rabatt bei Vollzahlung deckt selten das Risiko, außer bei sehr etablierten Entwicklern.",
+        },
+        {
+          q: "Kann ich Off-Plan vor Übergabe weiterverkaufen?",
+          a: "Ja — Mechanismus heißt Assignment (Übertragung). SPA erlaubt Assignment üblicherweise ab einem bestimmten Zahlungsanteil (oft 50%) mit Entwicklergebühr 1–3%. Liquider Exit für Investoren in einem wachsenden Projekt.",
+        },
+        {
+          q: "Wie prüfe ich die Reputation eines Entwicklers?",
+          a: "Portfolio übergebener Projekte (Adressen, Daten), Erfahrungsberichte in Phuket-Communities, Prüfung durch thailändischen Anwalt (Klagen, MOC), persönliches Treffen mit der Geschäftsführung und Besuch bestehender Projekte.",
+        },
+        {
+          q: "Brauche ich für den Off-Plan-Kauf einen thailändischen Anwalt?",
+          a: "Ja. 30–70 Tsd. THB für Prüfung des SPA und der Entwicklerunterlagen. An dieser Position zu sparen ist der häufigste — und teuerste — Fehler ausländischer Käufer.",
+        },
+      ],
+    },
+    "rental-tax-non-resident-thailand": {
+      title:
+        "Mietsteuer für Nichtansässige in Thailand 2026: 15% Quellensteuer, thailändische Gesellschaft, DBA",
+      description:
+        "Vollständiger Leitfaden zur Besteuerung von Mieteinnahmen aus Thai-Immobilien für Nichtansässige: 15% Quellensteuer, Halten über eine thailändische Gesellschaft mit progressiver Skala, Doppelbesteuerungsabkommen, automatische Einbehaltung in Hotel-managed Programmen und typische Fehler.",
+      category: "Steuerleitfaden",
+      readingMinutes: 9,
+      intro:
+        "Die Mietsteuer für ausländische Eigentümer in Thailand ist keine «Grauzone», sondern ein klar definiertes System mit zwei Grundmodi: 15% Quellensteuer für Nichtansässige und progressive Skala über eine thailändische Gesellschaft. Der Leitfaden erklärt beide, was Hotel-managed Programme einbehalten, wie Doppelbesteuerungsabkommen tatsächlich funktionieren und welche Fehler ausländische Eigentümer am häufigsten machen.",
+      sections: [
+        {
+          heading: "Wer ist «Nichtansässiger» und warum ist das wichtig",
+          paragraphs: [
+            "Ein thailändischer Steueransässiger ist, wer im Kalenderjahr ≥180 Tage im Land verbringt. Alle anderen sind Nichtansässige. Der Unterschied ist grundsätzlich: bei Nichtansässigen fest 15% Quellensteuer, bei Ansässigen progressive Skala.",
+            "Staatsangehörigkeit spielt keine Rolle — nur die tatsächliche Anzahl Tage. Viele Immobilieneigentümer verbringen 2–3 Monate pro Jahr auf Phuket: sie sind steuerlich Nichtansässige, unabhängig vom Visumtyp.",
+          ],
+          bullets: [
+            "Ansässig = ≥180 Tage in Thailand pro Kalenderjahr",
+            "Staatsangehörigkeit wirkt sich nicht aus — nur Tage",
+            "Nichtansässig: 15% Quellensteuer auf Brutto",
+            "Ansässig: progressive Skala mit Ausgabenabzug",
+          ],
+        },
+        {
+          heading: "Quellensteuer 15% — Mechanik",
+          paragraphs: [
+            "Der Mietzahler (Mieter, Hotel-managed Operator, Verwaltungsgesellschaft) ist verpflichtet, 15% der Bruttomieteinnahmen für den nichtansässigen Eigentümer einzubehalten und an das Thai Revenue Department abzuführen.",
+            "Wichtig: Einbehalt vom Brutto, nicht vom Netto. Ausgaben (Management Fee, Service Charge, Reparaturen) mindern die Basis nicht. Einfache Mechanik — aber nicht die effizienteste: die Effektivbelastung auf reales Nettoeinkommen kann 25–40% erreichen.",
+            "Der Eigentümer erhält ein Withholding Tax Certificate. Wichtig für die weitere Nutzung: Aufnahme in die Heimlandsteuererklärung über ein DBA, Berichterstattung.",
+          ],
+          bullets: [
+            "15% werden vom Mieter oder Operator einbehalten",
+            "Basis ist der Bruttoeinnahme, Ausgaben nicht abziehbar",
+            "Withholding Tax Certificate für den Eigentümer",
+            "Effektive Belastung auf Netto kann über 15% liegen",
+          ],
+        },
+        {
+          heading: "Thai-Gesellschaft — progressive Skala",
+          paragraphs: [
+            "Alternative Struktur: die Immobilie über eine thailändische Gesellschaft halten (2026 stärker kontrolliert — muss echte operative Gesellschaft sein, keine Shell). Besteuerung auf Gesellschaftsebene: 20% Körperschaftsteuer auf Gewinn nach Ausgaben.",
+            "Was die Basis mindert: Management Fee, Service Charge, Möbelabschreibung, Reparaturen, Versicherung, Rechts- und Buchhaltungskosten. Effektive Belastung auf Mieteinkommen über eine Gesellschaft typisch 10–15% gegen 15% Quellensteuer auf Brutto beim Nichtansässigen.",
+            "Nachteile: Buchhaltungskosten (10–20 Tsd. THB/Monat), Pflichtberichte, Dividendensteuer bei Gewinnentnahme, Strukturrisiko bei den verschärften 2026-Prüfungen.",
+          ],
+          bullets: [
+            "20% Körperschaftsteuer auf Gewinn (nicht Umsatz)",
+            "Abziehbar: Management, Service, Reparaturen, Abschreibung",
+            "Effektive Belastung auf Mieteinkommen: 10–15%",
+            "Erfordert echte Operation und qualifizierte Buchführung",
+          ],
+        },
+        {
+          heading: "Hotel-managed Programme — automatische Einbehaltung",
+          paragraphs: [
+            "Die meisten Hotel-managed Operator auf Phuket behalten automatisch 15% Quellensteuer bei Auszahlungen an nichtansässige Eigentümer ein und führen die Steuer an das Revenue Department ab, mit entsprechenden Bescheinigungen. Das befreit den Eigentümer von eigener Thai-Steuererklärung.",
+            "Zu prüfen im Vertrag: ausdrücklich, dass Operator einbehält und abführt, regelmäßig Withholding Tax Certificates ausstellt, die Zahlungsstruktur an Sie reportet (Bruttoeinkommen, Abzüge, Nettoauszahlung).",
+          ],
+          bullets: [
+            "Operator behält 15% ein und führt ab",
+            "Stellt Withholding Tax Certificates aus",
+            "Erspart eigene Thai-Steuererklärung",
+            "Transparenz zur Auszahlungsstruktur einfordern",
+          ],
+        },
+        {
+          heading: "Doppelbesteuerungsabkommen (DBA)",
+          paragraphs: [
+            "Thailand hat >60 bilaterale DBA, darunter die meisten europäischen Länder, China, Indien, VAE. Abkommen mit Russland — aktiv. Mit der Ukraine — aktiv. Konkret: in Thailand einbehaltene Steuer kann im Heimatland angerechnet oder gegen die dortige Verbindlichkeit gestellt werden.",
+            "Mechanik hängt vom konkreten DBA und den lokalen Regeln ab. In den meisten europäischen Jurisdiktionen greift für Privatpersonen der Foreign Tax Credit: die lokale Steuer auf diese Einkünfte wird um den in Thailand gezahlten Betrag reduziert.",
+            "Praxis: der Eigentümer sammelt Withholding Tax Certificates vom Operator/Mieter, legt sie der Heimlanderklärung bei, erhält Foreign Tax Credit oder Steuerreduktion.",
+          ],
+          bullets: [
+            "60+ Thai-DBA, inkl. RU, UA, EU, VAE",
+            "Foreign Tax Credit — Standardmechanismus",
+            "Withholding Tax Certificate für Anrechnung nötig",
+            "Details richten sich nach lokalen Steuerregeln",
+          ],
+        },
+        {
+          heading: "Szenario 1: Nichtansässig über Hotel-managed Programm",
+          paragraphs: [
+            "Eigentümer wohnt in der EU, Condo in Bang Tao im Hotel-managed Programm. Jährliche Bruttoeinnahmen: 480 Tsd. THB. Operator behält 15% (72 Tsd. THB) ein und führt ab, mit Bescheinigung.",
+            "Eigentümer erhält 408 Tsd. THB minus Management Fee und Service Charge. In der EU-Erklärung wird das Einkommen angegeben, das DBA angewendet — die in Thailand gezahlten 72 Tsd. THB als Foreign Tax Credit angerechnet.",
+          ],
+        },
+        {
+          heading: "Szenario 2: Über eine thailändische Gesellschaft",
+          paragraphs: [
+            "Gesellschaft hält 3 Condos, gesamtes Bruttoeinkommen 1,5 Mio. THB. Abzüge: Management 375 Tsd., Service Charge 90 Tsd., Möbelabschreibung 120 Tsd., sonstige Kosten 60 Tsd. Gewinn: 855 Tsd. Körperschaftsteuer 20%: 171 Tsd.",
+            "Effektive Belastung: 171/1500 = 11,4% auf Brutto — spürbar unter 15% Quellensteuer. Aber Buchhaltung 180 Tsd./Jahr und 10% Dividendensteuer bei Entnahme relativieren den Vorteil. Wirtschaftlich sinnvoll ab ca. 1,2–1,5 Mio. THB Jahresbruttoeinnahme.",
+          ],
+        },
+        {
+          heading: "Typische Fehler",
+          bullets: [
+            "15% Quellensteuer als «Grauzone» behandeln und nicht abführen — bei Prüfung Nachforderung + Strafen",
+            "Withholding Tax Certificates nicht anfordern — verlieren die Anrechnungsmöglichkeit im Heimatland",
+            "Shell-Gesellschaft für 1 Condo aufsetzen — 2026 verschärfte Prüfungen, Umqualifikationsrisiko",
+            "Einkommen im Heimatland nicht deklarieren — CRS-Meldung holt es früher oder später ein",
+            "Hotel-managed Reporting ignorieren — Kontrollverlust über Auszahlungsstruktur",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Welche Steuer zahlt ein nichtansässiger Eigentümer auf Mieteinnahmen in Thailand?",
+          a: "15% Quellensteuer auf Bruttomieteinnahmen. Mieter oder Hotel-managed Operator behält ein und führt ab; dem Eigentümer bleiben 85% vom Brutto minus sonstige Kosten.",
+        },
+        {
+          q: "Ist eine thailändische Gesellschaft steuerlich effizienter?",
+          a: "Effektiv ja — 10–15% auf Brutto statt fixer 15%, weil Management, Service Charge, Reparaturen und Abschreibung abziehbar sind. Aber Buchhaltungskosten und Dividendensteuer bei Entnahme relativieren die Differenz. Wirtschaftlich sinnvoll ab ca. 1,2–1,5 Mio. THB Jahresbruttoeinnahme.",
+        },
+        {
+          q: "Funktioniert das DBA zwischen Thailand und Deutschland / Österreich?",
+          a: "Ja, beide sind aktiv. Die in Thailand gezahlte 15% Quellensteuer wird im Heimatland als Foreign Tax Credit angerechnet. Konkrete Anrechnungsmechanik folgt lokalen Regeln.",
+        },
+        {
+          q: "Was passiert, wenn ich das Einkommen im Heimatland nicht deklariere?",
+          a: "Automatischer Informationsaustausch (CRS) umfasst Thailand und die meisten Länder. Undeklariertes Einkommen wird der heimischen Steuerbehörde früher oder später sichtbar — mit Nachforderung und Strafen.",
+        },
+        {
+          q: "Behält ein Hotel-managed Programm die Steuer automatisch ein?",
+          a: "In der Regel ja für Nichtansässige. Im Vertrag prüfen: ausdrückliche 15%-Einbehaltung und Ausstellung von Withholding Tax Certificates. Behält der Operator nicht ein — Sie sind selbst zahlungspflichtig.",
+        },
+        {
+          q: "Gibt es Steuern auf eine leerstehende Wohnung, die nicht vermietet wird?",
+          a: "Quellensteuer nur auf tatsächliche Einnahmen — bei Leerstand null. Aber Land and Building Tax (0,02–0,10% des Schätzwertes für Wohnimmobilien) und Service Charge des Entwicklers bleiben.",
+        },
+      ],
+    },
+    "phuket-vs-bali-vs-dubai": {
+      title:
+        "Phuket vs. Bali vs. Dubai: Wo Investoren 2026 Immobilien kaufen sollten",
+      description:
+        "Vergleich der drei führenden Resort-Immobilienmärkte für internationale Investoren: rechtliche Eigentumsformen, Einstiegsschwelle, reale Rendite und Auslastung, Steuern, Wiederverkaufsliquidität, Visawege. Vor- und Nachteile jedes Marktes und Passung zum Investor.",
+      category: "Investitionsvergleich",
+      readingMinutes: 11,
+      intro:
+        "Phuket, Bali und Dubai sind die drei Hauptziele für internationales Resort-Immobilienkapital 2026. Jeder Markt läuft auf einem anderen Rechtsmodell, liefert andere Rendite, andere Liquidität und andere Visummechanik. Dieser Leitfaden vergleicht alle drei anhand von 7 zentralen Kennzahlen — ohne Marketing-Glanz.",
+      sections: [
+        {
+          heading: "Drei Märkte mit Investorenblick: die Kurzfassung",
+          paragraphs: [
+            "Phuket — ausgewogener Markt mit reifem Rechtsrahmen (Thai Condominium Act 1979) und Renditefokus. Bang Tao, Layan, Laguna sind die stärksten Lagen. Gut geeignet für Investoren, die stetiges Einkommen und akzeptable Liquidität suchen.",
+            "Bali — die höchsten Schlagzeilenrenditen in Asien, aber die schwächste Rechtsposition für Ausländer (kein voller Freehold, nur Hak Pakai / Langzeitpacht). Für risikotolerante Investoren, die mit schwächerem Rechtsschutz umgehen können.",
+            "Dubai — der einzige der drei Märkte, in dem Ausländer vollen Freehold in designierten Freehold Zones erhalten. Liquidester Markt mit den klarsten Regeln. Höhere Einstiegsschwelle, keine Mietsteuer, aber realistische Rendite liegt unter Asien.",
+          ],
+        },
+        {
+          heading: "Rechtliche Eigentumsformen",
+          paragraphs: [
+            "Phuket: Freehold auf Kondominium (49% Foreign Quota) und 30+30+30-Jahre-Leasehold auf Villen. Registrierung beim Land Office. Rechtlich klar, mit substanzieller Rechtsprechung.",
+            "Bali: Freehold (Hak Milik) für Ausländer nicht verfügbar. Primäre Strukturen — Hak Pakai (~30 Jahre mit Verlängerung), Langpacht (25–99 Jahre), Nominee-Strukturen über PT PMA (ausländische Gesellschaft). Jede Struktur hat Grenzen.",
+            "Dubai: Voller Freehold in designierten Freehold Zones (Dubai Marina, Palm, Downtown, JVC, Business Bay u.a.). Registrierung beim Dubai Land Department. Ausländer erhalten volles Eigentum ohne Quartierbeschränkungen.",
+          ],
+          bullets: [
+            "Phuket: Condo-Freehold + Villa-Leasehold — funktionierendes System",
+            "Bali: kein voller ausländischer Freehold",
+            "Dubai: voller Freehold in Freehold Zones — stärkste Position",
+          ],
+        },
+        {
+          heading: "Einstiegsschwelle und Gesamttransaktionskosten",
+          paragraphs: [
+            "Phuket: 1-Zimmer-Condo in Investmentlagen — ab 4–6 Mio. THB (~$120–180k). Gesamtkosten +7–9% (Transfer, Sinking Fund, Möbel, Anwalt).",
+            "Bali: 1-Zimmer-Villa in Canggu / Ulun — ab $150–220k. Gesamtkosten +8–12% (Nominee-Struktur, Anwalt, Inspektionen). Fragmentierterer Markt.",
+            "Dubai: 1-Zimmer im Mittelsegment (JVC, Business Bay) — ab $220–300k. Gesamtkosten +6–8% (DLD Fee 4%, Makler, Registrierung).",
+          ],
+          bullets: [
+            "Phuket: ab ~$120k Gesamtkosten",
+            "Bali: ab ~$160k, höhere rechtliche Komplexität",
+            "Dubai: ab ~$240k, einfachster Prozess",
+          ],
+        },
+        {
+          heading: "Reale Rendite und Auslastung",
+          paragraphs: [
+            "Phuket: Bruttorendite 7–12%, Nettorendite 5–8%, Auslastung 65–85% in Top-Lagen. Moderate Saisonalität mit tragfähiger Shoulder-Season-Nachfrage.",
+            "Bali: Bruttorendite 10–15% (Schlagzeile), Nettorendite 6–10% nach realistischen Abzügen. Auslastung 55–75%. Stark lageabhängig: Canggu und Ulun funktionieren, sekundäre Gebiete nicht.",
+            "Dubai: Bruttorendite 6–9%, Nettorendite 4–7%. Auslastung 70–85% in bewährten Lagen. Niedrige Saisonalität, aber Neubaudruck relevant.",
+          ],
+          bullets: [
+            "Phuket: Nettorendite 5–8%, stabil",
+            "Bali: Nettorendite 6–10%, höhere Volatilität",
+            "Dubai: Nettorendite 4–7%, niedrigste Saisonalität",
+          ],
+        },
+        {
+          heading: "Steuern auf Mieteinkommen",
+          paragraphs: [
+            "Phuket (Thailand): 15% Quellensteuer auf Brutto für Nichtansässige oder effektiv 10–15% über eine thailändische Gesellschaft. DBA mit den meisten Ländern aktiv.",
+            "Bali (Indonesien): 10% Quellensteuer auf Brutto für nichtansässige Privatperson oder 22% Körperschaftsteuer über PT PMA (mit Ausgabenabzug).",
+            "Dubai (VAE): 0% Steuer auf privates Mieteinkommen. Einziger der drei Märkte ohne Mietsteuer — Nettorenditevorteil von 1,5–2 Prozentpunkten gegenüber Phuket/Bali.",
+          ],
+          bullets: [
+            "Phuket: 15% Quellensteuer auf Brutto",
+            "Bali: 10% Quellensteuer auf Brutto",
+            "Dubai: 0% Steuer auf Mieteinkommen",
+          ],
+        },
+        {
+          heading: "Liquidität und Exit",
+          paragraphs: [
+            "Phuket: Durchschnittliche Verkaufsdauer eines guten Bang-Tao-Condos — 3–9 Monate. Off-Plan-Assignment erlaubt. Internationale Käufer aktiv.",
+            "Bali: Verkauf an Ausländer schwieriger wegen der Rechtsstruktur. Durchschnittsdauer — 6–18 Monate. Weniger institutionelle Käufer.",
+            "Dubai: der liquideste der drei. Durchschnittliche Verkaufsdauer in Top-Lagen — 2–6 Monate. Große internationale Makler (Betterhomes, Allsopp, LuxuryProperty).",
+          ],
+          bullets: [
+            "Phuket: Exit 3–9 Monate, moderate Liquidität",
+            "Bali: 6–18 Monate, niedrigere Liquidität",
+            "Dubai: 2–6 Monate, hohe Liquidität",
+          ],
+        },
+        {
+          heading: "Visa und Investmentwege",
+          paragraphs: [
+            "Phuket: Elite Visa (5–20 Jahre), LTR Visa (10 Jahre für Investoren), Retirement Visa (50+). Der Immobilienkauf allein verleiht kein Visum, aber LTR verlangt Vermögen ≥$1 Mio., das Immobilien einschließen kann.",
+            "Bali: KITAS (Arbeitsvisum), Investmentvisa über PT PMA. Kein direkter «Kauf-Immobilie–erhalte-Visum»-Pfad, aber Investment über eine Gesellschaft schafft Grundlage.",
+            "Dubai: Investor Visa (2 Jahre) ab $205k Immobilienkauf, Golden Visa (10 Jahre) ab $545k. Der direkteste «Immobilie → Visum»-Zusammenhang der drei Märkte.",
+          ],
+          bullets: [
+            "Phuket: Elite/LTR getrennt vom Immobilienkauf",
+            "Bali: nur über PT-PMA-Struktur",
+            "Dubai: direkte Immobilie-→-Visum-Verknüpfung",
+          ],
+        },
+        {
+          heading: "Zu wem passt welcher Markt",
+          bullets: [
+            "Stetiges Einkommen + akzeptable Rendite + Rechtsschutz: Phuket (Laguna, Bang Tao)",
+            "Maximale Rendite bei Rechts-Risikotoleranz: Bali (Canggu, Ulun)",
+            "Voller Freehold + Visum + Liquidität: Dubai (Freehold Zones)",
+            "Portfolio-Diversifikation: Kombination Phuket (Rendite) + Dubai (Liquidität/Visum)",
+            "Erste internationale Investition: Dubai (einfache Regeln) oder Phuket (moderate Einstiegsschwelle)",
+            "Kurze Rotation / Spekulation: Dubai (liquidester Exit)",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Wo ist die höchste reale Rendite — Phuket, Bali oder Dubai?",
+          a: "Nach Nettorendite: Bali 6–10% (mit starkem Management), Phuket 5–8%, Dubai 4–7%. Balis höhere Rendite kompensiert schwächere ausländische Rechtsposition und langsamerer Exit.",
+        },
+        {
+          q: "Wo ist der stärkste Schutz für ausländische Eigentümer?",
+          a: "Dubai — voller Freehold in designierten Zonen. Phuket — Freehold auf Kondominium mit 49% Quote, rechtlich sehr etabliert. Bali — die schwächste Position, kein voller ausländischer Freehold.",
+        },
+        {
+          q: "Welcher Markt vergibt ein Visum beim Immobilienkauf?",
+          a: "Dubai — Investor Visa ab $205k, Golden Visa ab $545k, direkte Verknüpfung. Phuket und Bali vergeben Visa nicht direkt beim Immobilienkauf, aber es gibt parallele Programme (Elite, LTR in Thailand).",
+        },
+        {
+          q: "Wo sind Mietsteuern am niedrigsten?",
+          a: "Dubai — 0% auf private Mieteinnahmen. Phuket — 15% Quellensteuer. Bali — 10% Quellensteuer. Hier gewinnt Dubai deutlich.",
+        },
+        {
+          q: "Welcher Markt ist beim Wiederverkauf am liquidesten?",
+          a: "Dubai — am liquidesten, 2–6 Monate in Top-Lagen, große internationale Makler. Phuket — 3–9 Monate in Bang Tao/Layan. Bali — 6–18 Monate wegen fragmentierten Marktes und rechtlicher Komplexität.",
+        },
+        {
+          q: "Kann ich diese Märkte in einem Portfolio kombinieren?",
+          a: "Übliche Praxis für Investoren mit $500k+ Portfolios: Phuket für Rendite und stetiges Einkommen + Dubai für Liquidität und Visumoptionen. Bali optional — für Investoren, die mit Volatilität umgehen können.",
+        },
+      ],
+    },
   },
 };

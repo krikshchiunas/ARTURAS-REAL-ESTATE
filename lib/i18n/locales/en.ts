@@ -1184,5 +1184,540 @@ export const en: LocaleData = {
         },
       ],
     },
+    "rental-yield-phuket-by-area": {
+      title:
+        "Real rental yield in Phuket 2026 by area: numbers without the marketing gloss",
+      description:
+        "How to calculate real net rental yield on Phuket real estate. Yield and occupancy ranges for Bang Tao, Layan, Laguna, Nai Yang, Cherng Talay and the older tourist districts. What eats yield fastest and how to pick a location for your specific goal.",
+      category: "Investment analysis",
+      readingMinutes: 10,
+      intro:
+        "Real rental yield is not the '5–7% guaranteed' printed in a marketing brochure. It's net yield after taxes, management fees, service charges and downtime. This guide covers realistic yield ranges for every investment-grade Phuket district, the costs that eat yield fastest, and a rule of thumb for matching location to goal.",
+      sections: [
+        {
+          heading: "How to calculate yield properly",
+          paragraphs: [
+            "Three metrics not to confuse. Gross yield = annual rental income / property price — useful for a quick sanity check, but misleading. Net yield = (income − management − service charge − taxes − downtime − wear) / total transaction cost. Cash-on-cash return factors in staged payments and equity actually deployed at the moment — the most honest metric for an off-plan investor.",
+            "Total transaction cost often lost in models: transfer fee and sinking fund at registration, wire fees, furniture (400–800k THB for a 1-bed), first service charge cycle, early months without tenants, insurance and furniture depreciation.",
+            "The main yield killers: management fee 20–25% of gross, service charge 50–90 THB/m²/month, 15% non-resident withholding tax on gross, repairs and refresh every 3–5 years, low-season void periods.",
+          ],
+          bullets: [
+            "Gross yield — quick comparison only",
+            "Net yield — real return after every deduction",
+            "Cash-on-cash — factors staged payments and leverage",
+            "Total cost = price + furniture + fees + early void months",
+          ],
+        },
+        {
+          heading: "Bang Tao — the strongest rental market",
+          paragraphs: [
+            "Bang Tao is the epicentre of international rental demand on Phuket. Boat Avenue, Porto de Phuket, endless dining, golf clubs, Layan next door. Year-round demand from Asia, Europe, the Middle East and domestic tourism.",
+            "Gross yield: 8–12% off-plan, 6–9% completed. Net yield after everything: 5–8%. Occupancy: 75–85% p.a. under professional management. ADR (average daily rate): 3,500–7,500 THB for a 1-bed, 8,000–15,000 THB for a 2-bed lakefront.",
+            "Notable feature: a genuine shoulder season — solid performance May–October, not only in winter. Quickest resale liquidity on the island. The default off-plan investment destination.",
+          ],
+          bullets: [
+            "Gross yield: 8–12% (off-plan), 6–9% (completed)",
+            "Net yield: 5–8%",
+            "Occupancy: 75–85% p.a.",
+            "Year-round demand, broad source markets",
+          ],
+        },
+        {
+          heading: "Layan — premium with capital appreciation",
+          paragraphs: [
+            "Layan is the quiet enclave between Bang Tao and Cherng Talay. Lower new-build density than Bang Tao, so prices grow faster. Higher-end guest, longer stays, less short-term turnover.",
+            "Gross yield: 7–10%. Net yield: 5–7%. Occupancy: 70–80%. Average stay length: 2–4 weeks (against 3–7 days in Patong) — much lighter operational load.",
+            "Capital appreciation: 6–10% p.a. with a strong developer. Best district for long-term hold.",
+          ],
+          bullets: [
+            "Gross yield: 7–10%",
+            "Net yield: 5–7%",
+            "Average stay length: 2–4 weeks",
+            "Capital appreciation: 6–10% p.a.",
+          ],
+        },
+        {
+          heading: "Laguna Phuket — 25-year integrated resort ecosystem",
+          paragraphs: [
+            "Laguna is Phuket's oldest integrated resort estate (Banyan Tree, Angsana, Cassia, Dusit). Private beaches, golf, international clinic, school, family infrastructure.",
+            "Gross yield: 6–9%. Net yield: 4–6%. Occupancy: 80–90% — the most predictable demand on the island. Higher entry ticket, lower yield, but minimum risk.",
+            "Track record: in 25+ years of the estate's operation not a single project has traded down on resale. This is effectively Phuket's low-risk safe haven.",
+          ],
+          bullets: [
+            "Gross yield: 6–9%",
+            "Net yield: 4–6%",
+            "Occupancy: 80–90% — the steadiest on Phuket",
+            "Track record: 25+ years with no resale losses",
+          ],
+        },
+        {
+          heading: "Nai Yang — the emerging beachfront",
+          paragraphs: [
+            "Nai Yang sits on the north-west coast next to Sirinat National Park. Direct beach access with no permanent build-up, 15 minutes from the airport — critical for short stays. Young market with a low base and material upside.",
+            "Gross yield: 9–12% off-plan (low base, high potential). Net yield: 6–8%. Occupancy: 65–75% — sharper seasonality than Bang Tao. Peak season: November–April.",
+            "Main risk: the market is young, resale liquidity is thinner than Bang Tao/Layan. Best fit: mid-term hold (5–7 years) for rental income.",
+          ],
+          bullets: [
+            "Gross yield: 9–12% off-plan",
+            "Net yield: 6–8%",
+            "Occupancy: 65–75%, sharper seasonality",
+            "15 min from the airport — plus for short-term rental",
+          ],
+        },
+        {
+          heading: "Cherng Talay, Kamala, Kata, Karon, Patong",
+          paragraphs: [
+            "Cherng Talay borders Bang Tao — derivative demand with yields close to Bang Tao at a slightly lower entry. Kamala — premium villas, harder for short-term rental.",
+            "Kata, Karon, Patong — the historic tourism core. Pros: established demand, lower entry. Cons: aged stock, high competition, short average stays, ADR below Bang Tao/Layan.",
+            "Gross yield: 5–8%. Net yield: 3–5%. Works well for buy–renovate–resell, poorly for pure buy-and-hold rental.",
+          ],
+          bullets: [
+            "Cherng Talay: near-Bang-Tao yield, lower entry",
+            "Kata/Karon: net yield 3–5% on average",
+            "Patong: high competition, short stays",
+            "Best case: value-add renovation, not buy-and-hold",
+          ],
+        },
+        {
+          heading: "A real net-yield walkthrough (no gloss)",
+          paragraphs: [
+            "1-bedroom condo in Bang Tao, off-plan, 5.5M THB. Annual gross rental income: 480k THB (gross yield 8.7%).",
+            "Deduct from gross: management fee 25% (−120k), service charge (−30k), 15% non-resident withholding on gross (−72k), reserve for repairs and downtime (−30k). Net income: 228k THB — net yield 4.1%.",
+            "The 'guaranteed 6–7% on cost' quoted by hotel-managed programmes is not net yield — it's a fixed coupon, often only for years 1–3 or 1–5. Always ask which metric a number refers to.",
+          ],
+        },
+        {
+          heading: "How to match location to goal",
+          bullets: [
+            "Steady income + low risk: Laguna, large Bang Tao projects on hotel-management",
+            "Maximum ROI: off-plan in Nai Yang or Bang Tao with a top developer",
+            "Long-term capital appreciation: Layan",
+            "Fastest exit liquidity: Bang Tao or Laguna",
+            "Personal use + passive rental: Laguna, Nai Yang",
+            "Not recommended for pure investment: Patong (high competition, weak ADR)",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "What net yield is realistic in Phuket in 2026?",
+          a: "5–8% net p.a. on strong off-plan projects in Bang Tao, Layan and Nai Yang under professional management. 'Guaranteed 5–7% on cost' is a fixed coupon from the hotel-managed programme, not net yield.",
+        },
+        {
+          q: "Bang Tao or Layan for investment?",
+          a: "Bang Tao if priority is liquidity, year-round demand and a fast exit. Layan if priority is capital appreciation, lighter operational load and longer average stays. Portfolios often combine both.",
+        },
+        {
+          q: "What eats yield fastest?",
+          a: "The 20–25% management fee, 15% non-resident withholding on gross, and low-season void periods — plus service charge and furniture depreciation. Gross-to-net gap is typically 3–5 percentage points.",
+        },
+        {
+          q: "How much of the year does a Phuket condo sit empty?",
+          a: "In Bang Tao and Laguna under professional management: 15–25% (occupancy 75–85%). In Nai Yang: 25–35% (sharper seasonality). In Patong: up to 40% off-peak.",
+        },
+        {
+          q: "Is Patong a fit for pure buy-and-hold rental in 2026?",
+          a: "Rarely. High competition, aged stock, short average stays. It works for buy–renovate–flip, not for long-term rental yield.",
+        },
+        {
+          q: "How can I check whether an advertised yield is realistic?",
+          a: "Ask the developer or operator for actual data from their already-delivered projects: average ADR by unit type, actual occupancy over the last 12 months, distribution structure. If they can't produce these numbers — that's a red flag.",
+        },
+      ],
+    },
+    "off-plan-risks-due-diligence": {
+      title:
+        "Off-plan property in Phuket: 5 key risks and the full 2026 due-diligence checklist",
+      description:
+        "Structured breakdown of the main risks in Thai off-plan real estate — developer failure, foreign quota exhaustion, delivery delay, finish-quality substitution, weak post-handover operations — plus a full step-by-step due-diligence checklist for foreign buyers.",
+      category: "Legal guide",
+      readingMinutes: 11,
+      intro:
+        "Off-plan gets you in at 20–35% below completion price and delivers the highest ROI when the developer is strong. The trade-off is real construction and legal risk that marketing never shows. This guide covers the 5 core risks of Phuket off-plan and a due-diligence checklist that removes about 90% of them.",
+      sections: [
+        {
+          heading: "Why off-plan works on Phuket",
+          paragraphs: [
+            "Off-plan is the default format for investment transactions on the island. Staged payments: 1–3% reservation, 20–30% at SPA, 40–60% during construction, 10–20% at handover. Entry is 20–35% cheaper than completion price and, with a strong developer, ROI is 1.5–2× the completed-unit equivalent.",
+            "Developer economics work in favour of off-plan too — payments arrive before completion, which reduces bank-loan reliance and enables early-tranche discounts. But this is exactly where risk originates: some developers fund construction with buyer money and have no reserve if sales slow.",
+          ],
+        },
+        {
+          heading: "Risk 1: developer failure or stalled construction",
+          paragraphs: [
+            "The worst-case scenario. If the developer goes bankrupt before handover, buyer funds without escrow are not fully protected — the Thai Condominium Act does not guarantee automatic refunds.",
+            "How to reduce: work only with developers with ≥3 delivered projects, bank confirmation of financing and, ideally, an escrow account. Verify MOC registration, absence of litigation, delivery history.",
+          ],
+          bullets: [
+            "Require escrow for pre-handover payments",
+            "Minimum 3 previously delivered projects",
+            "Litigation check via a Thai lawyer",
+            "Bank confirmation of project financing",
+          ],
+        },
+        {
+          heading: "Risk 2: foreign quota and leasehold substitution",
+          paragraphs: [
+            "By law, 49% of a condominium's saleable area can be owned by foreigners on freehold. In popular projects this quota sells out in the first 6–12 months. Buyers arriving later are offered leasehold — legally weaker, but often sold under the same 'freehold' marketing.",
+            "Important: leasehold is a legal and workable structure — but it should be a conscious choice. If you were promised freehold and the SPA is leasehold, that's either agent error or intentional misrepresentation.",
+          ],
+          bullets: [
+            "Request a written foreign-quota statement as of the SPA date",
+            "SPA explicitly states: freehold or leasehold",
+            "Freehold/leasehold price gap is typically 5–15%",
+            "Leasehold is fine — but must be intentional",
+          ],
+        },
+        {
+          heading: "Risk 3: delivery delay and penalty mechanics",
+          paragraphs: [
+            "Typical off-plan delay in Thailand: 3–9 months past scheduled completion. Sometimes 12+ months. Impact on investor IRR: expected yield year N shifts to N+1.",
+            "What the SPA must contain: a specific Completion date, penalty clause (typically 5–15% p.a. on paid amounts for delay), buyer's right to terminate with refund after a defined delay window (12–24 months).",
+          ],
+          bullets: [
+            "Delay penalty: 5–15% p.a. on paid amounts",
+            "Termination right: after 12–24 months of delay",
+            "Chargeback mechanism if project is abandoned",
+            "Explicit dates — not 'Q4 2028' without a day",
+          ],
+        },
+        {
+          heading: "Risk 4: finish quality vs. show unit",
+          paragraphs: [
+            "The show unit is a shop window — top furniture, curated lighting, styled accessories. Serial delivery frequently differs: different tiling, cheaper sanitary ware, 'equivalent-grade' material substitutions.",
+            "What the contract must fix: material specification (flooring, sanitary, kitchen, glazing), the developer's obligation to provide equivalents when a material is unavailable, warranty on finishes (1 year) and structure (5 years).",
+            "Snagging is mandatory: an inspection with a checklist before signing acceptance. Professional snagging companies charge 5–15k THB per unit.",
+          ],
+          bullets: [
+            "Material spec attached to SPA",
+            "Substitution formula for unavailable materials",
+            "Warranty: 1 year finishing, 5 years structural",
+            "Mandatory professional snagging before acceptance",
+          ],
+        },
+        {
+          heading: "Risk 5: weak post-handover operations and rental underperformance",
+          paragraphs: [
+            "A well-built project still misses its yield target if the operator is weak — poor marketing, low ADR, prolonged voids. Critical for hotel-managed properties where your income depends directly on the operator.",
+            "What to check: who the operator is (external brand like Dusit/Marriott/Wyndham or in-house), how many properties they manage, published occupancy and RevPAR figures for their existing portfolio.",
+          ],
+          bullets: [
+            "Operator: known brand or proven in-house team",
+            "Operator portfolio: ≥5 delivered properties",
+            "Public occupancy/RevPAR figures",
+            "Transparent revenue-split terms in the contract",
+          ],
+        },
+        {
+          heading: "Off-plan due-diligence checklist",
+          bullets: [
+            "Chanote (Title Deed) on the land",
+            "Construction Permit issued and valid",
+            "EIA (Environmental Impact Assessment) approved",
+            "Condominium Registration Permit condition post-handover",
+            "Developer entity MOC-registered, no litigation",
+            "≥3 previously delivered projects with dates and addresses",
+            "Escrow account for pre-handover payments",
+            "SPA: explicit Completion date, delay penalty, chargeback",
+            "SPA: material specification attached",
+            "Foreign quota as of the SPA date — developer statement",
+            "SPA explicitly states: freehold or leasehold",
+            "Rental operator and their existing portfolio",
+            "Reserve for snagging and first service-charge cycle",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "How risky is an off-plan transaction in Thailand?",
+          a: "With a developer with ≥3 delivered projects, escrow and a properly drafted SPA — risk is close to a completed-unit purchase plus timing risk. Without due diligence and with a weak developer — potential 20–30%+ loss on invested capital.",
+        },
+        {
+          q: "What if the developer misses the delivery date?",
+          a: "Refer to the SPA's penalty clause. Standard: 5–15% p.a. on paid amounts and the right to terminate with refund after 12–24 months of delay. All of this only works if the clause is properly worded in the contract.",
+        },
+        {
+          q: "Is it worth paying the full amount upfront for a discount?",
+          a: "Usually no. Staged payments protect you — if construction stalls, part of your money is still unpaid. A 3–7% 'full-payment' discount rarely offsets the risk, except with very established developers.",
+        },
+        {
+          q: "Can I resell off-plan before handover?",
+          a: "Yes — via assignment. The SPA typically permits assignment after a certain paid percentage (often 50%) with a 1–3% developer fee. It's a liquid exit for investors on an appreciating project.",
+        },
+        {
+          q: "How do I actually verify a developer's reputation?",
+          a: "Delivered portfolio (addresses, dates), owner feedback in Phuket communities, Thai lawyer check (litigation, MOC registration), in-person meeting with management and site visits to their delivered projects.",
+        },
+        {
+          q: "Do I really need a Thai lawyer for an off-plan purchase?",
+          a: "Yes. 30–70k THB to review the SPA and developer corporate documents. Skipping this line item is the most common — and most expensive — foreign-buyer mistake.",
+        },
+      ],
+    },
+    "rental-tax-non-resident-thailand": {
+      title:
+        "Non-resident rental tax in Thailand 2026: 15% withholding, Thai company, DTA",
+      description:
+        "End-to-end guide to rental-income tax on Thai real estate for non-residents: 15% withholding tax, ownership through a Thai company on a progressive scale, double-tax treaties, auto-withholding in hotel-managed programmes, and the mistakes foreign owners make most often.",
+      category: "Tax guide",
+      readingMinutes: 9,
+      intro:
+        "Tax on rental income for a foreign owner in Thailand is not a 'grey zone' — it's a well-defined system with two base modes: 15% withholding for non-residents and a progressive scale via a Thai company. This guide covers the mechanics of both, what hotel-managed programmes withhold, how double-tax treaties actually work, and the mistakes foreign owners make most often.",
+      sections: [
+        {
+          heading: "Who is a 'non-resident' — and why it matters",
+          paragraphs: [
+            "A Thai tax resident is anyone who spends ≥180 days in the country in a calendar year. Everyone else is a non-resident. The distinction matters: non-residents face a fixed rental-income tax (15% withholding); residents follow a progressive scale.",
+            "Citizenship is irrelevant — only actual day-count matters. Many property owners spend 2–3 months a year on Phuket: they are non-residents for tax purposes regardless of visa type.",
+          ],
+          bullets: [
+            "Resident = ≥180 days in Thailand in a calendar year",
+            "Citizenship doesn't factor in — only day-count",
+            "Non-resident: 15% withholding on gross",
+            "Resident: progressive scale with expenses",
+          ],
+        },
+        {
+          heading: "15% withholding tax — mechanics",
+          paragraphs: [
+            "The rent payer (tenant, hotel-managed operator, management company) is obligated to withhold 15% of gross rental income on behalf of a non-resident owner and remit it to the Thai Revenue Department.",
+            "Key point: withholding is on gross, not net. Expenses (management fee, service charge, repairs) are not deductible from the base. Simple mechanics — but not the most efficient: the effective rate on real net income can be 25–40%.",
+            "The owner receives a withholding tax certificate. This is critical for downstream use: inclusion in the home-country tax return via a DTA, foreign tax credit, reporting.",
+          ],
+          bullets: [
+            "15% withheld by tenant or operator",
+            "Base is gross income; expenses not deducted",
+            "Withholding tax certificate issued to the owner",
+            "Effective rate on net income can exceed 15%",
+          ],
+        },
+        {
+          heading: "Thai company — the progressive-scale route",
+          paragraphs: [
+            "Alternative structure: hold the property via a Thai company (under tighter scrutiny in 2026 — must be a real operating entity, not a shell). Taxation happens at company level: 20% corporate tax on profit after expenses.",
+            "What reduces the base: management fee, service charge, furniture depreciation, repairs, insurance, legal and accounting. Effective rate on rental income via a company is typically 10–15% versus 15% withholding on gross for a non-resident.",
+            "Downsides: accounting cost (10–20k THB/month), mandatory filings, dividend tax on profit extraction to the owner, and risk if the structure isn't robust under the tightened 2026 scrutiny.",
+          ],
+          bullets: [
+            "20% corporate tax on profit (not revenue)",
+            "Deductibles: management, service, repairs, depreciation",
+            "Effective rate on rental income: 10–15%",
+            "Requires a real operating entity and quality bookkeeping",
+          ],
+        },
+        {
+          heading: "Hotel-managed programmes — auto-withholding",
+          paragraphs: [
+            "Most hotel-managed operators on Phuket automatically withhold 15% from payouts to non-resident owners and remit the tax to the Revenue Department, issuing the corresponding certificates. This frees the owner from filing a separate Thai return.",
+            "What to check in the contract: explicit language that the operator withholds and remits, regularly provides withholding tax certificates, and reports the full payout structure to you (gross income, deductions, net paid).",
+          ],
+          bullets: [
+            "Operator withholds 15% and remits to the budget",
+            "Issues withholding tax certificates to the owner",
+            "Removes the need for the owner to file in Thailand",
+            "Demand transparency on the payout structure",
+          ],
+        },
+        {
+          heading: "Double-tax treaties (DTA)",
+          paragraphs: [
+            "Thailand has >60 bilateral double-tax treaties, including most of Europe, China, India and the UAE. Treaty with Russia — active. With Ukraine — active. This means: tax withheld in Thailand can be credited against, or reduce liability in, your country of residence.",
+            "Mechanics depend on the specific DTA and your local rules. In most European jurisdictions, individuals rely on the foreign tax credit: local tax on this income is reduced by the amount already paid in Thailand.",
+            "In practice: the owner collects withholding tax certificates from the operator/tenant, attaches them to the home-country return, and receives a foreign tax credit or liability reduction.",
+          ],
+          bullets: [
+            "60+ Thai DTAs, including RU, UA, EU, UAE",
+            "Foreign tax credit — the standard mechanism",
+            "Withholding tax certificate is required for credit",
+            "Specifics depend on your local tax rules",
+          ],
+        },
+        {
+          heading: "Scenario 1: non-resident via hotel-managed programme",
+          paragraphs: [
+            "Owner lives in the EU, holds a Bang Tao condo on a hotel-managed programme. Annual gross rental income: 480k THB. Operator withholds 15% (72k THB) and remits it to the Thai Revenue Department, issuing a certificate.",
+            "The owner receives 408k THB minus management fee and service charge. On the EU return, the income is declared, the DTA is applied, and the 72k THB already paid in Thailand is claimed as a foreign tax credit.",
+          ],
+        },
+        {
+          heading: "Scenario 2: Thai company holding several units",
+          paragraphs: [
+            "A company owns 3 condos, total gross rental income 1.5M THB. Deductions: management fee 375k, service charge 90k, furniture depreciation 120k, other expenses 60k. Profit: 855k. Corporate tax at 20%: 171k.",
+            "Effective rate: 171/1500 = 11.4% of gross — meaningfully below 15% withholding. But add accounting at 180k/year, 10% dividend tax on extraction, and the gap narrows. The company route makes economic sense from around 1.2–1.5M THB gross rental income per year.",
+          ],
+        },
+        {
+          heading: "Common mistakes",
+          bullets: [
+            "Treating 15% withholding as a grey area and not remitting — audit triggers back-tax plus penalties",
+            "Not collecting withholding tax certificates — losing the ability to credit them at home",
+            "Setting up a shell Thai company for one condo — 2026 scrutiny may reclassify the structure",
+            "Not declaring the income in the home country — CRS reporting catches up eventually",
+            "Ignoring hotel-managed reporting — loss of control over payout structure",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "What tax does a non-resident owner pay on rental income in Thailand?",
+          a: "15% withholding tax on gross rental income. The tenant or hotel-managed operator withholds and remits it; the owner keeps 85% of gross minus other costs.",
+        },
+        {
+          q: "Is a Thai company more tax-efficient?",
+          a: "Effectively yes — 10–15% on gross rather than a straight 15%, because management, service charge, repairs and depreciation are deductible. But accounting costs and dividend tax on extraction reduce the gap. It makes economic sense from around 1.2–1.5M THB gross rental income per year.",
+        },
+        {
+          q: "Do the Thai–Russia and Thai–Ukraine double-tax treaties work?",
+          a: "Yes, both are active. The 15% withholding paid in Thailand is credited as a foreign tax credit at home. Specific credit mechanics follow local rules.",
+        },
+        {
+          q: "What happens if I don't declare this income in my home country?",
+          a: "Automatic tax-information exchange (CRS) covers Thailand and most jurisdictions. Undeclared income becomes visible to the home tax authority sooner or later — with back-tax and penalties.",
+        },
+        {
+          q: "Does a hotel-managed programme auto-withhold tax?",
+          a: "Usually yes for non-residents. Verify in the contract: explicit language on 15% withholding and issuance of withholding tax certificates. If the operator doesn't withhold, you are liable to pay yourself.",
+        },
+        {
+          q: "Is there a tax on an empty apartment that isn't rented out?",
+          a: "Withholding applies to actual income only — zero when the unit sits empty. But Land and Building Tax (0.02–0.10% of appraised value for residential) and the developer service charge still apply.",
+        },
+      ],
+    },
+    "phuket-vs-bali-vs-dubai": {
+      title:
+        "Phuket vs Bali vs Dubai: where investors should buy real estate in 2026",
+      description:
+        "Comparison of three leading resort real-estate markets for international investors: legal ownership structures, entry ticket, real yield and occupancy, taxes, resale liquidity, visa pathways. Pros and cons of each market and who each one suits.",
+      category: "Investment comparison",
+      readingMinutes: 11,
+      intro:
+        "Phuket, Bali and Dubai are the three primary destinations for international resort real-estate capital in 2026. Each runs on a different legal model, delivers different yield, different liquidity and different visa mechanics. This guide compares all three across 7 key metrics — no marketing gloss.",
+      sections: [
+        {
+          heading: "Three markets seen through investor lens: quick take",
+          paragraphs: [
+            "Phuket — balanced market with a mature legal framework (Thai Condominium Act 1979) and yield focus. Bang Tao, Layan and Laguna are the strongest districts. Well-suited to investors wanting steady income and acceptable liquidity.",
+            "Bali — the highest headline yields in Asia but the weakest foreign-owner legal position (no full freehold, only Hak Pakai / long lease). Works for risk-tolerant investors comfortable with weaker legal protection.",
+            "Dubai — the only market of the three where foreigners get full freehold in designated freehold zones. The most liquid market with the clearest rules. Higher entry ticket, zero rental income tax, but realistic yield is lower than Asia.",
+          ],
+        },
+        {
+          heading: "Legal ownership structures",
+          paragraphs: [
+            "Phuket: freehold on condominium (49% foreign quota) and 30+30+30-year leasehold on villas. Registered at the Land Office. Legally clear with substantial case law.",
+            "Bali: freehold (Hak Milik) not available to foreigners. Primary structures — Hak Pakai (~30 years with renewal), long lease (25–99 years), nominee-style structures via PT PMA (foreign-owned entity). Every structure has limits.",
+            "Dubai: full freehold in designated freehold zones (Dubai Marina, Palm, Downtown, JVC, Business Bay, etc.). Registered at Dubai Land Department. Full foreign ownership without district-level restrictions.",
+          ],
+          bullets: [
+            "Phuket: condo freehold + villa leasehold — working system",
+            "Bali: no full foreign freehold",
+            "Dubai: full freehold in freehold zones — strongest position",
+          ],
+        },
+        {
+          heading: "Entry ticket and total transaction cost",
+          paragraphs: [
+            "Phuket: 1-bed in investment districts — from 4–6M THB (~$120–180k). Total transaction cost +7–9% (transfer, sinking fund, furniture, lawyer).",
+            "Bali: 1-bed villa in Canggu / Ulun — from $150–220k. Total transaction cost +8–12% (nominee structure, lawyer, inspections). More fragmented market.",
+            "Dubai: 1-bed mid-market (JVC, Business Bay) — from $220–300k. Total transaction cost +6–8% (DLD fee 4%, broker, registration).",
+          ],
+          bullets: [
+            "Phuket: from ~$120k all-in",
+            "Bali: from ~$160k, higher legal complexity",
+            "Dubai: from ~$240k, simplest process",
+          ],
+        },
+        {
+          heading: "Real yield and occupancy",
+          paragraphs: [
+            "Phuket: gross yield 7–12%, net yield 5–8%, occupancy 65–85% in top districts. Moderate seasonality with meaningful shoulder-season demand.",
+            "Bali: gross yield 10–15% (headline), net yield 6–10% after realistic deductions. Occupancy 55–75%. Highly location-dependent: Canggu and Ulun work, secondary areas don't.",
+            "Dubai: gross yield 6–9%, net yield 4–7%. Occupancy 70–85% in proven districts. Low seasonality, but new-supply pressure is meaningful.",
+          ],
+          bullets: [
+            "Phuket: net yield 5–8%, steady",
+            "Bali: net yield 6–10%, higher volatility",
+            "Dubai: net yield 4–7%, lowest seasonality",
+          ],
+        },
+        {
+          heading: "Rental-income taxes",
+          paragraphs: [
+            "Phuket (Thailand): 15% withholding on gross for non-residents, or effective 10–15% via a Thai company. DTAs with most countries are in place.",
+            "Bali (Indonesia): 10% withholding on gross for a non-resident individual, or 22% corporate tax via PT PMA (with expense deductions).",
+            "Dubai (UAE): 0% tax on individual rental income. Only market of the three with no rental tax — a 1.5–2 percentage point net-yield advantage against Phuket/Bali.",
+          ],
+          bullets: [
+            "Phuket: 15% withholding on gross",
+            "Bali: 10% withholding on gross",
+            "Dubai: 0% tax on rental income",
+          ],
+        },
+        {
+          heading: "Liquidity and exit",
+          paragraphs: [
+            "Phuket: average time to sell a quality Bang Tao condo — 3–9 months. Off-plan assignment permitted. International buyers active.",
+            "Bali: selling to foreigners is harder due to legal structure. Average time — 6–18 months. Fewer institutional buyers.",
+            "Dubai: the most liquid of the three. Average time in top districts — 2–6 months. Large international brokerages (Betterhomes, Allsopp, LuxuryProperty).",
+          ],
+          bullets: [
+            "Phuket: 3–9 month exit, moderate liquidity",
+            "Bali: 6–18 months, lower liquidity",
+            "Dubai: 2–6 months, high liquidity",
+          ],
+        },
+        {
+          heading: "Visas and investment pathways",
+          paragraphs: [
+            "Phuket: Elite Visa (5–20 years), LTR Visa (10 years for investors), Retirement Visa (50+). Property purchase alone doesn't grant a visa, but LTR requires ≥$1M in assets, which may include real estate.",
+            "Bali: KITAS (work), investment visas via PT PMA. No direct 'buy property, get visa' pathway, but investment through a company creates grounds.",
+            "Dubai: Investor Visa (2 years) from $205k property purchase, Golden Visa (10 years) from $545k. The most direct 'property → visa' link of the three.",
+          ],
+          bullets: [
+            "Phuket: Elite/LTR separate from property purchase",
+            "Bali: only via PT PMA structure",
+            "Dubai: direct property → visa pathway",
+          ],
+        },
+        {
+          heading: "Who each market suits",
+          bullets: [
+            "Steady income + acceptable yield + legal protection: Phuket (Laguna, Bang Tao)",
+            "Maximum yield with legal-risk tolerance: Bali (Canggu, Ulun)",
+            "Full freehold + visa + liquidity: Dubai (freehold zones)",
+            "Portfolio diversification: Phuket (yield) + Dubai (liquidity/visa)",
+            "First international investment: Dubai (clearest rules) or Phuket (mid ticket)",
+            "Short rotation / speculation: Dubai (most liquid exit)",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Which market has the highest real yield — Phuket, Bali or Dubai?",
+          a: "By net yield: Bali 6–10% (with strong management), Phuket 5–8%, Dubai 4–7%. Bali's higher yield offsets a weaker foreign-owner legal position and slower exit.",
+        },
+        {
+          q: "Which market gives the strongest foreign-owner protection?",
+          a: "Dubai — full freehold in designated zones. Phuket — freehold on condominium with 49% quota, legally well-developed. Bali — the weakest, no full foreign freehold.",
+        },
+        {
+          q: "Which market grants a visa on property purchase?",
+          a: "Dubai — Investor Visa from $205k, Golden Visa from $545k, direct link. Phuket and Bali don't grant visas directly on property purchase, though parallel programmes exist (Elite, LTR in Thailand).",
+        },
+        {
+          q: "Where are rental taxes lowest?",
+          a: "Dubai — 0% on individual rental income. Phuket — 15% withholding. Bali — 10% withholding. Dubai wins comfortably here.",
+        },
+        {
+          q: "Which market is the most liquid on resale?",
+          a: "Dubai — most liquid, 2–6 months in top districts, large international brokerages. Phuket — 3–9 months in Bang Tao/Layan. Bali — 6–18 months due to fragmented market and legal complexity.",
+        },
+        {
+          q: "Can I combine these markets in one portfolio?",
+          a: "Common practice for investors with $500k+ portfolios: Phuket for yield and steady income + Dubai for liquidity and visa options. Bali is optional — for investors comfortable with volatility.",
+        },
+      ],
+    },
   },
 };

@@ -262,4 +262,24 @@ export const guideMeta: {
     image: "/projects/silhouette.jpg",
     updatedAt: "2026-07-03",
   },
+  {
+    slug: "rental-yield-phuket-by-area",
+    image: "/projects/ayana.jpg",
+    updatedAt: "2026-07-03",
+  },
+  {
+    slug: "off-plan-risks-due-diligence",
+    image: "/projects/lakeside.jpg",
+    updatedAt: "2026-07-03",
+  },
+  {
+    slug: "rental-tax-non-resident-thailand",
+    image: "/projects/serenity.jpg",
+    updatedAt: "2026-07-03",
+  },
+  {
+    slug: "phuket-vs-bali-vs-dubai",
+    image: "/projects/bellevue-beachfront.jpg",
+    updatedAt: "2026-07-03",
+  },
 ];
