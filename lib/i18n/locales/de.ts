@@ -144,6 +144,22 @@ export const de: LocaleData = {
       ctaBody:
         "Aktuelle Preise, Grundrisse und Konditionen — persönlich, vom ersten Anruf bis zur Schlüsselübergabe.",
     },
+    guides: {
+      indexEyebrow: "Ratgeber",
+      indexTitle: "Wie Sie sicher Immobilien auf Phuket kaufen",
+      indexSubtitle:
+        "Praxisleitfäden zu Rechtsformen, Steuern, Rendite und Fallstricken für ausländische Käufer auf Phuket.",
+      backToGuides: "Alle Ratgeber",
+      tableOfContents: "Inhalt",
+      faqEyebrow: "Häufige Fragen",
+      faqTitle: "Was Käufer am meisten fragen",
+      readingMinutes: "{n} Min. Lesezeit",
+      updatedLabel: "Aktualisiert",
+      ctaTitle: "Besprechen wir Ihr Ziel — ich zeige passende Objekte",
+      ctaBody:
+        "Wir klären gemeinsam, welche Rechtsform und welches Projekt zu Ihrem Fall passen — Einkommen, Kapital oder Leben auf Phuket.",
+      ctaWhatsapp: "WhatsApp-Nachricht",
+    },
     meta: {
       tagline: "Immobilien auf Phuket, abgestimmt auf Ihre Ziele",
       region: "Phuket, Thailand",
@@ -1009,6 +1025,163 @@ export const de: LocaleData = {
         { label: "Wohnungstypen", value: "4" },
         { label: "Fertigstellung", value: "August 2027" },
         { label: "Entwickler", value: "Siamese Stone" },
+      ],
+    },
+  },
+  guides: {
+    "buying-in-phuket-as-foreigner": {
+      title:
+        "Immobilienkauf auf Phuket als Ausländer 2026: Rechtsformen, Steuern, Checkliste",
+      description:
+        "Vollständiger Praxisleitfaden für ausländische Käufer von Immobilien auf Phuket. Freehold und Leasehold, Steuern, Zahlungsplan, Due Diligence, realistische Mietrendite und Schritt-für-Schritt-Checkliste.",
+      category: "Rechtsleitfaden",
+      readingMinutes: 12,
+      intro:
+        "Phuket zählt zu den weltweit attraktivsten Wohnimmobilienmärkten für ausländische Investoren: 7–12% Netto-Mietrendite p.a. auf starken Off-Plan-Projekten, stabile touristische Nachfrage und ein verständlicher Rechtsrahmen. Doch der Kauf durch Ausländer in Thailand folgt eigenen Regeln — Grundstückseigentum ist Nicht-Thailändern verwehrt, eine Eigentumswohnung im Kondominium dagegen problemlos möglich. Dieser Leitfaden enthält alles, was Sie brauchen, um sicher zu kaufen und die Rendite vorab realistisch zu modellieren.",
+      sections: [
+        {
+          heading: "Was Ausländer in Thailand kaufen dürfen — und was nicht",
+          paragraphs: [
+            "Thailändisches Recht verbietet Ausländern Grundeigentum, erlaubt aber ausdrücklich das Freehold-Eigentum an Kondominiumseinheiten — dies ist die rechtliche Grundlage von rund 90% aller Investitionsgeschäfte auf Phuket.",
+            "Eine Villa mit Grundstück lässt sich über eine der legalen Strukturen erwerben: 30-jähriges Leasehold mit Verlängerungsoption, Eigentum über eine thailändische Gesellschaft (2026 stärker kontrolliert — nur mit qualifiziertem Anwalt) oder langfristige Pacht des Grundstücks kombiniert mit Freehold am Gebäude.",
+            "Fertige Kondominien, Off-Plan-Kondominien und Hotel-managed Apartments stehen Ausländern in Freehold offen, sofern die Foreign Quota des Projekts nicht ausgeschöpft ist — per Gesetz können bis zu 49% der verkaufbaren Fläche eines Kondominiums in ausländischem Besitz sein.",
+          ],
+          bullets: [
+            "Kondominium-Freehold — die einfachste und sauberste Struktur für Ausländer",
+            "Leasehold 30+30+30 Jahre — bewährtes Modell für Villen und Teile des Kondo-Bestands",
+            "Villa-Eigentum über thailändische Gesellschaft — nur mit qualifiziertem Anwalt",
+          ],
+        },
+        {
+          heading: "Freehold vs. Leasehold: Was wählen",
+          paragraphs: [
+            "Freehold bedeutet volles Eigentum, eingetragen im Land Office, vererbbar und jederzeit veräußerbar. Einzige Grenze: die 49% Foreign Quota pro Gebäude.",
+            "Leasehold ist eine eingetragene Langzeitpacht, meist 30 Jahre mit zwei Verlängerungsoptionen (bis zu 90 Jahre gesamt). Rechtlich schwächer als Freehold: Die Verlängerung hängt vom Grundeigentümer (meist dem Entwickler) ab — Reputation des Entwicklers und präzise Vertragsformulierung sind entscheidend.",
+            "Faustregel: Ist Freehold zum gewünschten Preis verfügbar — Freehold nehmen. Leasehold ist die Wahl, wenn die Quote voll, die Einheit selten und der Entwickler stark ist.",
+          ],
+          bullets: [
+            "Freehold: vollständiges Eigentum, Land-Office-Eintrag, saubere Weiterveräußerung",
+            "Leasehold: 30+30+30 Jahre, rechtlich schwächer, aber legal und funktionsfähig",
+            "49% Foreign Quota ist in gefragten Projekten schnell vergeben — Freehold-Einheiten werten auf",
+          ],
+        },
+        {
+          heading: "Off-Plan vs. fertig: Wo ist die Rendite höher",
+          paragraphs: [
+            "Off-Plan (Kauf während der Bauphase) ist das dominierende Format für Investitionsdeals auf Phuket. Zahlungen sind gestaffelt, der Einstiegspreis liegt 20–35% unter Fertigstellungspreis, und bei einem starken Entwickler liefert dieses Format den höchsten ROI.",
+            "Fertige Objekte passen zu Käufern, die sofort einziehen oder ohne Wartezeit vermieten möchten. Der Preis ist höher, dafür gibt es kein Bauträgerrisiko und der Cashflow startet ab Tag eins.",
+            "Das Hauptkriterium bei Off-Plan ist nicht der Preis, sondern der Entwickler: EIA (Umweltverträglichkeitsprüfung), Baugenehmigung (Construction Permit), pünktliche Übergaberekord und Betriebsmodell nach Fertigstellung.",
+          ],
+          bullets: [
+            "Off-Plan: 20–35% Einstiegsrabatt, gestaffelte Zahlungen, Vermietung nach Übergabe",
+            "Fertig: sofortige Nutzung/Vermietung, höherer Preis, geringeres Wertsteigerungspotenzial",
+            "Unverhandelbare Checks: EIA, Baugenehmigung, Entwickler-Track-Record, Escrow",
+          ],
+        },
+        {
+          heading: "Zahlungsplan und Geldtransfer",
+          paragraphs: [
+            "Typischer Off-Plan-Plan: 1–3% Reservation Fee, 20–30% bei Unterzeichnung des Sales & Purchase Agreement (SPA), 40–60% in Bautranchen, 10–20% bei Schlüsselübergabe.",
+            "Die Zahlung erfolgt aus dem Ausland auf das Konto des Entwicklers oder auf Ihr thailändisches Konto mit dem obligatorischen Verwendungszweck „for the purpose of purchasing condominium“. Nur ein solcher Transfer erzeugt das Foreign Exchange Transaction Form (FET) — ohne dieses Dokument ist die Freehold-Registrierung für Ausländer unmöglich.",
+            "Für Käufer aus Russland und der GUS führen 2026 gängige Routen über befreundete Jurisdiktionen, lokal lizenzierte USDT-zu-Fiat-Konvertierung oder ein Konto in einem Drittstaat. Jede Route braucht eine individuelle Planung, damit die FET-Dokumentation korrekt bleibt.",
+          ],
+          bullets: [
+            "Reservation Fee: 1–3% bei Reservierung",
+            "SPA: +20–30% bei Vertragsunterzeichnung",
+            "Bautranchen: 40–60% über Meilensteine",
+            "Schlüsselübergabe: finale 10–20%",
+            "FET-Formular ist Pflicht für die ausländische Freehold-Registrierung",
+          ],
+        },
+        {
+          heading: "Steuern bei Kauf und Eigentum",
+          paragraphs: [
+            "Bei der Registrierung teilen Käufer und Verkäufer: Transfer Fee 2% des Schätzwertes, Specific Business Tax 3.3% (wenn der Verkäufer weniger als 5 Jahre Eigentümer war), Stamp Duty 0.5% und Withholding Tax nach progressiver Skala. Standardpraxis auf Phuket ist eine 50/50-Aufteilung, die im Vertrag festgehalten wird.",
+            "Jährliche Haltekosten sind faktisch zwei: Land and Building Tax (0.02–0.10% des Schätzwertes bei Wohnimmobilien) und die Service Charge des Entwicklers (keine Steuer, sondern eine Infrastrukturgebühr, 50–90 THB/m²/Monat).",
+            "Mietsteuer für Nichtansässige: 15% Quellensteuer auf die Bruttoeinnahmen. Über eine thailändische Gesellschaft wird die Bemessungsgrundlage um Ausgaben reduziert, der effektive Satz sinkt. Die meisten Hotel-managed Programme behalten die Steuer automatisch ein und stellen die Unterlagen aus.",
+          ],
+          bullets: [
+            "Transfer 2% + SBT 3.3% + Stempel 0.5% + WHT — beim Abschluss geteilt",
+            "Jährlich: Land & Building Tax 0.02–0.10% des Schätzwertes",
+            "Service Charge 50–90 THB/m²/Monat (Infrastruktur, keine Steuer)",
+            "Miet-Quellensteuer Nichtansässige: 15% auf Bruttoeinnahmen",
+          ],
+        },
+        {
+          heading: "Due Diligence: Was vor der Unterschrift zu prüfen ist",
+          paragraphs: [
+            "Rechtspaket des Entwicklers: Chanote (Grundbuch) für das Grundstück, Baugenehmigung, EIA, Kondominiums-Registrierungsgenehmigung, Eintragung der Entwicklergesellschaft beim MOC (Ministry of Commerce), keine anhängigen Verfahren, keine Belastungen.",
+            "Foreign Quota — wie viel Prozent des Projekts bereits an Ausländer im Freehold verkauft wurden. Ist die Quote ausgeschöpft, erhalten Sie nur Leasehold — egal, wie das Marketing es nennt. Vor SPA-Unterzeichnung prüfen.",
+            "Der SPA selbst: Zahlungsplan, Verzugsstrafen, Mängelgewährleistung (üblich 1 Jahr Ausbau, 5 Jahre Konstruktion), Force-Majeure-Klauseln, Escrow, Leasehold-Verlängerungsklausel (falls anwendbar).",
+          ],
+          bullets: [
+            "Chanote, Baugenehmigung, EIA — das Basispaket des Entwicklers",
+            "MOC-Registrierung + pünktliche Übergabehistorie",
+            "Verfügbare Foreign Quota — kritisch für Freehold-Registrierung",
+            "SPA: Fristen, Strafen, Garantien, Escrow, Leasehold-Verlängerung",
+          ],
+        },
+        {
+          heading: "Verwaltung und Vermietung nach Übergabe",
+          paragraphs: [
+            "Drei Modelle: Hotel-managed Programm (Entwickler oder Operator vermietet in Ihrem Namen, Sie erhalten Einkommen nach festem Satz oder Revenue-Share), unabhängiges Property Management (üblich 20–25% Gebühr) oder Selbstverwaltung (realistisch nur, wenn Sie auf Phuket leben).",
+            "Hotel-managed kommt oft mit garantierter Rendite in den ersten 3–5 Jahren (5–7% p.a. auf Kaufpreis) — das ist eher der Marketingboden. Das eigentliche Upside liegt im Revenue-Share nach Garantie, wo starke Projekte 8–12% netto liefern.",
+            "Auslastung auf Phuket: 65–85% jährlich in den stärksten Lagen (Bang Tao, Layan, Nai Yang, Laguna) unter professioneller Verwaltung. Hochsaison Dezember–März, Nebensaison Juni–September.",
+          ],
+          bullets: [
+            "Hotel-managed: 5–7% Garantie in den ersten Jahren + Revenue-Share danach",
+            "Unabhängiges Management: 20–25% Provision auf Einkommen",
+            "Auslastung 65–85% in Top-Lagen bei professionellem Betrieb",
+            "Hochsaison: Dezember–März. Nebensaison: Juni–September",
+          ],
+        },
+        {
+          heading: "Schritt-für-Schritt-Checkliste für Käufer",
+          bullets: [
+            "Ziel definieren: Einkommen, Kapital, Wohnen, Umzug — davon hängt alles ab",
+            "Lage wählen: Bang Tao, Layan, Nai Yang, Laguna — am stärksten für Investitionen",
+            "Shortlist 3–5 Projekte nach Ziel und Budget",
+            "Entwickler prüfen: EIA, Baugenehmigung, Übergabehistorie",
+            "Rendite modellieren: 5–10-Jahres-Yield-Modell mit Saisonalität",
+            "Reservierung: 1–3% Reservation Fee",
+            "Due Diligence: Anwalt prüft SPA und Entwicklerunterlagen",
+            "SPA-Unterzeichnung: Zahlungsplan und Verzugsstrafen",
+            "Transfer einrichten: FET-Formular",
+            "Bautranchen",
+            "Snagging + Schlüsselübergabe",
+            "Management aufsetzen, Vermietung starten",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Kann ein Ausländer in Thailand Immobilien auf den eigenen Namen kaufen?",
+          a: "Ja, aber nur bestimmte Objektarten. Eine Kondominiumseinheit — auf den eigenen Namen im Freehold, sofern die 49% Foreign Quota des Projekts nicht ausgeschöpft ist. Grundstücke — nein, nur über 30-jähriges Leasehold oder eine thailändische Gesellschaft mit qualifiziertem Anwalt.",
+        },
+        {
+          q: "Welche Mietrendite ist auf Phuket 2026 realistisch?",
+          a: "Auf starken Off-Plan-Projekten in Bang Tao, Layan und Nai Yang: 7–12% netto p.a. bei professionellem Management. Die 5–7% Garantien der Anfangsjahre sind der Marketingboden — die reale Obergrenze liegt darüber.",
+        },
+        {
+          q: "Was ist sicherer — Off-Plan oder fertig?",
+          a: "Beide Formate sind legal und funktionieren. Off-Plan bringt 20–35% Einstiegsrabatt und höhere ROI, verlangt aber gründliche Entwickler-Due-Diligence. Fertige Objekte bieten weniger Wertsteigerung, aber kein Bauträgerrisiko und sofortigen Cashflow.",
+        },
+        {
+          q: "Wie überweise ich 2026 als Käufer aus Russland/GUS die Kaufsumme?",
+          a: "Über lokal lizenzierte USDT-zu-Fiat-Konvertierung, Konten in befreundeten Jurisdiktionen oder Zahlungen über Partnerstrukturen. Entscheidend ist eine korrekte FET-Form — ohne sie ist die Freehold-Registrierung für Ausländer unmöglich.",
+        },
+        {
+          q: "Muss ich in Thailand Steuern zahlen, wenn ich die Wohnung vermiete?",
+          a: "Ja — 15% Quellensteuer auf die Bruttomieteinnahmen für Nichtansässige. Über eine thailändische Gesellschaft wird die Bemessungsgrundlage progressiv um Ausgaben reduziert. Hotel-managed Programme behalten meist automatisch ein und stellen Belege aus.",
+        },
+        {
+          q: "Was passiert, wenn der Entwickler die Übergabe verzögert?",
+          a: "Der SPA regelt es: Verzugsstrafen (üblich 5–15% p.a. auf gezahlte Summen) und das Rücktrittsrecht des Käufers mit Rückerstattung nach definiertem Verzögerungszeitraum (oft 12 Monate).",
+        },
+        {
+          q: "Foreign Quota — wo liegt das Risiko?",
+          a: "Per Gesetz können bis zu 49% der verkaufbaren Fläche im Freehold an Ausländer verkauft werden. In gefragten Off-Plan-Projekten sind diese 49% in den ersten 6–12 Monaten weg — danach bleibt Ausländern nur Leasehold. Vor SPA-Unterzeichnung freie Quote prüfen.",
+        },
       ],
     },
   },

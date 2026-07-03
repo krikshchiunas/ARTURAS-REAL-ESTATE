@@ -144,6 +144,22 @@ export const en: LocaleData = {
       ctaBody:
         "Current prices, floor plans and terms — personally, from the first call to the handover of keys.",
     },
+    guides: {
+      indexEyebrow: "Guides",
+      indexTitle: "How to buy property in Phuket safely",
+      indexSubtitle:
+        "Practical material on legal structures, taxes, yield and pitfalls of foreign-buyer transactions in Phuket.",
+      backToGuides: "All guides",
+      tableOfContents: "Table of contents",
+      faqEyebrow: "Frequent questions",
+      faqTitle: "What buyers ask most",
+      readingMinutes: "{n} min read",
+      updatedLabel: "Updated",
+      ctaTitle: "Let's discuss your goal — I'll show projects that fit",
+      ctaBody:
+        "Together we work out which legal structure and which project fit your specific case — income, capital or life in Phuket.",
+      ctaWhatsapp: "Message on WhatsApp",
+    },
     meta: {
       tagline: "Phuket real estate matched to your goals",
       region: "Phuket, Thailand",
@@ -1009,6 +1025,163 @@ export const en: LocaleData = {
         { label: "Unit types", value: "4" },
         { label: "Completion", value: "August 2027" },
         { label: "Developer", value: "Siamese Stone" },
+      ],
+    },
+  },
+  guides: {
+    "buying-in-phuket-as-foreigner": {
+      title:
+        "How to buy property in Phuket as a foreigner in 2026: legal structures, taxes, checklist",
+      description:
+        "A practical, end-to-end guide for foreign buyers of Phuket real estate. Freehold and leasehold, taxes, payment schedules, due diligence, real rental yield and a step-by-step checklist.",
+      category: "Legal guide",
+      readingMinutes: 12,
+      intro:
+        "Phuket is one of the most attractive residential markets in the world for foreign investors: 7–12% net rental yield on strong off-plan projects, robust tourism demand, and a transparent legal framework. But foreign purchases in Thailand run on their own rules — a non-Thai cannot own land outright, yet can freely own a condominium unit. This guide covers everything you need to know to buy safely and model returns before signing.",
+      sections: [
+        {
+          heading: "What a foreigner can and cannot buy in Thailand",
+          paragraphs: [
+            "Thai law prohibits foreigners from owning land, but clearly permits foreign freehold ownership of condominium units — this is the legal backbone of about 90% of investment transactions in Phuket.",
+            "A villa with land is acquired via one of the legal routes: a 30-year leasehold with renewal options, ownership through a Thai company (under tighter scrutiny in 2026 — only with a qualified lawyer), or long land lease combined with freehold on the building itself.",
+            "Completed condominiums, off-plan condominiums and hotel-managed apartments are all available to foreigners under freehold, provided the project's foreign quota is not yet full — by law, up to 49% of a condominium's saleable area can be owned by foreigners.",
+          ],
+          bullets: [
+            "Condominium freehold — the simplest and cleanest structure for foreigners",
+            "Leasehold 30+30+30 years — a working scheme for villas and part of condo stock",
+            "Villa ownership via a Thai company — only with a qualified lawyer",
+          ],
+        },
+        {
+          heading: "Freehold vs Leasehold: what to choose",
+          paragraphs: [
+            "Freehold is full ownership registered at the Land Office, inheritable and resellable at any time. The only constraint is the 49% foreign quota per building.",
+            "Leasehold is a registered long-term lease, typically 30 years with two renewal options (up to 90 years in total). It is legally weaker than freehold: renewal depends on the landowner (usually the developer), so the developer's reputation and precise contract wording matter.",
+            "Rule of thumb: if freehold is available in the project at the price you want — take freehold. Leasehold is a fit when the quota is full, the unit is rare and the developer is strong.",
+          ],
+          bullets: [
+            "Freehold: full title, Land Office registration, clean resale",
+            "Leasehold: 30+30+30 years, legally weaker but valid and workable",
+            "Foreign quota sells out fast in popular projects — freehold units appreciate",
+          ],
+        },
+        {
+          heading: "Off-plan vs completed: where yield is higher",
+          paragraphs: [
+            "Off-plan (purchase during construction) is the dominant format for investment transactions in Phuket. Payments are staged, entry price is 20–35% below completion price, and with a strong developer this format delivers the highest ROI.",
+            "Completed properties suit buyers who want to move in immediately or start renting without waiting. Prices are higher, but there is no construction risk and cash flow starts on day one.",
+            "The main criterion for off-plan is not price — it's the developer: EIA (environmental impact assessment), Construction Permit, delivery track record and post-handover management model.",
+          ],
+          bullets: [
+            "Off-plan: 20–35% entry discount, staged payments, rental starts after handover",
+            "Completed: immediate use or rental, higher price, less upside",
+            "Non-negotiable checks: EIA, Construction Permit, developer track record, escrow",
+          ],
+        },
+        {
+          heading: "Payment schedule and money transfer",
+          paragraphs: [
+            "Typical off-plan schedule: 1–3% Reservation Fee, 20–30% on Sales & Purchase Agreement, 40–60% in construction tranches, 10–20% at key handover.",
+            "Funds are wired from abroad to the developer's account or to your Thai account with the mandatory purpose note 'for the purpose of purchasing condominium'. Only such a transfer generates a Foreign Exchange Transaction Form (FET) — without it, foreign freehold registration is impossible.",
+            "In 2026, buyers from Russia and CIS commonly route funds via friendly jurisdictions, licensed USDT-to-fiat conversion locally, or accounts in third countries. Each route needs individual planning so that the FET documentation ends up correct.",
+          ],
+          bullets: [
+            "Reservation Fee: 1–3% on booking",
+            "SPA: +20–30% on contract signing",
+            "Construction tranches: 40–60% across milestones",
+            "Handover: final 10–20%",
+            "FET form is mandatory for foreign freehold registration",
+          ],
+        },
+        {
+          heading: "Taxes at purchase and during ownership",
+          paragraphs: [
+            "At registration, buyer and seller share: Transfer Fee 2% of appraised value, Specific Business Tax 3.3% (if seller owned less than 5 years), Stamp Duty 0.5% and Withholding Tax on a progressive scale. Standard Phuket practice is a 50/50 split — recorded in the contract.",
+            "Annual holding costs are effectively two: Land and Building Tax (0.02–0.10% of appraised value for residential) and the service charge to the developer (not a tax — an infrastructure fee, 50–90 THB/m²/month).",
+            "Rental tax for non-residents is 15% withholding on gross income. Through a Thai company, taxable base is reduced by expenses and the effective rate drops. Most hotel-managed programmes withhold automatically and issue the paperwork.",
+          ],
+          bullets: [
+            "Transfer 2% + SBT 3.3% + Stamp 0.5% + WHT — split at closing",
+            "Annual: Land & Building Tax 0.02–0.10% of appraisal",
+            "Service charge 50–90 THB/m²/month (infrastructure, not tax)",
+            "Non-resident rental tax: 15% WHT on gross",
+          ],
+        },
+        {
+          heading: "Due diligence: what to check before signing",
+          paragraphs: [
+            "Developer legal package: Chanote (Title Deed) on the land, Construction Permit, EIA, condominium registration permit, developer entity registered with MOC (Ministry of Commerce), no litigation and no encumbrances.",
+            "Foreign quota — the percentage of the project already sold to foreigners on freehold. If the quota is exhausted you'll only be offered leasehold — no matter what the marketing calls it. Verify before signing the SPA.",
+            "The SPA itself: payment schedule, penalties for delivery delay, defect warranty (typically 1 year on finishing, 5 years on structure), Force Majeure clauses, escrow provisions, leasehold renewal wording (where applicable).",
+          ],
+          bullets: [
+            "Chanote, Construction Permit, EIA — the base developer package",
+            "MOC registration + on-time delivery history",
+            "Available foreign quota — critical for freehold registration",
+            "SPA: schedule, penalties, warranties, escrow, leasehold renewal",
+          ],
+        },
+        {
+          heading: "Management and rental after handover",
+          paragraphs: [
+            "Three models: hotel-managed programme (developer or operator rents the unit on your behalf on a fixed or revenue-share model), independent property management (typically 20–25% fee), or self-management (only realistic if you live in Phuket).",
+            "Hotel-managed often ships with a guaranteed yield for years 1–3–5 (5–7% p.a. on cost) — this is a marketing floor. The real upside is revenue-share after the guarantee, where strong projects deliver 8–12% net.",
+            "Phuket occupancy: 65–85% annual in the strongest locations (Bang Tao, Layan, Nai Yang, Laguna) under professional management. Peak season December–March, low season June–September.",
+          ],
+          bullets: [
+            "Hotel-managed: 5–7% guarantee early on + revenue-share after",
+            "Independent management: 20–25% fee on income",
+            "Occupancy 65–85% in top locations under professional operation",
+            "Peak: December–March. Low season: June–September",
+          ],
+        },
+        {
+          heading: "Step-by-step buyer checklist",
+          bullets: [
+            "Define the goal: income, capital, home, relocation — everything follows from this",
+            "Choose the location: Bang Tao, Layan, Nai Yang, Laguna — strongest for investment",
+            "Shortlist 3–5 projects matching goal and budget",
+            "Vet the developer: EIA, Construction Permit, delivery track record",
+            "Model yield: 5–10 year yield forecast including seasonality",
+            "Reservation: 1–3% Reservation Fee",
+            "Due diligence: lawyer reviews SPA and developer corporate documents",
+            "SPA signing: payment schedule and penalties",
+            "Set up the transfer: FET form",
+            "Construction tranches",
+            "Snagging + key handover",
+            "Onboard to management, launch rental",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Can a foreigner buy real estate in Thailand in their own name?",
+          a: "Yes, but only certain asset types. A condominium unit — in your own name on freehold, provided the project's 49% foreign quota is not exhausted. Land — no direct freehold ownership; only a 30-year leasehold or a Thai company (with a qualified lawyer).",
+        },
+        {
+          q: "What rental yield is realistic in Phuket in 2026?",
+          a: "Strong off-plan projects in Bang Tao, Layan and Nai Yang deliver 7–12% net p.a. under professional management. The 5–7% guarantees in early years are a marketing floor — the real ceiling sits above.",
+        },
+        {
+          q: "Which is safer — off-plan or completed?",
+          a: "Both are legal and workable. Off-plan gives a 20–35% entry discount and higher ROI, but demands proper developer due diligence. Completed properties give less upside but zero construction risk and immediate cash flow.",
+        },
+        {
+          q: "How do I transfer purchase funds in 2026 as a buyer from Russia or CIS?",
+          a: "Via licensed USDT-to-fiat conversion locally, accounts in a friendly jurisdiction, or partner-structure payments. The critical requirement is to produce a correct FET form — without it, foreign freehold registration is impossible.",
+        },
+        {
+          q: "Do I owe Thai taxes if I rent my unit out?",
+          a: "Yes — 15% withholding tax on gross rental income for non-residents. Through a Thai company, the taxable base is reduced by expenses on a progressive scale. Most hotel-managed programmes withhold automatically and issue documentation.",
+        },
+        {
+          q: "What if the developer misses the delivery date?",
+          a: "The SPA sets the terms: late-delivery penalties (usually 5–15% p.a. on funds paid) and the buyer's right to cancel with refund after a defined delay window (often 12 months).",
+        },
+        {
+          q: "Foreign quota — where's the risk?",
+          a: "By law, up to 49% of a condominium's saleable area may be owned by foreigners on freehold. In popular off-plan projects that 49% sells out in the first 6–12 months — after that, foreigners can only take leasehold. Confirm available quota before signing the SPA.",
+        },
       ],
     },
   },

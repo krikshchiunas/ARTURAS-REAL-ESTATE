@@ -1,5 +1,6 @@
 import { defaultLocale, isLocale, type Locale } from "./config";
 import {
+  guideMeta,
   projectMeta,
   serviceMeta,
   siteConfig,
@@ -8,6 +9,7 @@ import {
 } from "./meta";
 import type {
   Dictionary,
+  GuideText,
   LocaleData,
   ProjectFact,
   ProjectText,
@@ -68,6 +70,24 @@ export function getProjects(locale: string): Project[] {
 
 export function getProject(locale: string, slug: string): Project | undefined {
   return getProjects(locale).find((p) => p.slug === slug);
+}
+
+// Гайды: нейтральная мета (обложка, дата обновления) + текст выбранной локали.
+export type Guide = {
+  slug: string;
+  image: string;
+  updatedAt: string;
+} & GuideText;
+
+export function getGuides(locale: string): Guide[] {
+  const text = data[resolve(locale)].guides;
+  return guideMeta
+    .filter((m) => text[m.slug])
+    .map((m) => ({ ...m, ...text[m.slug] }));
+}
+
+export function getGuide(locale: string, slug: string): Guide | undefined {
+  return getGuides(locale).find((g) => g.slug === slug);
 }
 
 // Соцканалы с переведённой меткой (бренды одинаковы, переводится только

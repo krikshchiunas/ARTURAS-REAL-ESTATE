@@ -42,6 +42,14 @@ export function Footer({ lang }: { lang: string }) {
                     </a>
                   </li>
                 ))}
+                <li>
+                  <a
+                    href={`/${lang}/guides`}
+                    className="transition-colors hover:text-bone"
+                  >
+                    {t.guides.indexEyebrow}
+                  </a>
+                </li>
               </ul>
             </nav>
             <Socials className="md:justify-end" lang={lang} />

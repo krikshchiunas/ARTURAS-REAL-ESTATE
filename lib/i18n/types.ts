@@ -34,6 +34,24 @@ export type ProjectText = {
 // Переводимая часть услуги (заголовок + описание). Ключуется по key.
 export type ServiceText = { title: string; body: string };
 
+// Один раздел статьи-гайда. Абзацы + необязательный список пунктов.
+export type GuideSection = {
+  heading: string;
+  paragraphs?: string[];
+  bullets?: string[];
+};
+
+// Переводимая часть статьи-гайда. Ключуется по slug (см. guideMeta в meta.ts).
+export type GuideText = {
+  title: string;
+  description: string;
+  category: string; // короткая метка над заголовком, напр. «Юридический гид»
+  readingMinutes: number;
+  intro: string;
+  sections: GuideSection[];
+  faq: { q: string; a: string }[];
+};
+
 // Интерфейсные строки.
 export type Dictionary = {
   nav: { approach: string; projects: string; founder: string; services: string; contact: string };
@@ -126,6 +144,20 @@ export type Dictionary = {
     ctaTitle: string; // содержит {name}
     ctaBody: string;
   };
+  guides: {
+    indexEyebrow: string;
+    indexTitle: string;
+    indexSubtitle: string;
+    backToGuides: string;
+    tableOfContents: string;
+    faqEyebrow: string;
+    faqTitle: string;
+    readingMinutes: string; // содержит {n}
+    updatedLabel: string; // напр. "Обновлено"
+    ctaTitle: string;
+    ctaBody: string;
+    ctaWhatsapp: string;
+  };
   meta: {
     tagline: string;
     region: string;
@@ -139,4 +171,5 @@ export type LocaleData = {
   stats: Stat[];
   services: Record<string, ServiceText>;
   projects: Record<string, ProjectText>;
+  guides: Record<string, GuideText>;
 };

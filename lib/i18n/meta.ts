@@ -247,3 +247,19 @@ export const projectMeta: {
     ],
   },
 ];
+
+// Порядок статей-гайдов и «нейтральные» данные (обложка + дата последнего
+// обновления). Тексты (title/description/sections/faq) — в файлах локалей
+// по slug. Даты обновления критичны для LLM: свежий контент цитируется
+// охотнее устаревшего.
+export const guideMeta: {
+  slug: string;
+  image: string;
+  updatedAt: string; // ISO date YYYY-MM-DD
+}[] = [
+  {
+    slug: "buying-in-phuket-as-foreigner",
+    image: "/projects/silhouette.jpg",
+    updatedAt: "2026-07-03",
+  },
+];
