@@ -29,6 +29,13 @@ const csp = [
 
 // Заголовки безопасности применяются ко всем маршрутам сайта.
 const securityHeaders = [
+  // Cross-Origin Opener Policy: изолирует вкладку от cross-origin попапов
+  // (защита от Spectre-атак). same-origin-allow-popups нужен для Google Sign-In
+  // и других OAuth-попапов.
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+  // Cross-Origin Resource Policy: разрешаем загрузку ресурсов с этого домена
+  // только одноимённым и cross-origin запросам (нужен Vercel CDN + GTM).
+  { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
   // Заставляет браузер всегда ходить по HTTPS (защита от downgrade/MITM).
   {
     key: "Strict-Transport-Security",

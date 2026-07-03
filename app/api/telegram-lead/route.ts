@@ -89,11 +89,38 @@ function clean(value: unknown, max: number): string {
   return value.trim().slice(0, max);
 }
 
-function fail(error: string, status: number) {
-  return NextResponse.json({ ok: false, error }, { status });
+function makeFail(request: Request) {
+  return (error: string, status: number) =>
+    NextResponse.json(
+      { ok: false, error },
+      { status, headers: corsHeaders(request) },
+    );
+}
+
+// CORS: разрешаем вызов только со своего домена, чтобы сторонние сайты не
+// могли отправлять заявки от имени пользователей (защита от CSRF-like abuse).
+function corsHeaders(request: Request): HeadersInit {
+  const origin = request.headers.get("origin") ?? "";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const allowed =
+    origin === siteUrl ||
+    // В dev разрешаем localhost.
+    /^https?:\/\/localhost(:\d+)?$/.test(origin);
+  return {
+    "Access-Control-Allow-Origin": allowed ? origin : "",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
+  };
+}
+
+export async function OPTIONS(request: Request) {
+  return new Response(null, { status: 204, headers: corsHeaders(request) });
 }
 
 export async function POST(request: Request) {
+  const fail = makeFail(request);
+
   // Ограничение частоты — до разбора тела, чтобы дёшево отсекать залпы.
   if (isRateLimited(getClientIp(request))) {
     return fail("Слишком много заявок. Подождите минуту и попробуйте снова.", 429);
@@ -204,5 +231,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true }, { headers: corsHeaders(request) });
 }
