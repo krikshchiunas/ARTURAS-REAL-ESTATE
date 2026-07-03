@@ -61,8 +61,110 @@ export default function ProjectPage({ params }: Params) {
   const index = projects.findIndex((p) => p.slug === project.slug);
   const number = String(index + 1).padStart(2, "0");
 
+  // Structured data: помогает LLM (ChatGPT, Claude, Perplexity, Gemini) и
+  // поисковикам понять, что это конкретный объект недвижимости — с ценой,
+  // расположением, застройщиком, набором параметров и удобств.
+  const canonicalUrl = `${siteConfig.url}/${lang}/projects/${project.slug}`;
+  const absoluteImage = project.image.startsWith("http")
+    ? project.image
+    : `${siteConfig.url}${project.image}`;
+  const absoluteGallery = project.gallery.map((src) =>
+    src.startsWith("http") ? src : `${siteConfig.url}${src}`,
+  );
+  const listingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": ["Product", "Residence"],
+    "@id": `${canonicalUrl}#listing`,
+    name: project.name,
+    description: project.summary,
+    url: canonicalUrl,
+    image: [absoluteImage, ...absoluteGallery],
+    category: project.type,
+    brand: project.developer
+      ? { "@type": "Organization", name: project.developer }
+      : undefined,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: project.location,
+      addressRegion: "Phuket",
+      addressCountry: "TH",
+    },
+    additionalProperty: [
+      ...project.highlights.map((h) => ({
+        "@type": "PropertyValue",
+        name: h.label,
+        value: h.value,
+      })),
+      ...project.spec.map((s) => ({
+        "@type": "PropertyValue",
+        name: s.label,
+        value: s.value,
+      })),
+      ...project.units.map((u) => ({
+        "@type": "PropertyValue",
+        name: u.type,
+        value: u.area,
+      })),
+    ],
+    amenityFeature: project.amenities.map((a) => ({
+      "@type": "LocationFeatureSpecification",
+      name: a,
+    })),
+    offers: project.priceFrom
+      ? {
+          "@type": "Offer",
+          priceCurrency: "THB",
+          price: project.priceFrom,
+          availability: "https://schema.org/InStock",
+          url: canonicalUrl,
+          seller: {
+            "@type": "RealEstateAgent",
+            "@id": `${siteConfig.url}/#organization`,
+            name: siteConfig.name,
+          },
+        }
+      : undefined,
+    isRelatedTo: {
+      "@type": "RealEstateAgent",
+      "@id": `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+    },
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: siteConfig.name,
+        item: `${siteConfig.url}/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t.backToProjects,
+        item: `${siteConfig.url}/${lang}#projects`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.name,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar lang={lang} />
       <main id="main" className="relative pt-28 md:pt-40">
         {/* Шапка */}

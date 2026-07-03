@@ -106,18 +106,60 @@ export default function LangLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
+    "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
+    alternateName: ["Arturas Krik Real Estate", "Артурас — недвижимость Пхукет"],
     description: t.meta.description,
     url: `${siteConfig.url}/${lang}`,
-    founder: { "@type": "Person", name: siteConfig.founder },
-    areaServed: { "@type": "Place", name: t.meta.region },
+    logo: `${siteConfig.url}/hero-poster.jpg`,
+    image: `${siteConfig.url}/hero-poster.jpg`,
+    founder: {
+      "@type": "Person",
+      name: siteConfig.founder,
+      jobTitle: "Founder & Real Estate Advisor",
+      image: `${siteConfig.url}/arturas.jpg`,
+    },
+    areaServed: [
+      { "@type": "Place", name: t.meta.region },
+      { "@type": "Place", name: "Phuket, Thailand" },
+      { "@type": "Place", name: "Bang Tao" },
+      { "@type": "Place", name: "Layan" },
+      { "@type": "Place", name: "Nai Yang" },
+      { "@type": "Place", name: "Laguna Phuket" },
+      { "@type": "Place", name: "Cherng Talay" },
+    ],
+    knowsAbout: [
+      "Phuket real estate",
+      "Off-plan condominiums in Thailand",
+      "Hotel-managed residences",
+      "Rental yield modelling",
+      "Freehold and leasehold structures for foreign buyers in Thailand",
+      "Relocation to Thailand",
+      "Property management in Phuket",
+    ],
+    knowsLanguage: ["ru", "uk", "en", "de", "th"],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        availableLanguage: ["Russian", "Ukrainian", "English", "German", "Thai"],
+        url: siteConfig.contacts.whatsapp,
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        url: siteConfig.contacts.telegram,
+      },
+    ],
     sameAs: [
       siteConfig.contacts.instagram,
       siteConfig.contacts.youtube,
       siteConfig.contacts.tiktok,
       siteConfig.contacts.telegramChannel,
+      siteConfig.contacts.telegram,
     ],
     priceRange: "$$$",
+    slogan: t.meta.tagline,
   };
 
   return (
