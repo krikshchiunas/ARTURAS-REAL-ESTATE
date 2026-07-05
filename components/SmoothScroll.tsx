@@ -36,7 +36,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // Модальные оверлеи (меню редизайна и т.п.) останавливают скролл через
+    // события — у них нет доступа к инстансу Lenis напрямую.
+    const stop = () => lenis.stop();
+    const start = () => lenis.start();
+    window.addEventListener("lenis:stop", stop);
+    window.addEventListener("lenis:start", start);
+
     return () => {
+      window.removeEventListener("lenis:stop", stop);
+      window.removeEventListener("lenis:start", start);
       gsap.ticker.remove(tick);
       lenis.destroy();
       lenisRef.current = null;

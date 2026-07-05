@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { getDictionary, whatsappHref } from "@/lib/i18n";
 import { events } from "@/lib/analytics";
 
@@ -7,8 +8,12 @@ import { events } from "@/lib/analytics";
 // Для трафика с рекламы это главный «горячий» канал: на мобильных WhatsApp
 // конвертит в диалог заметно лучше формы. Клик трекается как конверсия.
 export function FloatingWhatsApp({ lang }: { lang: string }) {
+  const pathname = usePathname();
   const common = getDictionary(lang).common;
   const href = whatsappHref(common.whatsappPrefill);
+
+  // На страницах редизайна свой чип «Chat with us» — зелёный кружок там лишний.
+  if (pathname.includes("/redesign")) return null;
 
   return (
     <a

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { getDictionary } from "@/lib/i18n";
 
 // Баннер согласия на cookie (GDPR). Управляет Google Consent Mode:
@@ -22,6 +23,10 @@ function updateConsent(granted: boolean) {
 
 export function CookieConsent({ lang }: { lang: string }) {
   const t = getDictionary(lang).cookie;
+  const pathname = usePathname();
+  // На страницах редизайна баннер носит HUD-стиль (night, mono, прямые углы),
+  // чтобы не выбиваться из новой системы. Логика согласия общая.
+  const redesign = pathname.includes("/redesign");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -48,6 +53,36 @@ export function CookieConsent({ lang }: { lang: string }) {
   };
 
   if (!visible) return null;
+
+  if (redesign) {
+    return (
+      <div
+        role="dialog"
+        aria-live="polite"
+        className="pointer-events-auto fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-5 z-[95] flex max-w-sm flex-col gap-4 border border-offwhite/20 bg-night/90 p-5 text-offwhite backdrop-blur-sm"
+      >
+        <p className="font-mono text-11 uppercase leading-1.6 tracking-4 text-offwhite/70">
+          {t.text}
+        </p>
+        <div className="flex gap-6">
+          <button
+            type="button"
+            onClick={() => decide(true)}
+            className="border border-offwhite/40 px-4 py-2 font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:bg-offwhite hover:text-night"
+          >
+            {t.accept}
+          </button>
+          <button
+            type="button"
+            onClick={() => decide(false)}
+            className="font-mono text-11 uppercase tracking-4 text-offwhite/50 transition-colors duration-300 hover:text-offwhite"
+          >
+            {t.decline}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

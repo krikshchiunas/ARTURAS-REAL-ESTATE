@@ -5,6 +5,9 @@
 @layer base {
   :root {
     --shell-px: clamp(1.25rem, 5vw, 4rem);
+    /* Редизайн: дисплейный шрифт = основной гротеск (Onest). Классы
+       font-display в старых секциях продолжают работать без serif-фолбэка. */
+    --font-display: var(--font-sans);
   }
 
   * {
@@ -49,7 +52,25 @@
   }
 }
 
+@keyframes slidein {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @layer components {
+  /* Кастомный курсор редизайна активен — системный прячем на его страницах. */
+  @media (pointer: fine) {
+    .rd-cursor-on .redesign-root,
+    .rd-cursor-on .redesign-root a,
+    .rd-cursor-on .redesign-root button {
+      cursor: none;
+    }
+  }
+
   .shell {
     width: 100%;
     max-width: theme("maxWidth.shell");

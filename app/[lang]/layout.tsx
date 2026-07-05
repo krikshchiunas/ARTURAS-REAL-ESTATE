@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Onest, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { SoundProvider } from "@/components/redesign/SoundManager";
+import { PageTransition } from "@/components/redesign/PageTransition";
 import { Ambient } from "@/components/Ambient";
 import { Grain } from "@/components/Grain";
 import { Analytics, GtmNoScript } from "@/components/Analytics";
@@ -17,22 +19,19 @@ import {
 import { getDictionary, siteConfig } from "@/lib/i18n";
 import "../globals.css";
 
-const sans = Plus_Jakarta_Sans({
-  subsets: ["latin", "latin-ext", "cyrillic-ext"],
+// Редизайн (hubtown-style): один гротеск на всё — Onest (геометрический,
+// полная кириллица; свободный аналог Px Grotesk оригинала). --font-display
+// указывает на него же: гигантские uppercase-заголовки и текст делит один шрифт,
+// иерархию строят кегль и вес, как в референсе.
+const sans = Onest({
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   display: "swap",
   variable: "--font-sans",
 });
 
-const display = Cormorant_Garamond({
-  subsets: ["latin", "latin-ext", "cyrillic"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap",
-  variable: "--font-display",
-});
-
 const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
   display: "swap",
   variable: "--font-mono",
 });
@@ -165,7 +164,7 @@ export default function LangLayout({
   return (
     <html
       lang={htmlLang[lang]}
-      className={`${sans.variable} ${display.variable} ${mono.variable}`}
+      className={`${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <body>
@@ -182,7 +181,10 @@ export default function LangLayout({
         </a>
         <Ambient />
         <Grain />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SoundProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+          <PageTransition />
+        </SoundProvider>
         <FloatingWhatsApp lang={lang} />
         <Analytics />
         <CookieConsent lang={lang} />
