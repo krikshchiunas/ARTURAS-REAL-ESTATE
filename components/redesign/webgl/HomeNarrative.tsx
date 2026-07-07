@@ -68,12 +68,31 @@ export function HomeNarrative({ lang }: { lang: Locale }) {
           <HomeScene progressRef={progressRef} parallax={parallax} />
         </div>
 
-        {/* Виньетка снизу — читаемость текста поверх сцены */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-night/30 to-transparent" />
+        {/* Виньетка — читаемость текста поверх сцены */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(2,10,25,0.75)_100%)]" />
 
-        {/* Главы: показывается активная, остальные скрыты */}
-        <div className="pointer-events-none absolute inset-0 flex items-end px-6 pb-24 md:items-center md:px-16 md:pb-0">
-          <div className="relative w-full max-w-[46rem]">
+        {/* Список глав слева (FUTURE → LEGACY) с активной подсветкой */}
+        <nav className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col gap-3 md:flex md:left-16">
+          {chapters.map((ch, i) => (
+            <span
+              key={ch.tag}
+              className={`flex items-center gap-3 font-mono text-11 uppercase tracking-4 transition-colors duration-500 ${
+                i === active ? "text-offwhite" : "text-offwhite/25"
+              }`}
+            >
+              <span
+                className={`inline-block h-1.5 w-1.5 transition-opacity duration-500 ${
+                  i === active ? "bg-offwhite opacity-100" : "opacity-0"
+                }`}
+              />
+              {ch.tag}
+            </span>
+          ))}
+        </nav>
+
+        {/* Центрированный контент активной главы */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6">
+          <div className="relative w-full max-w-[52rem] text-center">
             {chapters.map((ch, i) => (
               <article
                 key={ch.tag}
@@ -81,20 +100,17 @@ export function HomeNarrative({ lang }: { lang: Locale }) {
                 className={`transition-all duration-700 ease-smooth ${
                   i === active
                     ? "pointer-events-auto relative opacity-100 blur-0"
-                    : "pointer-events-none absolute inset-0 opacity-0 blur-sm"
+                    : "pointer-events-none absolute inset-x-0 top-0 opacity-0 blur-sm"
                 }`}
               >
-                <p className="font-mono text-11 uppercase tracking-4 text-offwhite/60">
-                  {String(i + 1).padStart(2, "0")} — {ch.tag}
-                </p>
-                <h2 className="mt-6 text-40 font-bold uppercase leading-0.9 text-offwhite md:text-104 md:leading-0.8">
+                <h2 className="mx-auto max-w-[16ch] text-32 font-bold uppercase leading-1.1 text-offwhite md:text-56 md:leading-1.1">
                   {ch.title}
                 </h2>
-                <p className="mt-6 max-w-[34rem] text-16 font-light leading-1.6 text-offwhite/70">
+                <p className="mx-auto mt-6 max-w-[42ch] text-14 font-light leading-1.6 text-offwhite/60 md:text-16">
                   {ch.body}
                 </p>
                 {ch.cta && (
-                  <div className="mt-8">
+                  <div className="mt-9 flex justify-center">
                     <BracketButton href={hrefFor(ch.ctaHref)}>{ch.cta}</BracketButton>
                   </div>
                 )}
@@ -103,21 +119,9 @@ export function HomeNarrative({ lang }: { lang: Locale }) {
           </div>
         </div>
 
-        {/* Индикатор глав справа */}
-        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 flex-col gap-3 md:flex">
-          {chapters.map((ch, i) => (
-            <span
-              key={ch.tag}
-              className={`h-6 w-px transition-colors duration-500 ${
-                i === active ? "bg-offwhite" : "bg-offwhite/20"
-              }`}
-            />
-          ))}
-        </div>
-
         {/* Подсказка скролла — только на первой главе */}
         <div
-          className={`pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-opacity duration-500 ${
+          className={`pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-opacity duration-500 ${
             active === 0 ? "opacity-100" : "opacity-0"
           }`}
         >

@@ -5,14 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { locales, type Locale } from "@/lib/i18n/config";
-import { getSocials } from "@/lib/i18n";
-import { chromeDict, menuRegions } from "@/components/redesign/dict";
+import { getSocials, siteConfig } from "@/lib/i18n";
+import { chromeDict } from "@/components/redesign/dict";
 import { useSound } from "@/components/redesign/SoundManager";
 
-// Полноэкранное меню редизайна (паттерн референса): слева — районы Пхукета
-// со счётчиками проектов и соцссылки, справа — гигантские ссылки навигации
-// с roll-hover (дубликат строки въезжает снизу). Скролл на время меню
-// останавливается событиями lenis:stop/start, Esc закрывает.
+// Меню-оверлей в стиле Hubtown: светлая (offwhite) панель, выезжающая справа
+// на ~35% ширины и инвертирующая цвета (тёмный текст на светлом). Крупные
+// ссылки навигации стопкой, нумерованные вторичные ссылки, языки + сайт внизу.
+// Левая часть — затемнение страницы (клик закрывает). Esc закрывает.
 
 type MenuOverlayProps = {
   lang: Locale;
@@ -25,6 +25,8 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
   const socials = getSocials(lang);
   const pathname = usePathname();
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const firstRun = useRef(true);
   const { play } = useSound();
 
@@ -36,49 +38,53 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
     { label: t.nav.contact, href: `${base}/contact` },
   ];
 
-  // Переключатель локали сохраняет текущий путь внутри редизайна.
   const langHref = (l: string) => pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l}`);
 
-  // Императивные твины с абсолютными целями вместо play/reverse таймлайна:
-  // компонент может ремаунтиться при навигации (state открытости живёт выше,
-  // в Header), и «замороженный» reversed-таймлайн оставлял оверлей на экране.
-  // Здесь каждый запуск эффекта приводит DOM к нужному состоянию с нуля.
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const panel = panelRef.current;
+    const backdrop = backdropRef.current;
+    if (!root || !panel || !backdrop) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const links = root.querySelectorAll("[data-menu-link]");
-    const sides = root.querySelectorAll("[data-menu-side]");
+    const links = panel.querySelectorAll("[data-menu-link]");
+    const sides = panel.querySelectorAll("[data-menu-side]");
 
     if (open) {
       window.dispatchEvent(new Event("lenis:stop"));
       document.body.style.overflow = "hidden";
+      gsap.set(root, { autoAlpha: 1 });
       gsap.fromTo(
-        root,
-        { yPercent: -100, autoAlpha: 1 },
-        { yPercent: 0, duration: reduce ? 0 : 0.7, ease: "power4.inOut", overwrite: "auto" },
+        backdrop,
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: reduce ? 0 : 0.4, overwrite: "auto" },
+      );
+      gsap.fromTo(
+        panel,
+        { xPercent: 100 },
+        { xPercent: 0, duration: reduce ? 0 : 0.7, ease: "power4.inOut", overwrite: "auto" },
       );
       gsap.fromTo(
         links,
-        { yPercent: 110 },
+        { yPercent: 120, opacity: 0 },
         {
           yPercent: 0,
+          opacity: 1,
           duration: reduce ? 0 : 0.6,
-          stagger: reduce ? 0 : 0.06,
-          delay: reduce ? 0 : 0.35,
+          stagger: reduce ? 0 : 0.07,
+          delay: reduce ? 0 : 0.28,
           ease: "power3.out",
           overwrite: "auto",
         },
       );
       gsap.fromTo(
         sides,
-        { autoAlpha: 0, y: 16 },
+        { autoAlpha: 0, y: 14 },
         {
           autoAlpha: 1,
           y: 0,
           duration: reduce ? 0 : 0.5,
-          stagger: reduce ? 0 : 0.05,
-          delay: reduce ? 0 : 0.45,
+          stagger: reduce ? 0 : 0.04,
+          delay: reduce ? 0 : 0.4,
           ease: "power2.out",
           overwrite: "auto",
         },
@@ -87,13 +93,13 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
       window.dispatchEvent(new Event("lenis:start"));
       document.body.style.overflow = "";
       if (firstRun.current) {
-        // Первый рендер (и ремаунт после навигации): без анимации, сразу спрятать.
-        gsap.set(root, { yPercent: -100, autoAlpha: 0 });
+        gsap.set(root, { autoAlpha: 0 });
+        gsap.set(panel, { xPercent: 100 });
       } else {
-        // Закрытие быстрее открытия — меню не должно «мешать уходить».
-        gsap.to(root, {
-          yPercent: -100,
-          duration: reduce ? 0 : 0.45,
+        gsap.to(backdrop, { autoAlpha: 0, duration: reduce ? 0 : 0.4, overwrite: "auto" });
+        gsap.to(panel, {
+          xPercent: 100,
+          duration: reduce ? 0 : 0.5,
           ease: "power4.inOut",
           overwrite: "auto",
           onComplete: () => gsap.set(root, { autoAlpha: 0 }),
@@ -112,51 +118,109 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  const siteUrl = siteConfig.url.replace(/^https?:\/\//, "").toUpperCase();
+
   return (
     <div
       ref={rootRef}
       role="dialog"
       aria-modal="true"
       aria-hidden={!open}
-      className="invisible fixed inset-0 z-[110] bg-night"
+      className="invisible fixed inset-0 z-[130]"
     >
-      <div className="flex h-full flex-col justify-between px-6 pb-10 pt-28 md:flex-row md:items-end md:px-16 md:pb-16">
-        {/* Левая колонка: районы + соцсети + языки */}
-        <div className="order-2 mt-10 flex flex-col gap-10 md:order-1 md:mt-0 md:max-w-[22rem]">
-          <ul className="space-y-3">
-            {menuRegions.map((r) => (
-              <li
-                key={r.name}
-                data-menu-side
-                className="flex items-baseline gap-4 border-b border-offwhite/10 pb-3"
-              >
-                <span className="font-mono text-11 tracking-4 text-offwhite/50">
-                  {String(r.count).padStart(2, "0")}{" "}
-                  <span className="uppercase">{t.projectsWord}</span>
-                </span>
-                <span className="ml-auto text-16 font-light text-offwhite/80">
-                  {r.name}
-                </span>
+      {/* Затемнение слева — клик закрывает */}
+      <div
+        ref={backdropRef}
+        onClick={onClose}
+        className="absolute inset-0 bg-night/70 backdrop-blur-[2px]"
+      />
+
+      {/* Светлая панель справа */}
+      <div
+        ref={panelRef}
+        className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-offwhite px-8 pb-8 pt-6 text-night md:px-10"
+      >
+        {/* Верх: метка + закрыть */}
+        <div className="flex items-center justify-between">
+          <span data-menu-side className="flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-night/70">
+            <span className="inline-block h-1.5 w-1.5 bg-night" /> Explore
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              play("click");
+              onClose();
+            }}
+            onMouseEnter={() => play("hover")}
+            aria-label={t.close}
+            className="flex h-9 w-9 items-center justify-center border border-night/25 text-night transition-colors duration-300 hover:bg-night hover:text-offwhite"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
+              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Большие ссылки навигации */}
+        <nav className="mt-12">
+          <ul>
+            {items.map((item) => {
+              const active =
+                item.href === base
+                  ? pathname === base || pathname === `${base}/`
+                  : pathname.startsWith(item.href);
+              return (
+                <li key={item.href} className="overflow-hidden">
+                  <Link
+                    href={item.href}
+                    onClick={() => {
+                      play("click");
+                      onClose();
+                    }}
+                    onMouseEnter={() => play("hover")}
+                    data-menu-link
+                    className={`group block py-0.5 text-40 font-bold uppercase leading-[1.08] tracking-tight transition-colors duration-300 md:text-48 ${
+                      active ? "text-night" : "text-night/85 hover:text-night"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Нумерованные вторичные ссылки (соцканалы) */}
+        <div data-menu-side className="mt-auto">
+          <span className="flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-night/60">
+            <span className="inline-block h-1.5 w-1.5 bg-night" /> {t.links}
+          </span>
+          <ul className="mt-5 space-y-2.5">
+            {socials.map((s, i) => (
+              <li key={s.key}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseEnter={() => play("hover")}
+                  className="group flex items-baseline justify-between border-b border-night/10 pb-2"
+                >
+                  <span className="text-14 font-medium text-night/80 transition-colors duration-300 group-hover:text-night">
+                    {s.label}
+                  </span>
+                  <span className="font-mono text-10 tracking-4 text-night/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </a>
               </li>
             ))}
           </ul>
+        </div>
 
-          <div data-menu-side className="flex flex-wrap gap-x-5 gap-y-2">
-            {socials.map((s) => (
-              <a
-                key={s.key}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseEnter={() => play("hover")}
-                className="font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors duration-300 hover:text-offwhite"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-
-          <div data-menu-side className="flex gap-4">
+        {/* Низ: языки + сайт */}
+        <div data-menu-side className="mt-8 flex items-center justify-between border-t border-night/10 pt-5">
+          <div className="flex gap-3">
             {locales.map((l) => (
               <Link
                 key={l}
@@ -166,62 +230,15 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
                   onClose();
                 }}
                 className={`font-mono text-11 uppercase tracking-4 transition-colors duration-300 ${
-                  l === lang
-                    ? "text-offwhite underline underline-offset-4"
-                    : "text-offwhite/40 hover:text-offwhite"
+                  l === lang ? "text-night underline underline-offset-4" : "text-night/40 hover:text-night"
                 }`}
               >
                 {l}
               </Link>
             ))}
           </div>
+          <span className="font-mono text-10 uppercase tracking-4 text-night/50">{siteUrl}</span>
         </div>
-
-        {/* Правая колонка: главные ссылки */}
-        <nav className="order-1 md:order-2 md:text-right">
-          <ul className="space-y-2">
-            {items.map((item, i) => {
-              const active =
-                item.href === base
-                  ? pathname === base || pathname === `${base}/`
-                  : pathname.startsWith(item.href);
-              return (
-                <li key={item.href} className="overflow-hidden">
-                  <div data-menu-link>
-                    <Link
-                      href={item.href}
-                      onClick={() => {
-                        play("click");
-                        onClose();
-                      }}
-                      onMouseEnter={() => play("hover")}
-                      className="group relative inline-flex items-start gap-3 md:gap-5"
-                    >
-                      <span className="mt-3 font-mono text-11 tracking-4 text-offwhite/40 md:mt-6">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="relative block overflow-hidden text-48 font-bold uppercase leading-0.9 md:text-104">
-                        <span
-                          className={`block transition-transform duration-500 ease-smooth group-hover:-translate-y-full ${
-                            active ? "text-offwhite" : "text-offwhite/50"
-                          }`}
-                        >
-                          {item.label}
-                        </span>
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 block translate-y-full text-offwhite transition-transform duration-500 ease-smooth group-hover:translate-y-0"
-                        >
-                          {item.label}
-                        </span>
-                      </span>
-                    </Link>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
       </div>
     </div>
   );

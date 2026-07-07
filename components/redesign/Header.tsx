@@ -8,29 +8,35 @@ import { chromeDict } from "@/components/redesign/dict";
 import { MenuOverlay } from "@/components/redesign/MenuOverlay";
 import { useSound } from "@/components/redesign/SoundManager";
 
-// Шапка редизайна: вордмарк слева, кнопка Menu справа, между ними — ничего.
-// Вся навигация живёт в полноэкранном меню (паттерн референса).
+// Шапка редизайна (паттерн Hubtown): вордмарк слева, inline-навигация +
+// кнопка MENU справа. Полное меню-оверлей открывается кнопкой MENU.
 export function Header({ lang }: { lang: Locale }) {
   const t = chromeDict(lang);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { play } = useSound();
 
-  // Смена маршрута всегда закрывает меню (клик по ссылке или Back браузера).
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
+  const base = `/${lang}/redesign`;
+  const navLinks = [
+    { label: t.nav.about, href: `${base}/about` },
+    { label: t.nav.projects, href: `${base}/projects` },
+    { label: t.nav.contact, href: `${base}/contact` },
+  ];
+
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[120] flex items-start justify-between px-6 pt-6 md:px-16 md:pt-8">
+      <header className="fixed inset-x-0 top-0 z-[120] flex items-center justify-between px-6 pt-6 md:px-16 md:pt-7">
         <Link
-          href={`/${lang}/redesign`}
+          href={base}
           onMouseEnter={() => play("hover")}
           onClick={() => play("click")}
           className="leading-none"
         >
-          <span className="block text-18 font-bold uppercase tracking-tight text-offwhite">
+          <span className="block text-18 font-bold uppercase tracking-[0.2em] text-offwhite">
             Arturas
           </span>
           <span className="mt-1 block font-mono text-9 uppercase tracking-4 text-offwhite/50">
@@ -38,7 +44,28 @@ export function Header({ lang }: { lang: Locale }) {
           </span>
         </Link>
 
-        <button
+        <div className="flex items-center gap-8">
+          {/* Inline-навигация (desktop) */}
+          <nav className="hidden items-center gap-7 lg:flex">
+            {navLinks.map((l) => {
+              const active = pathname.startsWith(l.href);
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onMouseEnter={() => play("hover")}
+                  onClick={() => play("click")}
+                  className={`font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:text-offwhite ${
+                    active ? "text-offwhite" : "text-offwhite/55"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <button
           type="button"
           aria-expanded={open}
           onMouseEnter={() => play("hover")}
@@ -64,7 +91,8 @@ export function Header({ lang }: { lang: Locale }) {
           <span aria-hidden className="absolute right-0 top-0 h-[3px] w-[3px] bg-current opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           <span aria-hidden className="absolute bottom-0 left-0 h-[3px] w-[3px] bg-current opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           <span aria-hidden className="absolute bottom-0 right-0 h-[3px] w-[3px] bg-current" />
-        </button>
+          </button>
+        </div>
       </header>
 
       <MenuOverlay lang={lang} open={open} onClose={() => setOpen(false)} />

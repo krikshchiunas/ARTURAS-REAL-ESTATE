@@ -4,19 +4,18 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MapControls, Html } from "@react-three/drei";
-import type { ProjectPin } from "@/components/redesign/map/phuketGeo";
+import type { ProjectPin, RegionId } from "@/components/redesign/map/phuketGeo";
 import { REGIONS } from "@/components/redesign/map/phuketGeo";
 
-// ─── Маска острова ───────────────────────────────────────────────────────────
-// Стилизованный силуэт Пхукета: вытянутый с севера на юг, с изрезанным
-// западным побережьем. Возвращает 0 (море) … 1 (центр суши).
+// Сцена карты в стиле Hubtown: почти чёрный рельеф с едва заметными
+// горизонталями, тёмная вода, ромбовидные маркеры-кластеры районов
+// («NN PROJECTS / NAME»); пины проектов появляются при выборе района.
+
+// ─── Маска острова (силуэт Пхукета) ─────────────────────────────────────────
 function islandMask(x: number, z: number): number {
-  // Базовый эллипс.
   let d = Math.hypot(x / 22, z / 34);
-  // Волнистость береговой линии.
   const coast = 0.12 * Math.sin(z * 0.18) + 0.08 * Math.sin(x * 0.3 + z * 0.1);
   d += coast;
-  // Западный «залив» (выемка под пляжи), где стоят проекты.
   const bay = Math.exp(-((x + 16) ** 2) / 60 - (z ** 2) / 900) * 0.25;
   d += bay;
   return THREE.MathUtils.clamp(1 - d, 0, 1);
@@ -24,7 +23,7 @@ function islandMask(x: number, z: number): number {
 
 function terrainHeight(x: number, z: number): number {
   const mask = islandMask(x, z);
-  if (mask <= 0.02) return -0.5; // морское дно
+  if (mask <= 0.02) return -0.5;
   const hills =
     Math.sin(x * 0.25) * Math.cos(z * 0.2) * 1.4 +
     Math.sin(x * 0.5 + z * 0.3) * 0.7;
@@ -36,18 +35,19 @@ function Island() {
     const geo = new THREE.PlaneGeometry(70, 96, 150, 200);
     const pos = geo.attributes.position as THREE.BufferAttribute;
     const colors: number[] = [];
-    // Более светлая гамма суши, чтобы остров читался на тёмной воде: берег
-    // подсвечен, склоны голубеют к вершинам.
-    const low = new THREE.Color("#12325c");
-    const high = new THREE.Color("#3f6bb0");
-    const shore = new THREE.Color("#1d4c8f");
+    // Почти чёрная гамма: суша едва темнее/светлее воды, читается рельефом.
+    const low = new THREE.Color("#050e1d");
+    const high = new THREE.Color("#0b1c36");
+    const shore = new THREE.Color("#0a1930");
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
-      const y = pos.getY(i); // это z в мире после поворота
+      const y = pos.getY(i);
       const h = terrainHeight(x, y);
       pos.setZ(i, h);
       const mask = islandMask(x, y);
-      const c = new THREE.Color().copy(mask < 0.14 ? shore : low).lerp(high, THREE.MathUtils.clamp(h / 7, 0, 1));
+      const c = new THREE.Color()
+        .copy(mask < 0.14 ? shore : low)
+        .lerp(high, THREE.MathUtils.clamp(h / 8, 0, 1));
       colors.push(c.r, c.g, c.b);
     }
     geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
@@ -57,18 +57,59 @@ function Island() {
 
   return (
     <mesh geometry={geometry} rotation-x={-Math.PI / 2}>
-      <meshStandardMaterial vertexColors roughness={0.92} metalness={0.05} flatShading />
+      <meshStandardMaterial vertexColors roughness={0.96} metalness={0.02} flatShading />
     </mesh>
   );
 }
 
-// ─── Вода вокруг острова ─────────────────────────────────────────────────────
+// Горизонтали рельефа — тонкие «топографические» кольца, как HUD-оверлей.
+function ContourLines() {
+  const lines = useMemo(() => {
+    const group: { points: THREE.Vector3[] }[] = [];
+    for (let level = 1; level <= 5; level++) {
+      const target = level * 1.5;
+      const points: THREE.Vector3[] = [];
+      // Грубая трассировка: по сетке ищем точки, близкие к уровню.
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 90) {
+        for (let r = 2; r < 40; r += 0.4) {
+          const x = Math.cos(a) * r * 0.72;
+          const z = Math.sin(a) * r;
+          const h = terrainHeight(x, z);
+          if (Math.abs(h - target) < 0.18) {
+            points.push(new THREE.Vector3(x, h + 0.06, z));
+            break;
+          }
+        }
+      }
+      if (points.length > 12) group.push({ points });
+    }
+    return group;
+  }, []);
+
+  return (
+    <>
+      {lines.map((l, i) => (
+        <line key={i}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              args={[new Float32Array(l.points.flatMap((p) => [p.x, p.y, p.z])), 3]}
+            />
+          </bufferGeometry>
+          <lineBasicMaterial color="#1c3258" transparent opacity={0.35} />
+        </line>
+      ))}
+    </>
+  );
+}
+
+// ─── Вода ────────────────────────────────────────────────────────────────────
 const WATER_VERT = /* glsl */ `
   uniform float uTime;
   varying vec3 vWorld;
   void main(){
     vec3 p = position;
-    p.z += sin(p.x*0.3 + uTime*0.6)*0.12 + sin(p.y*0.4 - uTime*0.5)*0.09;
+    p.z += sin(p.x*0.3 + uTime*0.5)*0.08 + sin(p.y*0.4 - uTime*0.4)*0.06;
     vec4 w = modelMatrix * vec4(p,1.0);
     vWorld = w.xyz;
     gl_Position = projectionMatrix * viewMatrix * w;
@@ -76,15 +117,12 @@ const WATER_VERT = /* glsl */ `
 `;
 const WATER_FRAG = /* glsl */ `
   uniform float uTime;
-  uniform vec3 uDeep; uniform vec3 uShallow; uniform vec3 uGlow;
+  uniform vec3 uDeep; uniform vec3 uShallow;
   varying vec3 vWorld;
   void main(){
     float d = length(vWorld.xz);
-    float band = smoothstep(6.0, 26.0, d);
+    float band = smoothstep(4.0, 30.0, d);
     vec3 col = mix(uShallow, uDeep, band);
-    // мягкое свечение у берега
-    float ripple = 0.5 + 0.5*sin(d*0.6 - uTime*1.2);
-    col += uGlow * (1.0-band) * ripple * 0.08;
     gl_FragColor = vec4(col,1.0);
   }
 `;
@@ -94,9 +132,8 @@ function Ocean({ animate }: { animate: boolean }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uDeep: { value: new THREE.Color("#020a19") },
-      uShallow: { value: new THREE.Color("#083463") },
-      uGlow: { value: new THREE.Color("#3d78ff") },
+      uDeep: { value: new THREE.Color("#01060f") },
+      uShallow: { value: new THREE.Color("#041226") },
     }),
     [],
   );
@@ -105,13 +142,69 @@ function Ocean({ animate }: { animate: boolean }) {
   });
   return (
     <mesh rotation-x={-Math.PI / 2} position-y={-0.05}>
-      <planeGeometry args={[400, 400, 120, 120]} />
+      <planeGeometry args={[400, 400, 90, 90]} />
       <shaderMaterial ref={mat} uniforms={uniforms} vertexShader={WATER_VERT} fragmentShader={WATER_FRAG} />
     </mesh>
   );
 }
 
-// ─── Маркер проекта ──────────────────────────────────────────────────────────
+// ─── Ромб-кластер района ─────────────────────────────────────────────────────
+function RegionDiamond({
+  id,
+  name,
+  count,
+  position,
+  active,
+  dimmed,
+  projectsWord,
+  onSelect,
+}: {
+  id: RegionId;
+  name: string;
+  count: number;
+  position: [number, number, number];
+  active: boolean;
+  dimmed: boolean;
+  projectsWord: string;
+  onSelect: (id: RegionId) => void;
+}) {
+  const opacity = dimmed ? 0.35 : 1;
+
+  // Весь маркер — экранный (DOM поверх сцены): ромб остаётся ровным при любом
+  // ракурсе камеры, как в референсе.
+  return (
+    <group position={position}>
+      <Html center distanceFactor={40} zIndexRange={[30, 0]}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(id);
+          }}
+          className="group flex flex-col items-center gap-2"
+          style={{ opacity }}
+        >
+          {/* Ромб с точкой в центре */}
+          <span
+            className={`relative block h-6 w-6 rotate-45 border transition-colors duration-300 ${
+              active ? "border-offwhite" : "border-offwhite/60 group-hover:border-offwhite"
+            }`}
+          >
+            <span className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 bg-offwhite" />
+          </span>
+          <span className="mt-1 whitespace-nowrap bg-offwhite px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-night">
+            {String(count).padStart(2, "0")} {projectsWord}
+          </span>
+          <span className="whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.35em] text-offwhite">
+            {name}
+          </span>
+        </button>
+      </Html>
+    </group>
+  );
+}
+
+// ─── Пин проекта (внутри выбранного района) ──────────────────────────────────
 function Marker({
   pin,
   active,
@@ -126,7 +219,6 @@ function Marker({
   const ring = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
     if (!ring.current) return;
-    // Без анимации кольцо статично (активное чуть крупнее для акцента).
     if (!animate) {
       ring.current.scale.setScalar(active ? 1.4 : 1);
       return;
@@ -136,17 +228,14 @@ function Marker({
   });
   return (
     <group position={pin.position}>
-      {/* Стержень пина */}
       <mesh position={[0, -0.7, 0]}>
-        <cylinderGeometry args={[0.03, 0.03, 1.4, 6]} />
-        <meshBasicMaterial color="#9db8ff" transparent opacity={0.5} />
+        <cylinderGeometry args={[0.02, 0.02, 1.4, 6]} />
+        <meshBasicMaterial color="#9db8ff" transparent opacity={0.45} />
       </mesh>
-      {/* Пульсирующее кольцо */}
       <mesh ref={ring} rotation-x={-Math.PI / 2}>
-        <ringGeometry args={[0.22, 0.32, 24]} />
-        <meshBasicMaterial color="#3d78ff" transparent opacity={0.8} side={THREE.DoubleSide} />
+        <ringGeometry args={[0.18, 0.26, 24]} />
+        <meshBasicMaterial color="#6fa3ff" transparent opacity={0.85} side={THREE.DoubleSide} />
       </mesh>
-      {/* HUD-подпись: высота по «дорожке» разводит соседние метки по вертикали */}
       <Html center distanceFactor={26} position={[0, 0.9 + pin.labelLane * 0.85, 0]} zIndexRange={[40, 0]}>
         <button
           type="button"
@@ -167,30 +256,7 @@ function Marker({
   );
 }
 
-// ─── Ярлыки районов ──────────────────────────────────────────────────────────
-function RegionLabels() {
-  return (
-    <>
-      {REGIONS.map((r) => (
-        <Html
-          key={r.id}
-          center
-          distanceFactor={60}
-          position={[r.anchor[0], 0.2, r.anchor[1]]}
-          zIndexRange={[10, 0]}
-        >
-          <span className="pointer-events-none whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.35em] text-offwhite/35">
-            {r.name}
-          </span>
-        </Html>
-      ))}
-    </>
-  );
-}
-
-// ─── Управление камерой с ограничениями ──────────────────────────────────────
-// Цель по умолчанию смещена на запад: проекты кластеризованы на западном
-// побережье, и камера центрируется на них, а не на геометрическом центре острова.
+// ─── Управление ──────────────────────────────────────────────────────────────
 const DEFAULT_TARGET = new THREE.Vector3(-9, 0, -3);
 
 function Controls({ controlsRef }: { controlsRef: React.MutableRefObject<any> }) {
@@ -200,12 +266,11 @@ function Controls({ controlsRef }: { controlsRef: React.MutableRefObject<any> })
       makeDefault
       enableDamping
       dampingFactor={0.08}
-      minDistance={14}
+      minDistance={12}
       maxDistance={70}
       maxPolarAngle={Math.PI / 2.35}
       minPolarAngle={0.15}
       target={DEFAULT_TARGET}
-      // Ограничиваем панораму, чтобы остров не «убегал» из кадра.
       screenSpacePanning={false}
     />
   );
@@ -214,48 +279,75 @@ function Controls({ controlsRef }: { controlsRef: React.MutableRefObject<any> })
 export default function MapScene({
   pins,
   activeSlug,
+  selectedRegion,
   onSelect,
+  onRegionSelect,
   controlsRef,
   reduceMotion = false,
+  projectsWord,
 }: {
   pins: ProjectPin[];
   activeSlug: string | null;
+  selectedRegion: RegionId | null;
   onSelect: (slug: string) => void;
+  onRegionSelect: (id: RegionId) => void;
   controlsRef: React.MutableRefObject<any>;
   reduceMotion?: boolean;
+  projectsWord: string;
 }) {
   const animate = !reduceMotion;
+  const counts = useMemo(() => {
+    const c: Record<string, number> = {};
+    for (const p of pins) c[p.region] = (c[p.region] ?? 0) + 1;
+    return c;
+  }, [pins]);
+
   return (
     <Canvas
       dpr={[1, 1.75]}
-      camera={{ fov: 40, near: 0.1, far: 400, position: [2, 30, 40] }}
+      // Старт строго с юга (азимут 0) — компас показывает 000°, как в референсе.
+      camera={{ fov: 40, near: 0.1, far: 400, position: [-9, 30, 37] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
-      // При reduce-motion не гоняем render-loop вхолостую: перерисовка только
-      // по взаимодействию (drag/zoom камеры), вода и пульсация заморожены.
       frameloop={reduceMotion ? "demand" : "always"}
-      // Скринридерам маркеры/список доступны как DOM-кнопки; сам холст —
-      // презентационный слой. Клавиатурный доступ ко всем проектам даёт панель
-      // списка и текстовый fallback.
       role="img"
       aria-label="Interactive 3D map of Phuket projects"
     >
-      <color attach="background" args={["#020a19"]} />
-      <fog attach="fog" args={["#020a19", 80, 240]} />
-      <ambientLight intensity={0.55} color="#4a68a0" />
-      <directionalLight position={[-10, 45, 20]} intensity={1.6} color="#bcd2ff" />
-      <directionalLight position={[30, 20, -20]} intensity={0.5} color="#3d78ff" />
+      <color attach="background" args={["#01060f"]} />
+      <fog attach="fog" args={["#01060f", 90, 260]} />
+      <ambientLight intensity={0.35} color="#2c4576" />
+      <directionalLight position={[-10, 45, 20]} intensity={0.7} color="#8fb0e8" />
       <Island />
+      <ContourLines />
       <Ocean animate={animate} />
-      <RegionLabels />
-      {pins.map((pin) => (
-        <Marker
-          key={pin.project.slug}
-          pin={pin}
-          active={activeSlug === pin.project.slug}
-          onSelect={onSelect}
-          animate={animate}
+
+      {/* Ромбы районов; выбранный скрывается — его место занимают пины проектов */}
+      {REGIONS.filter((r) => r.id !== selectedRegion).map((r) => (
+        <RegionDiamond
+          key={r.id}
+          id={r.id}
+          name={r.name}
+          count={counts[r.id] ?? 0}
+          position={[r.anchor[0], 3.2, r.anchor[1]]}
+          active={false}
+          dimmed={selectedRegion !== null}
+          projectsWord={projectsWord}
+          onSelect={onRegionSelect}
         />
       ))}
+
+      {/* Пины проектов выбранного района */}
+      {pins
+        .filter((p) => selectedRegion !== null && p.region === selectedRegion)
+        .map((pin) => (
+          <Marker
+            key={pin.project.slug}
+            pin={pin}
+            active={activeSlug === pin.project.slug}
+            onSelect={onSelect}
+            animate={animate}
+          />
+        ))}
+
       <Controls controlsRef={controlsRef} />
     </Canvas>
   );

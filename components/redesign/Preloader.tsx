@@ -3,17 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-// Прелоадер референса: счётчик 0% → 100% с меняющейся подписью, затем шторка
-// уезжает вверх. Показывается один раз за сессию (sessionStorage) — при
-// внутренних переходах пользователя не мучаем.
+// Прелоадер в стиле Hubtown: горизонтальный ряд квадратов-сегментов,
+// заполняющийся слева направо по мере загрузки; крошечный счётчик «NN%» над
+// правым краем ряда и подпись «LOADING CONTENT» под левым. Затем шторка уезжает
+// вверх. Показывается один раз за сессию (sessionStorage).
 //
-// Фаза 0: прогресс симулируется поверх document.fonts.ready; в фазе WebGL
-// сюда подключится реальная загрузка ассетов (setProgress извне).
+// Прогресс симулируется поверх document.fonts.ready; в фазе WebGL сюда можно
+// прокинуть реальную загрузку ассетов.
 
 const SESSION_KEY = "arturas-preloaded";
+const SEGMENTS = 16;
 
-// Hero-анимации (HeadlineReveal и т.п.) стартуют по этому сигналу — иначе они
-// отыграют под непрозрачной шторкой и пользователь увидит уже финальный кадр.
+// Hero-анимации стартуют по этому сигналу — иначе отыграют под шторкой впустую.
 function announceReady() {
   (window as unknown as { __arturasReady?: boolean }).__arturasReady = true;
   window.dispatchEvent(new Event("arturas:ready"));
@@ -36,13 +37,11 @@ export function Preloader({
   const rootRef = useRef<HTMLDivElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef(onDone);
   doneRef.current = onDone;
 
-  // Решение «показывать или нет» принимаем только на клиенте: SSR всегда
-  // рендерит null, иначе гидрация разойдётся из-за sessionStorage.
   useEffect(() => {
-    // ?nopreload — обход для автотестов и отладки (прелоадер мешает снимкам).
     const skip =
       sessionStorage.getItem(SESSION_KEY) ||
       new URLSearchParams(window.location.search).has("nopreload");
@@ -60,10 +59,22 @@ export function Preloader({
     const root = rootRef.current;
     const number = numberRef.current;
     const label = labelRef.current;
-    if (!root || !number || !label) return;
+    const row = rowRef.current;
+    if (!root || !number || !label || !row) return;
 
+    const cells = Array.from(row.children) as HTMLElement[];
     const state = { value: 0 };
     let finished = false;
+
+    const paint = () => {
+      const v = state.value;
+      number.textContent = `${Math.round(v)}%`;
+      const filled = Math.round((v / 100) * SEGMENTS);
+      cells.forEach((c, i) => {
+        c.style.backgroundColor =
+          i < filled ? "rgb(213,224,255)" : "rgba(213,224,255,0.14)";
+      });
+    };
 
     const ctx = gsap.context(() => {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -75,10 +86,8 @@ export function Preloader({
         gsap.to(root, {
           yPercent: -100,
           duration: reduce ? 0 : 0.9,
-          delay: reduce ? 0 : 0.55,
+          delay: reduce ? 0 : 0.5,
           ease: "power4.inOut",
-          // Сигнал чуть раньше конца шторки: hero начинает подниматься,
-          // пока она дораскрывается — как в референсе.
           onStart: () => window.setTimeout(announceReady, reduce ? 0 : 700),
           onComplete: () => {
             setMounted(false);
@@ -88,19 +97,17 @@ export function Preloader({
       };
 
       if (reduce) {
+        state.value = 100;
+        paint();
         finish();
         return;
       }
 
-      // Счётчик тянется к 90% сам; последний рывок до 100% — когда шрифты
-      // реально готовы. Если fonts.ready задержится, всё равно доводим за 4с.
       const tween = gsap.to(state, {
         value: 90,
         duration: 2.2,
         ease: "power2.out",
-        onUpdate: () => {
-          number.textContent = `${Math.round(state.value)}%`;
-        },
+        onUpdate: paint,
       });
 
       const complete = () => {
@@ -109,9 +116,7 @@ export function Preloader({
           value: 100,
           duration: 0.5,
           ease: "power3.inOut",
-          onUpdate: () => {
-            number.textContent = `${Math.round(state.value)}%`;
-          },
+          onUpdate: paint,
           onComplete: () => {
             label.textContent = texts.loaded;
             finish();
@@ -122,7 +127,6 @@ export function Preloader({
       const fallback = window.setTimeout(complete, 4000);
       void document.fonts.ready.then(() => {
         window.clearTimeout(fallback);
-        // Небольшая пауза, чтобы счётчик не «телепортировался» на первом кадре.
         window.setTimeout(complete, 600);
       });
     }, root);
@@ -135,23 +139,35 @@ export function Preloader({
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-night"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-night"
       aria-hidden
     >
-      <span
-        ref={numberRef}
-        className="font-mono text-54 font-bold leading-0.9 text-offwhite md:text-140"
-      >
-        0%
-      </span>
-      <span
-        ref={labelRef}
-        className="mt-6 font-mono text-11 uppercase tracking-4 text-offwhite/50"
-      >
-        {texts.loading}
-      </span>
-      {/* Тонкая линия прогресса по нижнему краю — вторит HUD-эстетике. */}
-      <div className="absolute bottom-0 left-0 h-px w-full bg-offwhite/10" />
+      <div className="relative">
+        {/* Счётчик над правым краем ряда */}
+        <span
+          ref={numberRef}
+          className="absolute -top-6 right-0 font-mono text-11 font-bold tracking-4 text-offwhite"
+        >
+          0%
+        </span>
+        {/* Ряд сегментов */}
+        <div ref={rowRef} className="flex items-center gap-[10px]">
+          {Array.from({ length: SEGMENTS }).map((_, i) => (
+            <span
+              key={i}
+              className="h-[7px] w-[7px]"
+              style={{ backgroundColor: "rgba(213,224,255,0.14)" }}
+            />
+          ))}
+        </div>
+        {/* Подпись под левым краем ряда */}
+        <span
+          ref={labelRef}
+          className="absolute -bottom-7 left-0 font-mono text-11 uppercase tracking-4 text-offwhite/50"
+        >
+          {texts.loading}
+        </span>
+      </div>
     </div>
   );
 }

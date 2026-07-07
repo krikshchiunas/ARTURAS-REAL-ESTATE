@@ -65,6 +65,9 @@ export type ChromeDict = {
     typeLabel: string;
     regionLabel: string;
     resetView: string;
+    introTitle: string;
+    introCards: readonly { title: string; body: string }[];
+    enterMap: string;
   };
   projectsPage: {
     chapter: string;
@@ -189,6 +192,13 @@ const en: ChromeDict = {
     typeLabel: "Type",
     regionLabel: "Region",
     resetView: "Reset view",
+    introTitle: "How to use the map",
+    introCards: [
+      { title: "Scroll", body: "Zoom in and out of the map" },
+      { title: "Drag", body: "Move around" },
+      { title: "Click", body: "View project details" },
+    ],
+    enterMap: "Enter the map",
   },
   projectsPage: {
     chapter: "003 — Projects",
@@ -313,6 +323,13 @@ const ru: ChromeDict = {
     typeLabel: "Тип",
     regionLabel: "Район",
     resetView: "Сбросить вид",
+    introTitle: "Как пользоваться картой",
+    introCards: [
+      { title: "Скролл", body: "Приближайте и отдаляйте карту" },
+      { title: "Перетаскивание", body: "Перемещайтесь по карте" },
+      { title: "Клик", body: "Открывайте детали проекта" },
+    ],
+    enterMap: "Открыть карту",
   },
   projectsPage: {
     chapter: "003 — Проекты",
@@ -437,6 +454,13 @@ const uk: ChromeDict = {
     typeLabel: "Тип",
     regionLabel: "Район",
     resetView: "Скинути вид",
+    introTitle: "Як користуватися мапою",
+    introCards: [
+      { title: "Скрол", body: "Наближайте та віддаляйте мапу" },
+      { title: "Перетягування", body: "Пересувайтеся мапою" },
+      { title: "Клік", body: "Відкривайте деталі проєкту" },
+    ],
+    enterMap: "Відкрити мапу",
   },
   projectsPage: {
     chapter: "003 — Проєкти",
@@ -561,6 +585,13 @@ const de: ChromeDict = {
     typeLabel: "Typ",
     regionLabel: "Region",
     resetView: "Ansicht zurücksetzen",
+    introTitle: "So nutzen Sie die Karte",
+    introCards: [
+      { title: "Scrollen", body: "Karte vergrößern und verkleinern" },
+      { title: "Ziehen", body: "Auf der Karte bewegen" },
+      { title: "Klicken", body: "Projektdetails ansehen" },
+    ],
+    enterMap: "Karte öffnen",
   },
   projectsPage: {
     chapter: "003 — Projekte",
@@ -685,6 +716,13 @@ const th: ChromeDict = {
     typeLabel: "ประเภท",
     regionLabel: "พื้นที่",
     resetView: "รีเซ็ตมุมมอง",
+    introTitle: "วิธีใช้แผนที่",
+    introCards: [
+      { title: "เลื่อน", body: "ซูมเข้าและออกจากแผนที่" },
+      { title: "ลาก", body: "เลื่อนดูรอบ ๆ" },
+      { title: "คลิก", body: "ดูรายละเอียดโครงการ" },
+    ],
+    enterMap: "เข้าสู่แผนที่",
   },
   projectsPage: {
     chapter: "003 — โครงการ",
