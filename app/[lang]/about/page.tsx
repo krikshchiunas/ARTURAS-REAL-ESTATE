@@ -44,12 +44,13 @@ export async function generateMetadata({
 
 const PROCESS_KEYS = ["selection", "analysis", "deal", "management"] as const;
 
-// Шахматная раскладка парящих карточек (desktop), как в референсе.
+// Шахматная раскладка парящих карточек (desktop), как в референсе. Последняя
+// карточка стоит у самого низа дорожки — под ней не остаётся пустого фона.
 const CARD_POSITIONS = [
-  "md:left-[6%] md:top-[2%]",
+  "md:left-[6%] md:top-[0%]",
   "md:right-[8%] md:top-[24%]",
-  "md:left-[14%] md:top-[50%]",
-  "md:right-[14%] md:top-[72%]",
+  "md:left-[14%] md:top-[49%]",
+  "md:right-[12%] md:top-[74%]",
 ] as const;
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -161,13 +162,16 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           <div className="mt-16">
             {stats.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.05}>
-                <div className="flex flex-col gap-4 border-t border-offwhite/10 py-10 md:flex-row md:items-baseline md:justify-between md:py-12">
-                  <span className="max-w-[22rem] font-mono text-11 uppercase tracking-4 text-offwhite/50">
+                <div className="flex flex-col gap-4 border-t border-offwhite/10 py-10 md:flex-row md:items-baseline md:justify-between md:gap-10 md:py-12">
+                  {/* Подпись крупнее заголовочного mono: длинные формулировки
+                      вроде «просчитанных инвестиционных моделей» должны
+                      читаться, а не тесниться мелким шрифтом. */}
+                  <span className="max-w-[30rem] font-mono text-14 uppercase leading-1.6 tracking-2 text-offwhite/75 md:text-18">
                     {String(i + 1).padStart(3, "0")} — {s.label}
                   </span>
                   <Odometer
                     value={s.value}
-                    className="font-mono text-56 font-bold text-offwhite md:text-140"
+                    className="shrink-0 font-mono text-56 font-bold text-offwhite md:text-120"
                   />
                 </div>
               </Reveal>
@@ -175,8 +179,13 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           </div>
         </section>
 
-        {/* Парящие карточки 001–004 поверх потоков (референс: careers) */}
-        <section className="relative border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        {/* Парящие карточки 001–004 поверх потоков (референс: careers).
+            data-scene-end: путь света досказывается на последней карточке,
+            дальше идёт футер — уже с финальным кадром, а не пустым фоном. */}
+        <section
+          data-scene-end
+          className="relative border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32"
+        >
           <div className="flex flex-wrap items-baseline justify-between gap-4">
             <HeadlineReveal
               as="h2"
@@ -193,24 +202,24 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             </p>
           </Reveal>
 
-          <div className="relative mt-14 flex flex-col gap-8 md:mt-20 md:block md:h-[210vh]">
+          <div className="relative mt-14 flex flex-col gap-8 md:mt-20 md:block md:h-[145vh]">
             {process.map((s, i) => (
               <Reveal
                 key={s.key}
                 delay={i * 0.06}
-                className={`md:absolute md:w-[24rem] ${CARD_POSITIONS[i]}`}
+                className={`md:absolute md:w-[31rem] ${CARD_POSITIONS[i]}`}
               >
-                <div className="border border-offwhite/12 bg-night/45 p-7 backdrop-blur-md transition-colors duration-500 hover:bg-night/65 md:p-8">
+                <div className="border border-offwhite/12 bg-night/45 p-7 backdrop-blur-md transition-colors duration-500 hover:bg-night/65 md:p-10">
                   <div className="flex items-start justify-between">
-                    <span className="inline-block h-1.5 w-1.5 bg-offwhite/60" aria-hidden />
-                    <span className="font-mono text-10 tracking-4 text-offwhite/50">
+                    <span className="inline-block h-2 w-2 bg-offwhite/60" aria-hidden />
+                    <span className="font-mono text-11 tracking-4 text-offwhite/50">
                       ■ {String(i + 1).padStart(3, "0")}
                     </span>
                   </div>
-                  <h3 className="mt-6 text-24 font-bold uppercase leading-1.1 md:text-30">
+                  <h3 className="mt-7 text-24 font-bold uppercase leading-1.1 md:text-32">
                     {s.title}
                   </h3>
-                  <p className="mt-4 text-14 font-light leading-1.6 text-offwhite/65">
+                  <p className="mt-5 text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
                     {s.body}
                   </p>
                 </div>

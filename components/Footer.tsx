@@ -23,6 +23,12 @@ export function Footer({ lang }: { lang: Locale }) {
   if (pathname.startsWith(`/${lang}/map`)) return null;
 
   const base = `/${lang}`;
+  // Карточка объекта и статья-гид заканчиваются собственным призывом («Подберём
+  // {объект} под вашу цель», «Обсудим вашу цель»). Общий футерный «Работаем
+  // вместе» встал бы сразу под ним — два гигантских CTA подряд. На таких
+  // страницах общий блок убираем, ссылки и нижняя полоса остаются.
+  const ownCta = new RegExp(`^/${lang}/(projects|guides)/[^/]+`).test(pathname);
+
   const current = pageOrder.findIndex((p) => {
     const full = `${base}${p}`;
     return p === "" ? pathname === full || pathname === `${full}/` : pathname.startsWith(full);
@@ -37,19 +43,21 @@ export function Footer({ lang }: { lang: Locale }) {
   return (
     <footer className="relative border-t border-offwhite/10 bg-night text-offwhite">
       {/* CTA-блок */}
-      <div className="px-6 py-24 md:px-16 md:py-36">
-        <h2 className="max-w-[8ch] text-54 font-bold uppercase leading-0.9 md:text-140 md:leading-0.8">
-          {t.workTitle}
-        </h2>
-        <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-[30rem] text-16 font-light leading-1.6 text-offwhite/70">
-            {t.workBody}
-          </p>
-          <BracketButton href={whatsappHref(common.whatsappPrefill)}>
-            {t.workCta}
-          </BracketButton>
+      {ownCta ? null : (
+        <div className="px-6 py-24 md:px-16 md:py-36">
+          <h2 className="max-w-[8ch] text-54 font-bold uppercase leading-0.9 md:text-140 md:leading-0.8">
+            {t.workTitle}
+          </h2>
+          <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
+            <p className="max-w-[30rem] text-16 font-light leading-1.6 text-offwhite/70">
+              {t.workBody}
+            </p>
+            <BracketButton href={whatsappHref(common.whatsappPrefill)}>
+              {t.workCta}
+            </BracketButton>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Нумерованные ссылки */}
       <div className="border-t border-offwhite/10 px-6 py-14 md:px-16">

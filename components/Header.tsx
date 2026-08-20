@@ -22,11 +22,22 @@ export function Header({ lang }: { lang: Locale }) {
   }, [pathname]);
 
   const base = `/${lang}`;
+  // Projects открывает карту — список всех объектов достаётся оттуда панелью
+  // «Список проектов», поэтому пункт подсвечен и на карте, и на страницах
+  // списка/карточки.
   const navLinks = [
-    { label: t.nav.about, href: `${base}/about` },
-    { label: t.nav.projects, href: `${base}/projects` },
-    { label: getDictionary(lang).guides.indexEyebrow, href: `${base}/guides` },
-    { label: t.nav.contact, href: `${base}/contact` },
+    { label: t.nav.about, href: `${base}/about`, match: [`${base}/about`] },
+    {
+      label: t.nav.projects,
+      href: `${base}/map`,
+      match: [`${base}/map`, `${base}/projects`],
+    },
+    {
+      label: getDictionary(lang).guides.indexEyebrow,
+      href: `${base}/guides`,
+      match: [`${base}/guides`],
+    },
+    { label: t.nav.contact, href: `${base}/contact`, match: [`${base}/contact`] },
   ];
 
   return (
@@ -50,7 +61,7 @@ export function Header({ lang }: { lang: Locale }) {
           {/* Inline-навигация (desktop) */}
           <nav className="hidden items-center gap-7 lg:flex">
             {navLinks.map((l) => {
-              const active = pathname.startsWith(l.href);
+              const active = l.match.some((m) => pathname.startsWith(m));
               return (
                 <Link
                   key={l.href}

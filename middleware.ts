@@ -29,10 +29,12 @@ export function middleware(request: NextRequest) {
   );
   if (hasLocale) return;
 
-  // Иначе редиректим на префиксованный путь.
+  // Иначе редиректим на префиксованный путь. Голый корень ведём сразу на
+  // «Обо мне» — знакомство с человеком важнее заставки; WebGL-главная
+  // остаётся по /{lang} и доступна из меню.
   const locale = detectLocale(request);
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
+  url.pathname = pathname === "/" ? `/${locale}/about` : `/${locale}${pathname}`;
   return NextResponse.redirect(url);
 }
 

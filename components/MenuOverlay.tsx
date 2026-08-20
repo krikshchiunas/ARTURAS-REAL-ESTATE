@@ -31,11 +31,12 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
   const { play } = useSound();
 
   const base = `/${lang}`;
-  // Projects ведёт в реестр объектов; оттуда — вход в 3D-карту.
+  // Projects открывает карту; полный список объектов — панель «Список проектов»
+  // внутри неё.
   const items = [
     { label: t.nav.home, href: base },
     { label: t.nav.about, href: `${base}/about` },
-    { label: t.nav.projects, href: `${base}/projects` },
+    { label: t.nav.projects, href: `${base}/map` },
     { label: getDictionary(lang).guides.indexEyebrow, href: `${base}/guides` },
     { label: t.nav.contact, href: `${base}/contact` },
   ];

@@ -73,8 +73,12 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
         </Reveal>
       </section>
 
-      {/* Каналы + форма */}
-      <section className="relative z-10 border-t border-offwhite/10 bg-night/60 px-6 py-24 backdrop-blur-sm md:px-16 md:py-32">
+      {/* Каналы + форма. data-scene-end: подъём куба заканчивается ровно здесь,
+          чтобы под формой не оставалось прокрутки по пустому фону. */}
+      <section
+        data-scene-end
+        className="relative z-10 border-t border-offwhite/10 bg-night/60 px-6 py-24 backdrop-blur-sm md:px-16 md:py-32"
+      >
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
             <div className="flex items-baseline justify-between gap-4">

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { sceneScrollProgress } from "@/components/webgl/sceneScroll";
 
 // Фон страницы About — «фон 1» из макета (about-path.html): ночной город-силуэт
 // вдоль изогнутой улицы, по которой течёт поток серебряных нитей к порталу
@@ -710,8 +711,7 @@ export default function AboutPathScene() {
     let curT = 0;
     const maxU = 0.955;
     function readScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      targetT = max > 0 ? window.scrollY / max : 0;
+      targetT = sceneScrollProgress();
     }
     window.addEventListener("scroll", readScroll, { passive: true });
     readScroll();

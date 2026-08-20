@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Water } from "three/examples/jsm/objects/Water.js";
+import { sceneScrollProgress } from "@/components/webgl/sceneScroll";
 
 // Фон страницы Contact — «фон 2» из макета (contact-cube.html): куб-монолит
 // над ночной водой на фоне луны. Прокрутка поднимает куб и камеру и
@@ -670,8 +671,7 @@ export default function ContactCubeScene() {
     let targetT = 0;
     let curT = 0;
     function readScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      targetT = max > 0 ? window.scrollY / max : 0;
+      targetT = sceneScrollProgress();
     }
     window.addEventListener("scroll", readScroll, { passive: true });
     readScroll();

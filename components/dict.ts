@@ -93,21 +93,21 @@ const en: ChromeDict = {
     "We are not just brokers. We are analysts, negotiators, legal guides and locals — coming together to shape your future in Phuket.",
   workCta: "Get in touch",
   rights: "All rights reserved",
-  nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
+  nav: { home: "Home", about: "About me", projects: "Projects", contact: "Contact" },
   preloader: { loading: "Loading content", loaded: "Loaded", ready: "Ready to Explore" },
   stubs: {
     about: {
-      chapter: "002 — About",
+      chapter: "001 — About me",
       title: "The most trusted advisor in Phuket",
       sub: "Fifteen years of hands-on experience in real estate, analysis and investment.",
     },
     projects: {
-      chapter: "003 — Projects",
+      chapter: "002 — Projects",
       title: "Spaces that matter",
       sub: "Thirteen developments across Bang Tao, Layan, Nai Yang and Laguna.",
     },
     contact: {
-      chapter: "004 — Contact",
+      chapter: "003 — Contact",
       title: "Get in touch",
       sub: "Contact us to learn about the Arturas vision — and your next property.",
     },
@@ -123,7 +123,7 @@ const en: ChromeDict = {
       ["Languages", "RU · UK · EN · DE · TH"],
       ["Approach", "Personal, end-to-end"],
     ],
-    processChapter: "005 — Process",
+    processChapter: "004 — Process",
   },
   contactPage: {
     infoTitle: "Contact info",
@@ -201,7 +201,7 @@ const en: ChromeDict = {
     enterMap: "Enter the map",
   },
   projectsPage: {
-    chapter: "003 — Projects",
+    chapter: "002 — Projects",
     title: "Spaces that matter",
     sub: "Thirteen developments across Bang Tao, Layan, Nai Yang and Laguna — each screened for quality, yield and location.",
     openOnMap: "Open on map",
@@ -224,21 +224,21 @@ const ru: ChromeDict = {
     "Мы не просто брокеры. Мы аналитики, переговорщики, юридические проводники и местные — вместе строим ваше будущее на Пхукете.",
   workCta: "Связаться",
   rights: "Все права защищены",
-  nav: { home: "Главная", about: "О нас", projects: "Проекты", contact: "Контакт" },
+  nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакт" },
   preloader: { loading: "Загрузка контента", loaded: "Загружено", ready: "Готово к просмотру" },
   stubs: {
     about: {
-      chapter: "002 — О нас",
+      chapter: "001 — Обо мне",
       title: "Надёжный советник по Пхукету",
       sub: "Пятнадцать лет практики в недвижимости, аналитике и инвестициях.",
     },
     projects: {
-      chapter: "003 — Проекты",
+      chapter: "002 — Проекты",
       title: "Пространства со смыслом",
       sub: "Тринадцать проектов в Bang Tao, Layan, Nai Yang и Laguna.",
     },
     contact: {
-      chapter: "004 — Контакт",
+      chapter: "003 — Контакт",
       title: "Свяжитесь с нами",
       sub: "Расскажем о подходе Arturas — и вашем следующем объекте.",
     },
@@ -254,7 +254,7 @@ const ru: ChromeDict = {
       ["Языки", "RU · UK · EN · DE · TH"],
       ["Подход", "Личный, под ключ"],
     ],
-    processChapter: "005 — Процесс",
+    processChapter: "004 — Процесс",
   },
   contactPage: {
     infoTitle: "Контакты",
@@ -332,7 +332,7 @@ const ru: ChromeDict = {
     enterMap: "Открыть карту",
   },
   projectsPage: {
-    chapter: "003 — Проекты",
+    chapter: "002 — Проекты",
     title: "Пространства со смыслом",
     sub: "Тринадцать проектов в Bang Tao, Layan, Nai Yang и Laguna — каждый проверен на качество, доходность и локацию.",
     openOnMap: "Открыть на карте",
@@ -355,21 +355,21 @@ const uk: ChromeDict = {
     "Ми не просто брокери. Ми аналітики, перемовники, юридичні провідники та місцеві — разом будуємо ваше майбутнє на Пхукеті.",
   workCta: "Зв'язатися",
   rights: "Всі права захищені",
-  nav: { home: "Головна", about: "Про нас", projects: "Проєкти", contact: "Контакт" },
+  nav: { home: "Головна", about: "Про мене", projects: "Проєкти", contact: "Контакт" },
   preloader: { loading: "Завантаження", loaded: "Завантажено", ready: "Готово до перегляду" },
   stubs: {
     about: {
-      chapter: "002 — Про нас",
+      chapter: "001 — Про мене",
       title: "Надійний радник із Пхукету",
       sub: "П'ятнадцять років практики в нерухомості, аналітиці та інвестиціях.",
     },
     projects: {
-      chapter: "003 — Проєкти",
+      chapter: "002 — Проєкти",
       title: "Простори зі змістом",
       sub: "Тринадцять проєктів у Bang Tao, Layan, Nai Yang та Laguna.",
     },
     contact: {
-      chapter: "004 — Контакт",
+      chapter: "003 — Контакт",
       title: "Зв'яжіться з нами",
       sub: "Розповімо про підхід Arturas — і ваш наступний об'єкт.",
     },
@@ -385,7 +385,7 @@ const uk: ChromeDict = {
       ["Мови", "RU · UK · EN · DE · TH"],
       ["Підхід", "Особистий, під ключ"],
     ],
-    processChapter: "005 — Процес",
+    processChapter: "004 — Процес",
   },
   contactPage: {
     infoTitle: "Контакти",
@@ -463,7 +463,7 @@ const uk: ChromeDict = {
     enterMap: "Відкрити мапу",
   },
   projectsPage: {
-    chapter: "003 — Проєкти",
+    chapter: "002 — Проєкти",
     title: "Простори зі змістом",
     sub: "Тринадцять проєктів у Bang Tao, Layan, Nai Yang та Laguna — кожен перевірено на якість, дохідність і локацію.",
     openOnMap: "Відкрити на мапі",
@@ -486,21 +486,21 @@ const de: ChromeDict = {
     "Wir sind nicht nur Makler. Wir sind Analysten, Verhandler, juristische Begleiter und Einheimische — gemeinsam gestalten wir Ihre Zukunft auf Phuket.",
   workCta: "Kontakt aufnehmen",
   rights: "Alle Rechte vorbehalten",
-  nav: { home: "Start", about: "Über uns", projects: "Projekte", contact: "Kontakt" },
+  nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
   preloader: { loading: "Inhalte laden", loaded: "Geladen", ready: "Bereit zum Erkunden" },
   stubs: {
     about: {
-      chapter: "002 — Über uns",
+      chapter: "001 — Über mich",
       title: "Der vertrauenswürdige Berater für Phuket",
       sub: "Fünfzehn Jahre Praxis in Immobilien, Analyse und Investment.",
     },
     projects: {
-      chapter: "003 — Projekte",
+      chapter: "002 — Projekte",
       title: "Räume mit Bedeutung",
       sub: "Dreizehn Projekte in Bang Tao, Layan, Nai Yang und Laguna.",
     },
     contact: {
-      chapter: "004 — Kontakt",
+      chapter: "003 — Kontakt",
       title: "Kontakt aufnehmen",
       sub: "Erfahren Sie mehr über den Arturas-Ansatz — und Ihre nächste Immobilie.",
     },
@@ -516,7 +516,7 @@ const de: ChromeDict = {
       ["Sprachen", "RU · UK · EN · DE · TH"],
       ["Ansatz", "Persönlich, schlüsselfertig"],
     ],
-    processChapter: "005 — Prozess",
+    processChapter: "004 — Prozess",
   },
   contactPage: {
     infoTitle: "Kontaktinfo",
@@ -594,7 +594,7 @@ const de: ChromeDict = {
     enterMap: "Karte öffnen",
   },
   projectsPage: {
-    chapter: "003 — Projekte",
+    chapter: "002 — Projekte",
     title: "Räume mit Bedeutung",
     sub: "Dreizehn Projekte in Bang Tao, Layan, Nai Yang und Laguna — geprüft auf Qualität, Rendite und Lage.",
     openOnMap: "Auf der Karte öffnen",
@@ -617,21 +617,21 @@ const th: ChromeDict = {
     "เราไม่ใช่แค่นายหน้า เราคือนักวิเคราะห์ นักเจรจา ที่ปรึกษากฎหมาย และคนท้องถิ่น — ร่วมกันสร้างอนาคตของคุณที่ภูเก็ต",
   workCta: "ติดต่อเรา",
   rights: "สงวนลิขสิทธิ์",
-  nav: { home: "หน้าแรก", about: "เกี่ยวกับเรา", projects: "โครงการ", contact: "ติดต่อ" },
+  nav: { home: "หน้าแรก", about: "เกี่ยวกับผม", projects: "โครงการ", contact: "ติดต่อ" },
   preloader: { loading: "กำลังโหลด", loaded: "โหลดแล้ว", ready: "พร้อมสำรวจ" },
   stubs: {
     about: {
-      chapter: "002 — เกี่ยวกับเรา",
+      chapter: "001 — เกี่ยวกับผม",
       title: "ที่ปรึกษาที่ไว้ใจได้ในภูเก็ต",
       sub: "ประสบการณ์จริงสิบห้าปีในอสังหาริมทรัพย์ การวิเคราะห์ และการลงทุน",
     },
     projects: {
-      chapter: "003 — โครงการ",
+      chapter: "002 — โครงการ",
       title: "พื้นที่ที่มีความหมาย",
       sub: "สิบสามโครงการใน Bang Tao, Layan, Nai Yang และ Laguna",
     },
     contact: {
-      chapter: "004 — ติดต่อ",
+      chapter: "003 — ติดต่อ",
       title: "ติดต่อเรา",
       sub: "เรียนรู้วิสัยทัศน์ของ Arturas — และอสังหาฯ ชิ้นต่อไปของคุณ",
     },
@@ -647,7 +647,7 @@ const th: ChromeDict = {
       ["ภาษา", "RU · UK · EN · DE · TH"],
       ["แนวทาง", "ส่วนตัว ครบวงจร"],
     ],
-    processChapter: "005 — ขั้นตอน",
+    processChapter: "004 — ขั้นตอน",
   },
   contactPage: {
     infoTitle: "ข้อมูลติดต่อ",
@@ -725,7 +725,7 @@ const th: ChromeDict = {
     enterMap: "เข้าสู่แผนที่",
   },
   projectsPage: {
-    chapter: "003 — โครงการ",
+    chapter: "002 — โครงการ",
     title: "พื้นที่ที่มีความหมาย",
     sub: "สิบสามโครงการใน Bang Tao, Layan, Nai Yang และ Laguna — คัดกรองด้านคุณภาพ ผลตอบแทน และทำเล",
     openOnMap: "เปิดบนแผนที่",
