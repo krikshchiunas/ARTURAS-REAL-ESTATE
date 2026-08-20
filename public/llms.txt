@@ -75,7 +75,12 @@ each project's page under /en/projects/<slug>. Localised versions exist at
 ## Site map
 
 - Homepage (multi-language): /ru, /uk, /en, /de, /th
+- Project index: /<lang>/projects
 - Project pages: /<lang>/projects/<slug>
+- Interactive 3D map of Phuket with every project pinned: /<lang>/map
+- About the founder and the advisory process: /<lang>/about
+- Buyer guides (legal, yield, relocation): /<lang>/guides and /<lang>/guides/<slug>
+- Contact and enquiry form: /<lang>/contact
 - Sitemap: /sitemap.xml
 - Robots: /robots.txt
 

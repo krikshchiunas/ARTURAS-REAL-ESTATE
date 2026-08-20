@@ -11,6 +11,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly",
     priority: 1,
   }));
+  // Разделы верхнего уровня. Карта — тот же реестр объектов, но в 3D, поэтому
+  // приоритет чуть ниже списка.
+  const sections: MetadataRoute.Sitemap = locales.flatMap((lang) =>
+    [
+      { path: "projects", priority: 0.9 },
+      { path: "about", priority: 0.8 },
+      { path: "contact", priority: 0.8 },
+      { path: "map", priority: 0.7 },
+    ].map((s) => ({
+      url: `${siteConfig.url}/${lang}/${s.path}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: s.priority,
+    })),
+  );
   const projects: MetadataRoute.Sitemap = locales.flatMap((lang) =>
     projectMeta.map((p) => ({
       url: `${siteConfig.url}/${lang}/projects/${p.slug}`,
@@ -33,5 +48,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     })),
   );
-  return [...home, ...projects, ...guidesIndex, ...guides];
+  return [...home, ...sections, ...projects, ...guidesIndex, ...guides];
 }

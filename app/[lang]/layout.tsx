@@ -2,13 +2,18 @@ import type { Metadata, Viewport } from "next";
 import { Onest, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { SoundProvider } from "@/components/redesign/SoundManager";
-import { PageTransition } from "@/components/redesign/PageTransition";
-import { Ambient } from "@/components/Ambient";
-import { Grain } from "@/components/Grain";
+import { SoundProvider } from "@/components/SoundManager";
+import { PageTransition } from "@/components/PageTransition";
 import { Analytics, GtmNoScript } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
-import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { chromeDict } from "@/components/dict";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Cursor } from "@/components/Cursor";
+import { ChatChip } from "@/components/ChatChip";
+import { BottomBar } from "@/components/BottomBar";
+import { Preloader } from "@/components/Preloader";
+import { HudFrame } from "@/components/HudFrame";
 import {
   htmlLang,
   isLocale,
@@ -19,10 +24,9 @@ import {
 import { getDictionary, siteConfig } from "@/lib/i18n";
 import "../globals.css";
 
-// Редизайн (hubtown-style): один гротеск на всё — Onest (геометрический,
-// полная кириллица; свободный аналог Px Grotesk оригинала). --font-display
-// указывает на него же: гигантские uppercase-заголовки и текст делит один шрифт,
-// иерархию строят кегль и вес, как в референсе.
+// Один гротеск на всё — Onest (геометрический, полная кириллица; свободный
+// аналог Px Grotesk оригинала). Гигантские uppercase-заголовки и текст делят
+// один шрифт: иерархию строят кегль и вес, а не смена гарнитуры.
 const sans = Onest({
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   display: "swap",
@@ -83,7 +87,7 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#08080A",
+  themeColor: "#020a19",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -103,6 +107,7 @@ export default async function LangLayout({
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
   const t = getDictionary(lang);
+  const c = chromeDict(lang);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -169,7 +174,7 @@ export default async function LangLayout({
       className={`${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
-      <body>
+      <body className="bg-night text-offwhite selection:bg-royal selection:text-offwhite">
         <GtmNoScript />
         <script
           type="application/ld+json"
@@ -177,17 +182,24 @@ export default async function LangLayout({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:glass focus:rounded-full focus:px-5 focus:py-2 focus:text-sm"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[140] focus:border focus:border-offwhite/40 focus:bg-night focus:px-5 focus:py-3 focus:font-mono focus:text-11 focus:uppercase focus:tracking-4 focus:text-offwhite"
         >
           {t.a11y.skipToContent}
         </a>
-        <Ambient />
-        <Grain />
         <SoundProvider>
-          <SmoothScroll>{children}</SmoothScroll>
+          <SmoothScroll>
+            <Preloader texts={c.preloader} />
+            <HudFrame />
+            <Header lang={lang} />
+            {children}
+            <Footer lang={lang} />
+            {/* Desktop: постоянная нижняя HUD-полоса; mobile: компактный чип чата */}
+            <BottomBar lang={lang} />
+            <ChatChip lang={lang} label={c.chat} />
+          </SmoothScroll>
           <PageTransition />
         </SoundProvider>
-        <FloatingWhatsApp lang={lang} />
+        <Cursor />
         <Analytics />
         <CookieConsent lang={lang} />
       </body>

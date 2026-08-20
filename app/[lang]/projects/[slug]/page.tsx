@@ -11,9 +11,13 @@ import {
 } from "@/lib/i18n";
 import { projectMeta } from "@/lib/i18n/meta";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/sections/Footer";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { chromeDict } from "@/components/dict";
+import { Reveal, HeadlineReveal } from "@/components/Reveal";
+import { BracketButton } from "@/components/BracketButton";
+
+// Карточка объекта в языке сайта: полноэкранный кадр-герой с наложенным
+// названием, ряды данных gap-px и лента галереи. Все цифры и тексты приходят
+// из локалей — страница только раскладывает их по HUD-сетке.
 
 type Params = { params: Promise<{ lang: string; slug: string }> };
 
@@ -29,24 +33,76 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const lang = isLocale(raw) ? raw : "ru";
   const p = getProject(lang, slug);
   if (!p) return {};
+  const url = `${siteConfig.url}/${lang}/projects/${slug}`;
+  const languages: Record<string, string> = Object.fromEntries(
+    locales.map((l) => [l, `${siteConfig.url}/${l}/projects/${slug}`]),
+  );
+  languages["x-default"] = `${siteConfig.url}/ru/projects/${slug}`;
   return {
     title: p.name,
     description: p.summary,
+    alternates: { canonical: url, languages },
     openGraph: {
       title: `${p.name} — ${siteConfig.name}`,
       description: p.summary,
+      url,
       images: [{ url: p.image }],
     },
   };
 }
 
-function Heading({ eyebrow, title }: { eyebrow: string; title: string }) {
+// Заголовок раздела: mono-подпись слева, гигантский uppercase под ней.
+function SectionHead({
+  eyebrow,
+  title,
+  aside,
+}: {
+  eyebrow: string;
+  title: string;
+  aside?: string;
+}) {
   return (
-    <div className="flex flex-col gap-4">
-      <span className="eyebrow">{eyebrow}</span>
-      <h2 className="max-w-[20ch] font-display text-3xl font-light leading-[1.05] tracking-tight text-balance md:text-4xl">
-        {title}
-      </h2>
+    <div className="flex flex-wrap items-baseline justify-between gap-4">
+      <div>
+        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
+          {eyebrow}
+        </p>
+        <HeadlineReveal
+          as="h2"
+          text={title}
+          className="mt-5 max-w-[18ch] text-32 font-bold uppercase leading-0.9 md:text-56"
+        />
+      </div>
+      {aside ? (
+        <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
+          {aside}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+// Ряд «подпись — значение» с mono-нумерацией, общий приём страниц сайта.
+function DataRow({
+  index,
+  label,
+  value,
+}: {
+  index: number;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-6 border-t border-offwhite/10 py-5">
+      <div className="flex items-baseline gap-4">
+        <span className="font-mono text-10 tracking-4 text-offwhite/40">
+          {String(index).padStart(2, "0")}
+        </span>
+        <span className="text-16 font-light text-offwhite/80">{label}</span>
+      </div>
+      <span className="text-right font-mono text-13 uppercase tracking-2 text-offwhite">
+        {value}
+      </span>
     </div>
   );
 }
@@ -58,10 +114,13 @@ export default async function ProjectPage({ params }: Params) {
   const project = getProject(lang, slug);
   if (!project) notFound();
 
-  const t = getDictionary(lang).project;
+  const dict = getDictionary(lang);
+  const t = dict.project;
+  const c = chromeDict(lang);
   const projects = getProjects(lang);
   const index = projects.findIndex((p) => p.slug === project.slug);
   const number = String(index + 1).padStart(2, "0");
+  const next = projects[(index + 1) % projects.length];
 
   // Structured data: помогает LLM (ChatGPT, Claude, Perplexity, Gemini) и
   // поисковикам понять, что это конкретный объект недвижимости — с ценой,
@@ -145,8 +204,8 @@ export default async function ProjectPage({ params }: Params) {
       {
         "@type": "ListItem",
         position: 2,
-        name: t.backToProjects,
-        item: `${siteConfig.url}/${lang}#projects`,
+        name: c.projectsPage.title,
+        item: `${siteConfig.url}/${lang}/projects`,
       },
       {
         "@type": "ListItem",
@@ -158,7 +217,7 @@ export default async function ProjectPage({ params }: Params) {
   };
 
   return (
-    <>
+    <main id="main" className="relative">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
@@ -167,312 +226,340 @@ export default async function ProjectPage({ params }: Params) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <Navbar lang={lang} />
-      <main id="main" className="relative pt-28 md:pt-40">
-        {/* Шапка */}
-        <div className="shell">
-          <Link
-            href={`/${lang}#projects`}
-            className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-bone-muted transition-colors hover:text-bone"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden
-              className="transition-transform duration-500 ease-glass group-hover:-translate-x-1"
-            >
-              <path
-                d="M11 7H3M6.5 3.5L3 7l3.5 3.5"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {t.backToProjects}
-          </Link>
 
-          <header className="mt-10 flex flex-col gap-6 md:mt-14">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs text-platinum">{number}</span>
-              <span className="text-xs uppercase tracking-[0.18em] text-bone-muted">
-                {project.type}
-              </span>
-            </div>
-            <h1 className="max-w-[16ch] font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.98] tracking-tight text-balance">
-              {project.name}
-            </h1>
-            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-              <p className="text-lg text-bone-muted">
-                {project.location}
-                {project.developer ? ` · ${project.developer}` : ""}
-              </p>
-              {project.priceFrom ? (
-                <span className="font-display text-2xl font-light text-platinum-soft">
-                  {project.priceFrom}
-                </span>
-              ) : null}
-            </div>
-          </header>
-        </div>
+      {/* Герой: кадр объекта на весь экран, название поверх затемнения */}
+      <section className="relative flex min-h-[92vh] flex-col justify-end overflow-hidden px-6 pb-16 pt-32 md:px-16 md:pb-24">
+        <Image
+          src={project.image}
+          alt={project.name}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {/* Двойное затемнение: снизу под текст, сверху под шапку */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/25"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-night/80 to-transparent"
+        />
 
-        {/* Крупный кадр */}
-        <div className="shell mt-12 md:mt-16">
-          <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-core bg-ink-900 md:aspect-[16/10]">
-              <Image
-                src={project.image}
-                alt={project.name}
-                fill
-                priority
-                sizes="(max-width: 1440px) 100vw, 1440px"
-                className="object-cover"
-              />
-            </div>
+        <div className="relative">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-11 uppercase tracking-4 text-offwhite/60">
+            <span>{number}</span>
+            <span className="h-3 w-px bg-offwhite/25" aria-hidden />
+            <span>{project.type}</span>
+            <span className="h-3 w-px bg-offwhite/25" aria-hidden />
+            <span>{project.location}</span>
           </div>
-        </div>
 
-        {/* Ключевые цифры */}
-        <div className="shell mt-12 md:mt-16">
-          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] md:grid-cols-4">
-            {project.highlights.map((h) => (
-              <div key={h.label} className="bg-ink-900 p-6 md:p-8">
-                <dt className="text-xs uppercase tracking-[0.14em] text-bone-faint">
-                  {h.label}
-                </dt>
-                <dd className="mt-3 font-display text-2xl font-light text-bone md:text-3xl">
-                  {h.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+          <HeadlineReveal
+            text={project.name}
+            className="mt-7 max-w-[14ch] text-54 font-bold uppercase leading-0.9 md:text-120 md:leading-0.8"
+          />
 
-        {/* Концепция + CTA */}
-        <section className="shell mt-16 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.conceptEyebrow} title={t.conceptTitle} />
+          <Reveal delay={0.45}>
+            <p className="mt-8 max-w-[38rem] text-16 font-light leading-1.6 text-offwhite/75">
+              {project.summary}
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <BracketButton
+                href={whatsappHref(`${dict.common.whatsappPrefill} (${project.name})`)}
+              >
+                {t.learnMore}
+              </BracketButton>
+              <Link
+                href={`/${lang}/map/${project.slug}`}
+                className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+              >
+                {c.projectsPage.openOnMap}
+                <span
+                  aria-hidden
+                  className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  ↗
+                </span>
+              </Link>
             </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <p className="text-pretty text-xl font-light leading-relaxed text-bone md:text-2xl">
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Ключевые цифры */}
+      <section className="border-t border-offwhite/10">
+        <dl className="grid grid-cols-2 gap-px bg-offwhite/10 md:grid-cols-4">
+          {project.highlights.map((h) => (
+            <div key={h.label} className="bg-night p-6 md:p-10">
+              <dt className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
+                {h.label}
+              </dt>
+              <dd className="mt-4 text-24 font-bold uppercase leading-1.1 md:text-40">
+                {h.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* Концепция */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          <div className="lg:col-span-5">
+            <SectionHead eyebrow={t.conceptEyebrow} title={t.conceptTitle} />
+          </div>
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="text-20 font-light leading-1.2 text-offwhite/90 md:text-32">
                 {project.concept}
               </p>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-                <MagneticButton
-                  href={whatsappHref(
-                    `${getDictionary(lang).common.whatsappPrefill} (${project.name})`,
-                  )}
-                  className="w-full justify-between sm:w-auto"
-                >
-                  {t.learnMore}
-                </MagneticButton>
-                <MagneticButton
-                  href={siteConfig.contacts.telegram}
-                  variant="ghost"
-                  className="w-full justify-between sm:w-auto"
-                >
-                  Telegram
-                </MagneticButton>
-              </div>
-            </div>
+            </Reveal>
+            {project.keyPoints.length ? (
+              <Reveal className="mt-12" delay={0.1}>
+                <ul className="grid gap-x-10 sm:grid-cols-2">
+                  {project.keyPoints.map((point, i) => (
+                    <li
+                      key={point}
+                      className="flex items-baseline gap-4 border-t border-offwhite/10 py-4"
+                    >
+                      <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-14 font-light leading-1.6 text-offwhite/75">
+                        {point}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            ) : null}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Галерея. На телефоне — горизонтальная лента со свайпом (как витрина
-            проектов на главной): вертикальный скролл страницы не «съедается»
-            десятком фото подряд. На десктопе — прежняя сетка. */}
-        <section className="shell mt-16 md:mt-28">
-          <Heading eyebrow={t.galleryEyebrow} title={t.galleryTitle} />
-          <div className="-mx-[var(--shell-px)] mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-pl-[var(--shell-px)] px-[var(--shell-px)] pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0">
-            {project.gallery.map((src, i) => (
+      {/* Галерея: первый кадр во всю ширину, дальше — пары */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <SectionHead
+          eyebrow={t.galleryEyebrow}
+          title={t.galleryTitle}
+          aside={`${String(project.gallery.length).padStart(2, "0")} —`}
+        />
+        <div className="mt-14 grid gap-px bg-offwhite/10 md:grid-cols-2">
+          {project.gallery.map((src, i) => (
+            <figure
+              key={src}
+              className={`relative bg-night ${i === 0 ? "md:col-span-2" : ""}`}
+            >
               <div
-                key={src}
-                className={`relative w-[78vw] shrink-0 snap-start overflow-hidden rounded-core bg-ink-900 ring-1 ring-white/[0.06] md:w-auto md:shrink md:snap-none ${
-                  i === 0 ? "md:col-span-2" : ""
+                className={`relative w-full ${
+                  i === 0 ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[4/3]"
                 }`}
               >
-                <div
-                  className={`relative aspect-[4/3] w-full ${
-                    i === 0 ? "md:aspect-[16/9]" : ""
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${project.name} — ${t.galleryAlt.replace(
-                      "{n}",
-                      String(i + 1),
-                    )}`}
-                    fill
-                    sizes={i === 0 ? "(max-width: 768px) 78vw, 100vw" : "(max-width: 768px) 78vw, 50vw"}
-                    className="object-cover"
-                  />
-                </div>
+                <Image
+                  src={src}
+                  alt={`${project.name} — ${t.galleryAlt.replace("{n}", String(i + 1))}`}
+                  fill
+                  sizes={i === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                  className="object-cover"
+                />
               </div>
-            ))}
-          </div>
-        </section>
+              <figcaption className="pointer-events-none absolute left-4 top-4 font-mono text-10 tracking-4 text-offwhite/70 mix-blend-difference">
+                ■ {String(i + 1).padStart(3, "0")}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
 
-        {/* Планировки */}
-        <section className="shell mt-16 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.unitsEyebrow} title={t.unitsTitle} />
+      {/* Планировки + инфраструктура */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <SectionHead eyebrow={t.unitsEyebrow} title={t.unitsTitle} />
+            <div className="mt-12">
+              {project.units.map((u, i) => (
+                <DataRow key={u.type} index={i + 1} label={u.type} value={u.area} />
+              ))}
             </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <dl className="flex flex-col">
-                {project.units.map((u) => (
-                  <div
-                    key={u.type}
-                    className="flex items-baseline justify-between gap-6 border-t border-white/[0.07] py-5 first:border-t-0"
+          </div>
+          <div>
+            <SectionHead eyebrow={t.amenitiesEyebrow} title={t.amenitiesTitle} />
+            <Reveal className="mt-12" delay={0.08}>
+              <ul className="grid gap-x-10 sm:grid-cols-2">
+                {project.amenities.map((a, i) => (
+                  <li
+                    key={a}
+                    className="flex items-baseline gap-4 border-t border-offwhite/10 py-4"
                   >
-                    <dt className="text-base text-bone">{u.type}</dt>
-                    <dd className="text-right font-mono text-sm text-bone-muted">
-                      {u.area}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </section>
-
-        {/* Инфраструктура */}
-        <section className="shell mt-16 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.amenitiesEyebrow} title={t.amenitiesTitle} />
-            </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <ul className="grid gap-x-10 gap-y-4 sm:grid-cols-2">
-                {project.amenities.map((a) => (
-                  <li key={a} className="flex items-start gap-3 text-bone-muted">
-                    <span
-                      aria-hidden
-                      className="mt-2 h-1 w-1 shrink-0 rounded-full bg-platinum/60"
-                    />
-                    <span className="text-[15px] leading-relaxed">{a}</span>
+                    <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-14 font-light leading-1.6 text-offwhite/75">
+                      {a}
+                    </span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Расположение */}
-        <section className="shell mt-16 md:mt-28">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-            <div className="md:col-span-4">
-              <Heading eyebrow={t.locationEyebrow} title={project.location} />
-            </div>
-            <div className="md:col-span-8 md:col-start-5">
-              <dl className="flex flex-col">
-                {project.locationPoints.map((p) => (
-                  <div
-                    key={p.label}
-                    className="flex items-baseline justify-between gap-6 border-t border-white/[0.07] py-5 first:border-t-0"
-                  >
-                    <dt className="text-base text-bone-muted">{p.label}</dt>
-                    <dd className="text-right text-base text-bone">{p.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+      {/* Расположение */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          <div className="lg:col-span-5">
+            <SectionHead eyebrow={t.locationEyebrow} title={project.location} />
+            <Reveal className="mt-10" delay={0.1}>
+              <BracketButton href={`/${lang}/map/${project.slug}`}>
+                {c.projectsPage.openOnMap}
+              </BracketButton>
+            </Reveal>
           </div>
-        </section>
+          <div className="lg:col-span-7">
+            {project.locationPoints.map((p, i) => (
+              <DataRow key={p.label} index={i + 1} label={p.label} value={p.value} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Застройщик */}
-        {project.developer && project.developerNote ? (
-          <section className="shell mt-16 md:mt-28">
-            <div className="grid gap-10 md:grid-cols-12 md:gap-16">
-              <div className="md:col-span-4">
-                <Heading eyebrow={t.developerEyebrow} title={project.developer} />
-              </div>
-              <div className="md:col-span-8 md:col-start-5">
-                <p className="text-pretty text-lg leading-relaxed text-bone-muted">
+      {/* Инвестиционная логика */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+          <div className="lg:col-span-5">
+            <SectionHead eyebrow={t.investmentEyebrow} title={t.investmentTitle} />
+          </div>
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
+                {project.investment}
+              </p>
+            </Reveal>
+            {project.payment ? (
+              <Reveal className="mt-10" delay={0.08}>
+                <div className="border border-offwhite/12 bg-night-raised/40 p-6 backdrop-blur-sm md:p-8">
+                  <p className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
+                    {t.paymentLabel}
+                  </p>
+                  <p className="mt-4 text-16 font-light leading-1.6 text-offwhite/85">
+                    {project.payment}
+                  </p>
+                </div>
+              </Reveal>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      {/* Застройщик */}
+      {project.developer && project.developerNote ? (
+        <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+            <div className="lg:col-span-5">
+              <SectionHead
+                eyebrow={t.developerEyebrow}
+                title={project.developer}
+              />
+            </div>
+            <div className="lg:col-span-7">
+              <Reveal>
+                <p className="text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
                   {project.developerNote}
                 </p>
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {/* Ключевые параметры */}
-        <section className="shell mt-16 md:mt-28">
-          <Heading eyebrow={t.specEyebrow} title={t.specTitle} />
-          {/* При нечётном числе параметров последняя ячейка на мобиле растягивается
-              на всю строку — иначе в сетке остаётся пустая «дыра». */}
-          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-bezel bg-white/[0.06] ring-1 ring-white/[0.06] max-md:[&>div:last-child:nth-child(odd)]:col-span-2 md:grid-cols-3 lg:grid-cols-5">
-            {project.spec.map((s) => (
-              <div key={s.label} className="bg-ink-900 p-6">
-                <dt className="text-xs uppercase tracking-[0.14em] text-bone-faint">
-                  {s.label}
-                </dt>
-                <dd className="mt-3 text-base text-bone">{s.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
-        {/* Финальный CTA */}
-        <section className="shell mt-20 md:mt-32">
-          <div className="relative overflow-hidden rounded-bezel bg-white/[0.04] p-1.5 shadow-inner-hi ring-1 ring-white/[0.06]">
-            <div className="flex flex-col items-stretch gap-8 rounded-core bg-ink-900 p-7 sm:items-start sm:p-10 md:flex-row md:items-center md:justify-between md:p-14">
-              <div>
-                <h2 className="max-w-[18ch] font-display text-3xl font-light leading-tight tracking-tight text-balance md:text-4xl">
-                  {t.ctaTitle.replace("{name}", project.name)}
-                </h2>
-                <p className="mt-4 max-w-prose text-bone-muted">{t.ctaBody}</p>
-              </div>
-              <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-                <MagneticButton
-                  href={whatsappHref(
-                    `${getDictionary(lang).common.whatsappPrefill} (${project.name})`,
-                  )}
-                  className="w-full justify-between sm:w-auto"
-                >
-                  {getDictionary(lang).common.whatsapp}
-                </MagneticButton>
-                <MagneticButton
-                  href={siteConfig.contacts.telegram}
-                  variant="ghost"
-                  className="w-full justify-between sm:w-auto"
-                >
-                  Telegram
-                </MagneticButton>
-              </div>
+              </Reveal>
             </div>
           </div>
         </section>
-      </main>
+      ) : null}
 
-      {/* Плавающая кнопка возврата (только телефон): всегда на виду, чтобы
-          из любого места страницы вернуться к проектам без скролла наверх. */}
-      <Link
-        href={`/${lang}#projects`}
-        className="glass fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-40 inline-flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full px-5 py-3 text-xs uppercase tracking-[0.18em] text-bone shadow-bezel md:hidden"
-      >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          aria-hidden
+      {/* Паспорт объекта */}
+      <section className="border-t border-offwhite/10 px-6 pt-24 md:px-16 md:pt-32">
+        <SectionHead eyebrow={t.specEyebrow} title={t.specTitle} />
+      </section>
+      <section className="mt-14 border-t border-offwhite/10">
+        {/* При нечётном числе параметров последняя ячейка на мобиле растягивается
+            на всю строку — иначе в сетке остаётся пустая «дыра». */}
+        <dl className="grid grid-cols-2 gap-px bg-offwhite/10 max-md:[&>div:last-child:nth-child(odd)]:col-span-2 md:grid-cols-3 lg:grid-cols-5">
+          {project.spec.map((s) => (
+            <div key={s.label} className="bg-night p-6 md:p-8">
+              <dt className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
+                {s.label}
+              </dt>
+              <dd className="mt-4 text-16 font-light leading-1.6 text-offwhite/85">
+                {s.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* Финальный CTA */}
+      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+        <HeadlineReveal
+          as="h2"
+          text={t.ctaTitle.replace("{name}", project.name)}
+          className="max-w-[16ch] text-40 font-bold uppercase leading-0.9 md:text-104 md:leading-0.8"
+        />
+        <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
+          <p className="max-w-[32rem] text-16 font-light leading-1.6 text-offwhite/70">
+            {t.ctaBody}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+            <BracketButton
+              href={whatsappHref(`${dict.common.whatsappPrefill} (${project.name})`)}
+            >
+              {dict.common.whatsapp}
+            </BracketButton>
+            <a
+              href={siteConfig.contacts.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+            >
+              Telegram
+              <span
+                aria-hidden
+                className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
+              >
+                ↗
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Навигация по объектам: назад к списку и следующий проект */}
+      <nav className="flex flex-wrap items-center justify-between gap-6 border-t border-offwhite/10 px-6 py-8 md:px-16">
+        <Link
+          href={`/${lang}/projects`}
+          className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
         >
-          <path
-            d="M11 7H3M6.5 3.5L3 7l3.5 3.5"
-            stroke="currentColor"
-            strokeWidth="1.25"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {t.backToProjects}
-      </Link>
-
-      <Footer lang={lang} />
-    </>
+          <span
+            aria-hidden
+            className="mr-3 inline-block transition-transform duration-300 group-hover:-translate-x-1"
+          >
+            ←
+          </span>
+          {t.backToProjects}
+        </Link>
+        {next && next.slug !== project.slug ? (
+          <Link
+            href={`/${lang}/projects/${next.slug}`}
+            className="group text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+          >
+            {c.next} — {next.name}
+            <span
+              aria-hidden
+              className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
+        ) : null}
+      </nav>
+    </main>
   );
 }
