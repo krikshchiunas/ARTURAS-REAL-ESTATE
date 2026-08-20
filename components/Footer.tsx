@@ -29,10 +29,7 @@ export function Footer({ lang }: { lang: Locale }) {
   // страницах общий блок убираем, ссылки и нижняя полоса остаются.
   const ownCta = new RegExp(`^/${lang}/(projects|guides)/[^/]+`).test(pathname);
 
-  const current = pageOrder.findIndex((p) => {
-    const full = `${base}${p}`;
-    return p === "" ? pathname === full || pathname === `${full}/` : pathname.startsWith(full);
-  });
+  const current = pageOrder.findIndex((p) => pathname.startsWith(`${base}${p}`));
   const go = (dir: -1 | 1) => {
     const idx = current === -1 ? 0 : current;
     const next = (idx + dir + pageOrder.length) % pageOrder.length;
@@ -96,7 +93,7 @@ export function Footer({ lang }: { lang: Locale }) {
       {/* Нижняя HUD-полоса */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-offwhite/10 px-6 py-5 md:px-16">
         <Link
-          href={base}
+          href={`${base}/about`}
           className="font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors duration-300 hover:text-offwhite"
         >
           © {new Date().getFullYear()} Arturas · {t.rights}

@@ -44,7 +44,7 @@ export function Header({ lang }: { lang: Locale }) {
     <>
       <header className="fixed inset-x-0 top-0 z-[120] flex items-center justify-between px-6 pt-6 md:px-16 md:pt-7">
         <Link
-          href={base}
+          href={`${base}/about`}
           onMouseEnter={() => play("hover")}
           onClick={() => play("click")}
           className="leading-none"

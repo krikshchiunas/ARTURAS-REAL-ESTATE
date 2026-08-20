@@ -1,17 +1,27 @@
+import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
-import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { HomeExperience } from "@/components/webgl/HomeExperience";
+import { isLocale, locales } from "@/lib/i18n/config";
 
-// Главная: WebGL-нарратив «куб над водой» с 6 главами по скроллу.
-// Заголовок и canonical приходят из layout — переопределять их здесь не нужно.
+// Главной страницы как отдельного экрана больше нет: сайт начинается с «Обо
+// мне». `/{lang}` остаётся рабочим адресом (на него ведут старые ссылки и
+// выдача) и уводит туда же.
+//
+// Редирект живёт здесь, а не только в middleware, чтобы самый важный URL сайта
+// не зависел от одного слоя. Сам WebGL-нарратив («куб над водой») никуда не
+// делся из репозитория — components/webgl/HomeExperience|HomeNarrative|HomeScene
+// лежат нетронутыми и не попадают в бандл, пока их никто не импортирует;
+// вернуть страницу = отрендерить <HomeExperience lang={lang} /> вместо редиректа.
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang: raw } = await params;
-  if (!isLocale(raw)) notFound();
-  const lang = raw as Locale;
-  return <HomeExperience lang={lang} />;
+export default async function LocaleRoot({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+  redirect(`/${lang}/about`);
 }

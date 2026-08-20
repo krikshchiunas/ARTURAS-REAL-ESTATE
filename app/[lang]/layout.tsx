@@ -116,7 +116,7 @@ export default async function LangLayout({
     name: siteConfig.name,
     alternateName: ["Arturas Krik Real Estate", "Артурас — недвижимость Пхукет"],
     description: t.meta.description,
-    url: `${siteConfig.url}/${lang}`,
+    url: `${siteConfig.url}/${lang}/about`,
     logo: `${siteConfig.url}/hero-poster.jpg`,
     image: `${siteConfig.url}/hero-poster.jpg`,
     founder: {

@@ -751,4 +751,4 @@ export const menuRegions = [
 
 // Порядок страниц для Prev./Next в футере. Карта — отдельный полноэкранный
 // режим со своим HUD, в цикл листания не входит.
-export const pageOrder = ["", "/about", "/projects", "/guides", "/contact"] as const;
+export const pageOrder = ["/about", "/projects", "/guides", "/contact"] as const;
