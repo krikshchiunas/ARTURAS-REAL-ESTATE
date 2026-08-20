@@ -38,7 +38,11 @@ export function Footer({ lang }: { lang: Locale }) {
   };
 
   return (
-    <footer className="relative border-t border-offwhite/10 bg-night text-offwhite">
+    // z-20 обязателен: фоновые сцены (About, Contact) висят fixed с z-index 1,
+    // и без собственного слоя футер оказывается ПОД ними — вместо «Работаем
+    // вместе» внизу страницы остаётся один куб на весь экран. Секции страниц
+    // спасает их собственный z-10, футер живёт в layout и своего не имел.
+    <footer className="relative z-20 border-t border-offwhite/10 bg-night text-offwhite">
       {/* CTA-блок */}
       {ownCta ? null : (
         <div className="px-6 py-24 md:px-16 md:py-36">
