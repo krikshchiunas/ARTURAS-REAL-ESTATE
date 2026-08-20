@@ -4,7 +4,8 @@ The redesign lives at `/{lang}/redesign/*` alongside the current site, which is
 untouched. All redesign routes are `robots: noindex` until launch. Built on
 branch `redesign-hubtown-style`.
 
-_(Repo relocated to a non-iCloud-synced path; last synced 2026-08-20.)_
+_(Repo relocated to a non-iCloud-synced path; last synced 2026-08-20. Deploy
+retry triggered same day after Vercel Git integration reconnect.)_
 
 ## Routes
 
