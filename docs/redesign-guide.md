@@ -10,13 +10,39 @@ branch `redesign-hubtown-style`.
 |---|---|---|
 | `/{lang}/redesign` | `app/[lang]/redesign/page.tsx` | WebGL home — cube over water, 6-chapter scroll narrative |
 | `/{lang}/redesign/about` | `.../about/page.tsx` | Hero reveal, manifesto, spec-sheet, odometers, process cards |
-| `/{lang}/redesign/projects` | `.../projects/page.tsx` | Project table → links to map |
 | `/{lang}/redesign/contact` | `.../contact/page.tsx` | Channels + lead form → `/api/telegram-lead` |
 | `/{lang}/redesign/map` | `.../map/page.tsx` | Interactive 3D Phuket map |
 | `/{lang}/redesign/map/{slug}` | `.../map/[slug]/page.tsx` | Map with a project overlay pre-opened (deep-link) |
 
 `{lang}` ∈ `en, ru, uk, de, th`. Layout (header, menu, footer, cursor, chat chip,
-preloader) is `app/[lang]/redesign/layout.tsx`.
+preloader) is `app/[lang]/redesign/layout.tsx`. There is no separate `projects`
+route — the menu's **Projects** item points at `/map`, as in the reference.
+
+## Фоны страниц (макеты Артураса)
+
+Три фоновые сцены пришли отдельными макетами и портированы 1:1 с three r128 на
+0.169. Оригиналы лежат вне репозитория, на Рабочем столе:
+
+| Макет | Файл-источник | Куда встало |
+|---|---|---|
+| «фон 1» | `фон 1/about-path.html` | `webgl/AboutPathScene.tsx` → About |
+| «фон 2» | `фон 2/contact-cube.html` | `webgl/ContactCubeScene.tsx` → Contact |
+| «фон 3» | `фон 3/` (папка в репозитории) | `map/MapScene.tsx` → Projects |
+
+Что пришлось поправить при переносе версий three (и почему это нельзя «вернуть
+как в макете»):
+
+- `outputEncoding` → `outputColorSpace`. About ставил sRGB явно — там
+  `SRGBColorSpace`. Contact не ставил ничего, а с r152 умолчание сменилось на
+  sRGB, поэтому там выставлен `LinearSRGBColorSpace` — иначе сцена выцветает.
+- Точечные источники с r165 считаются в канделах: интенсивность в About
+  умножена на `4π` (`POINT_LIGHT_SCALE`), иначе улица тонет в темноте.
+- Потолок `setPixelRatio` снижен с 3 до 2: в макете сцена была одна на странице,
+  здесь она фон под контентом.
+
+Тяжёлые текстуры вынесены в `public/redesign/`: небо About пережато из
+7.8 МБ PNG в 553 КБ JPEG, пять текстур Contact вынуты из base64 в макете
+(скрипт разбора — разовый, в репозитории не хранится).
 
 ## Component map (`components/redesign/`)
 
@@ -29,8 +55,22 @@ preloader) is `app/[lang]/redesign/layout.tsx`.
 - `Reveal.tsx` — `Reveal` (fade-up) + `HeadlineReveal` (SplitText line masks).
 - `Odometer.tsx` — rolling digit columns for stats.
 - `LeadForm.tsx` — contact form, identical contract to old `components/sections/Contact.tsx`.
-- `webgl/` — `HomeScene` (procedural shaders + camera curve), `HomeNarrative` (scroll track), `HomeExperience` (WebGL/reduced-motion switch).
+- `webgl/` — `HomeScene` (procedural shaders + camera curve), `HomeNarrative` (scroll track), `HomeExperience` (WebGL/reduced-motion switch), `AboutPathScene` + `ContactCubeScene` (фоны страниц, см. ниже), `SceneBackdrop` (клиентская обёртка над ними).
 - `map/` — `phuketGeo.ts` (region classify + pin placement), `MapScene` (island/ocean/markers), `MapExperience` (HUD, filters, list, overlay).
+
+## Версии React и R3F — не откатывать
+
+Next 15 отдаёт клиентским компонентам **свой** React 19. Поэтому проект обязан
+быть на React 19: с React 18 в `package.json` любая сцена на `@react-three/fiber`
+падает с `Cannot read properties of undefined (reading 'ReactCurrentOwner')` —
+`react-reconciler` ищет внутренности React 18 (`__SECRET_INTERNALS_…`), а Next
+подкладывает React 19, где они называются `__CLIENT_INTERNALS_…`.
+
+Рабочая связка: `react`/`react-dom` 19, `@react-three/fiber` 9, `@react-three/drei` 10.
+
+`@react-three/postprocessing` **прибит к 3.0.4 без каретки** намеренно: с 3.0.5
+он требует `three >= 0.182`, а проект на `three` 0.169. Поднимать его можно
+только вместе с `three` и `@types/three`.
 
 ## Design tokens (`tailwind.config.ts`)
 

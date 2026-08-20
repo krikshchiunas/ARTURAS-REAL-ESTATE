@@ -12,15 +12,16 @@ import { HudFrame } from "@/components/redesign/HudFrame";
 // Оболочка редизайна: шапка + меню, футер, кастомный курсор, чип чата и
 // прелоадер — общие для всех страниц под /redesign. Когда редизайн заменит
 // текущий сайт, этот layout переедет на уровень [lang].
-export default function RedesignLayout({
+export default async function RedesignLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
+  const { lang: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
   const t = chromeDict(lang);
 
   return (

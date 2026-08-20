@@ -12,6 +12,7 @@ import {
   REGIONS,
   type RegionId,
 } from "@/components/redesign/map/phuketGeo";
+import vectors from "@/components/redesign/map/phuketVectors.json";
 import { SoundToggle, useSound } from "@/components/redesign/SoundManager";
 
 const MapScene = dynamic(() => import("@/components/redesign/map/MapScene"), {
@@ -31,6 +32,43 @@ const MapScene = dynamic(() => import("@/components/redesign/map/MapScene"), {
 // полоса SOUND | OPEN PROJECT LIST | FILTERS и онбординг-гейт при первом входе.
 
 const INTRO_KEY = "arturas-map-intro";
+
+// ─── Мини-карта острова (левый низ, как в референсе Hubtown) ─────────────────
+// Силуэт Пхукета из тех же векторов + точка текущего положения камеры.
+const MM_W = 104;
+const MM_H = 132;
+const MM_PAD = 7;
+const MM_BOUNDS = (() => {
+  let minx = Infinity, maxx = -Infinity, minz = Infinity, maxz = -Infinity;
+  for (const l of vectors.coast as number[][]) {
+    for (let i = 0; i < l.length; i += 2) {
+      minx = Math.min(minx, l[i]); maxx = Math.max(maxx, l[i]);
+      minz = Math.min(minz, l[i + 1]); maxz = Math.max(maxz, l[i + 1]);
+    }
+  }
+  return { minx, maxx, minz, maxz };
+})();
+function mmX(x: number) {
+  const { minx, maxx } = MM_BOUNDS;
+  return MM_PAD + ((x - minx) / (maxx - minx)) * (MM_W - MM_PAD * 2);
+}
+function mmY(z: number) {
+  const { minz, maxz } = MM_BOUNDS;
+  return MM_PAD + ((z - minz) / (maxz - minz)) * (MM_H - MM_PAD * 2);
+}
+const MM_PATH = (() => {
+  const parts: string[] = [];
+  for (const l of vectors.coast as number[][]) {
+    if (l.length < 6) continue;
+    let d = "";
+    for (let i = 0; i < l.length; i += 4) {
+      // прореживаем вдвое — силуэта достаточно, разметка легче
+      d += `${d ? "L" : "M"}${mmX(l[i]).toFixed(1)} ${mmY(l[i + 1]).toFixed(1)}`;
+    }
+    parts.push(d);
+  }
+  return parts.join(" ");
+})();
 
 export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: string }) {
   const t = chromeDict(lang);
@@ -53,6 +91,8 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
   const zoomRef = useRef<HTMLSpanElement>(null);
   const compassDegRef = useRef<HTMLSpanElement>(null);
   const roseRef = useRef<HTMLDivElement>(null);
+  const mmDotRef = useRef<SVGCircleElement>(null);
+  const mmHaloRef = useRef<SVGCircleElement>(null);
 
   useEffect(() => {
     try {
@@ -76,21 +116,46 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
     return () => window.clearTimeout(id);
   }, []);
 
-  // HUD-показания (зум/азимут) пишем прямо в DOM на rAF — без ре-рендеров.
+  // HUD-показания (зум/азимут/мини-карта) пишем прямо в DOM на rAF — без
+  // ре-рендеров. Каждое значение обновляется ТОЛЬКО когда реально изменилось:
+  // безусловная запись 5 узлов каждый кадр держала браузер в постоянном
+  // пересчёте стилей даже на неподвижной камере.
   useEffect(() => {
     let raf = 0;
+    let lastZoom = "";
+    let lastDeg = -1;
+    let lastCx = "";
     const tick = () => {
       const c = controlsRef.current;
       if (c) {
         const cam = c.object as { position: { distanceTo: (v: unknown) => number } };
         const dist = cam.position.distanceTo(c.target);
-        const zoom = (1 - (dist - 12) / 58) * 2.5 + 0.5;
-        if (zoomRef.current) zoomRef.current.textContent = `${zoom.toFixed(2)}X`;
+        const zoom = `${((1 - (dist - 12) / 58) * 2.5 + 0.5).toFixed(2)}X`;
+        if (zoom !== lastZoom) {
+          lastZoom = zoom;
+          if (zoomRef.current) zoomRef.current.textContent = zoom;
+        }
         const az = c.getAzimuthalAngle();
-        const deg = ((-az * 180) / Math.PI + 360) % 360;
-        if (compassDegRef.current)
-          compassDegRef.current.textContent = `${Math.round(deg).toString().padStart(3, "0")}°`;
-        if (roseRef.current) roseRef.current.style.transform = `rotate(${deg}deg)`;
+        const deg = Math.round(((-az * 180) / Math.PI + 360) % 360);
+        if (deg !== lastDeg) {
+          lastDeg = deg;
+          if (compassDegRef.current)
+            compassDegRef.current.textContent = `${deg.toString().padStart(3, "0")}°`;
+          if (roseRef.current) roseRef.current.style.transform = `rotate(${deg}deg)`;
+        }
+        const cx = mmX(c.target.x).toFixed(1);
+        const cy = mmY(c.target.z).toFixed(1);
+        if (cx + cy !== lastCx) {
+          lastCx = cx + cy;
+          if (mmDotRef.current) {
+            mmDotRef.current.setAttribute("cx", cx);
+            mmDotRef.current.setAttribute("cy", cy);
+          }
+          if (mmHaloRef.current) {
+            mmHaloRef.current.setAttribute("cx", cx);
+            mmHaloRef.current.setAttribute("cy", cy);
+          }
+        }
       }
       raf = requestAnimationFrame(tick);
     };
@@ -104,17 +169,18 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
     if (!c) return;
     const cam = c.object;
     if (id === null) {
-      gsap.to(c.target, { x: -9, y: 0, z: -3, duration: 1.1, ease: "power3.inOut", onUpdate: () => c.update() });
-      gsap.to(cam.position, { x: -9, y: 30, z: 37, duration: 1.1, ease: "power3.inOut" });
+      gsap.to(c.target, { x: -2, y: 0, z: -11, duration: 1.1, ease: "power3.inOut", onUpdate: () => c.update() });
+      gsap.to(cam.position, { x: -2, y: 26, z: 31, duration: 1.1, ease: "power3.inOut" });
       return;
     }
     const r = REGIONS.find((x) => x.id === id)!;
-    const [ax, az] = r.anchor;
-    gsap.to(c.target, { x: ax, y: 0, z: az, duration: 1.2, ease: "power3.inOut", onUpdate: () => c.update() });
+    const [ax, az] = r.focus;
+    // Приближение к району — камера сильнее наклоняется (выражённое 3D).
+    gsap.to(c.target, { x: ax, y: 1, z: az, duration: 1.2, ease: "power3.inOut", onUpdate: () => c.update() });
     gsap.to(cam.position, {
-      x: ax + 4,
-      y: 14,
-      z: az + 16,
+      x: ax + 2,
+      y: 7,
+      z: az + 5.5,
       duration: 1.2,
       ease: "power3.inOut",
     });
@@ -219,6 +285,18 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
       {/* ZOOM + шкала (лево-низ, над полосой) */}
       <div className="pointer-events-none absolute bottom-16 left-6 md:left-16">
+        {/* Мини-карта: силуэт острова + точка текущего вида */}
+        <svg
+          width={MM_W}
+          height={MM_H}
+          viewBox={`0 0 ${MM_W} ${MM_H}`}
+          className="mb-3 border border-offwhite/12 bg-night/50 backdrop-blur-[2px]"
+          aria-hidden
+        >
+          <path d={MM_PATH} fill="none" stroke="#c2cbd6" strokeOpacity="0.5" strokeWidth="0.7" />
+          <circle ref={mmDotRef} cx={mmX(-2)} cy={mmY(-11)} r="3" fill="#eef2f6" />
+          <circle ref={mmHaloRef} cx={mmX(-2)} cy={mmY(-11)} r="7" fill="#eef2f6" fillOpacity="0.18" />
+        </svg>
         <div className="flex items-baseline gap-4 font-mono text-10 uppercase tracking-4 text-offwhite/50">
           <span>
             {t.mapPage.zoom} <span ref={zoomRef} className="text-offwhite">1.00X</span>

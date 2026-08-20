@@ -13,8 +13,9 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default function Page({ params }: { params: { lang: string } }) {
-  const lang = params.lang as Locale;
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: raw } = await params;
+  const lang = raw as Locale;
   return (
     <>
       <Navbar lang={lang} />

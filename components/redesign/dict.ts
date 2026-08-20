@@ -749,5 +749,6 @@ export const menuRegions = [
   { name: "Laguna", count: 2 },
 ] as const;
 
-// Порядок страниц редизайна для Prev./Next в футере.
-export const pageOrder = ["", "/about", "/projects", "/contact"] as const;
+// Порядок страниц редизайна для Prev./Next в футере. Карта — отдельный
+// полноэкранный режим без футера, в цикл не входит.
+export const pageOrder = ["", "/about", "/contact"] as const;

@@ -31,10 +31,11 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
   const { play } = useSound();
 
   const base = `/${lang}/redesign`;
+  // Projects → карта, как в референсе.
   const items = [
     { label: t.nav.home, href: base },
     { label: t.nav.about, href: `${base}/about` },
-    { label: t.nav.projects, href: `${base}/projects` },
+    { label: t.nav.projects, href: `${base}/map` },
     { label: t.nav.contact, href: `${base}/contact` },
   ];
 

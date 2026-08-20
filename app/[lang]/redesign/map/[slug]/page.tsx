@@ -17,13 +17,14 @@ export function generateStaticParams() {
   return locales.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
-export default function MapDeepLinkPage({
+export default async function MapDeepLinkPage({
   params,
 }: {
-  params: { lang: string; slug: string };
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  if (!isLocale(params.lang)) notFound();
-  const exists = getProjects("en").some((p) => p.slug === params.slug);
+  const { lang, slug } = await params;
+  if (!isLocale(lang)) notFound();
+  const exists = getProjects("en").some((p) => p.slug === slug);
   if (!exists) notFound();
-  return <MapExperience lang={params.lang as Locale} deepSlug={params.slug} />;
+  return <MapExperience lang={lang as Locale} deepSlug={slug} />;
 }

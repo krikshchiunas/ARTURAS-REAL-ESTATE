@@ -81,7 +81,7 @@ const CUBE_FRAG = /* glsl */ `
   }
 `;
 
-function Monolith() {
+export function Monolith() {
   const group = useRef<THREE.Group>(null);
   const mat = useRef<THREE.ShaderMaterial>(null);
   const uniforms = useMemo(
@@ -125,7 +125,7 @@ function Monolith() {
 }
 
 // ─── Ореол за кубом ──────────────────────────────────────────────────────────
-function Halo() {
+export function Halo() {
   const tex = useMemo(() => {
     const c = document.createElement("canvas");
     c.width = c.height = 512;
@@ -149,7 +149,7 @@ function Halo() {
 }
 
 // ─── Фон-градиент (небо) ─────────────────────────────────────────────────────
-function Backdrop() {
+export function Backdrop() {
   const { viewport, camera } = useThree();
   const mat = useMemo(() => {
     return new THREE.ShaderMaterial({
@@ -187,7 +187,7 @@ function Backdrop() {
 }
 
 // ─── Холмы ───────────────────────────────────────────────────────────────────
-function Hill({ side }: { side: -1 | 1 }) {
+export function Hill({ side }: { side: -1 | 1 }) {
   const geometry = useMemo(() => {
     const geo = new THREE.PlaneGeometry(60, 44, 40, 28);
     const pos = geo.attributes.position as THREE.BufferAttribute;
@@ -267,7 +267,7 @@ const WATER_FRAG = /* glsl */ `
   }
 `;
 
-function Water() {
+export function Water() {
   const mat = useRef<THREE.ShaderMaterial>(null);
   const uniforms = useMemo(
     () => ({
@@ -289,7 +289,7 @@ function Water() {
 }
 
 // ─── Искры-боке ──────────────────────────────────────────────────────────────
-function Sparkles() {
+export function Sparkles() {
   const ref = useRef<THREE.Points>(null);
   const { positions, tex } = useMemo(() => {
     const n = 600;
@@ -397,7 +397,8 @@ export default function HomeScene({
       <Water />
       <Sparkles />
       <CameraRig progressRef={progressRef} parallax={parallax} />
-      <EffectComposer>
+      {/* Байтовый буфер: half-float на части GPU-профилей даёт чёрный кадр. */}
+      <EffectComposer frameBufferType={THREE.UnsignedByteType}>
         <Bloom intensity={0.9} luminanceThreshold={0.5} luminanceSmoothing={0.9} mipmapBlur radius={0.65} />
         <Vignette eskil={false} offset={0.2} darkness={0.85} />
       </EffectComposer>

@@ -1,5 +1,6 @@
 node_modules/
 .next/
+tsconfig.tsbuildinfo
 
 # Секреты — НИКОГДА не коммитим (.env.example можно, он без значений)
 .env
@@ -12,3 +13,7 @@ node_modules/
 Properties/
 .next/
 node_modules/
+
+# Справочные копии для карты — дубли рабочих файлов в components/redesign/map/,
+# не часть сборки (см. фон 3/README.md)
+фон 3/

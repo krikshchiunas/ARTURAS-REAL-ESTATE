@@ -13,7 +13,8 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default function MapPage({ params }: { params: { lang: string } }) {
-  if (!isLocale(params.lang)) notFound();
-  return <MapExperience lang={params.lang as Locale} />;
+export default async function MapPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+  return <MapExperience lang={lang as Locale} />;
 }

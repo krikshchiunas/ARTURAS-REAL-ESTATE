@@ -5,6 +5,7 @@ import { getDictionary, getSocials, siteConfig, whatsappHref } from "@/lib/i18n"
 import { chromeDict } from "@/components/redesign/dict";
 import { Reveal, HeadlineReveal } from "@/components/redesign/Reveal";
 import { LeadForm } from "@/components/redesign/LeadForm";
+import { SceneBackdrop } from "@/components/redesign/webgl/SceneBackdrop";
 
 // Contact в структуре референса: hero «Get in touch» → слева прямые каналы
 // и соцсети (mono-нумерация), справа форма «Drop us a line» → Telegram-бот.
@@ -18,9 +19,10 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default function ContactPage({ params }: { params: { lang: string } }) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
+export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
   const c = chromeDict(lang);
   const t = getDictionary(lang);
   const socials = getSocials(lang);
@@ -30,9 +32,13 @@ export default function ContactPage({ params }: { params: { lang: string } }) {
   ];
 
   return (
-    <main className="min-h-screen">
+    <main className="relative min-h-screen">
+      {/* Фон-сцена на всю страницу: куб-монолит над водой под луной.
+          Прокрутка поднимает куб вместе с камерой. */}
+      <SceneBackdrop scene="contact" />
+
       {/* Hero */}
-      <section className="flex min-h-[70vh] flex-col justify-center px-6 pt-28 md:px-16">
+      <section className="relative z-10 flex min-h-screen flex-col justify-center px-6 pt-28 md:px-16">
         <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
           {c.stubs.contact.chapter}
         </p>
@@ -48,7 +54,7 @@ export default function ContactPage({ params }: { params: { lang: string } }) {
       </section>
 
       {/* Каналы + форма */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
+      <section className="relative z-10 border-t border-offwhite/10 bg-night/60 px-6 py-24 backdrop-blur-sm md:px-16 md:py-32">
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
             <div className="flex items-baseline justify-between gap-4">

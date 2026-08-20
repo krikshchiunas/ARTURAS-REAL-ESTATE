@@ -21,9 +21,10 @@ export function Header({ lang }: { lang: Locale }) {
   }, [pathname]);
 
   const base = `/${lang}/redesign`;
+  // Projects ведёт на карту — как у референса (PROJECTS = интерактивная карта).
   const navLinks = [
     { label: t.nav.about, href: `${base}/about` },
-    { label: t.nav.projects, href: `${base}/projects` },
+    { label: t.nav.projects, href: `${base}/map` },
     { label: t.nav.contact, href: `${base}/contact` },
   ];
 

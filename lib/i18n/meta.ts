@@ -7,7 +7,7 @@
 // реальный домен в переменных окружения Vercel.
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://arturas-realestate.example";
+  "https://arturas-property.com";
 
 // Номер WhatsApp в международном формате без "+" — для ссылок wa.me.
 const WHATSAPP_NUMBER = "380667808098";

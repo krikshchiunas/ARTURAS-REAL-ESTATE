@@ -7,14 +7,15 @@ import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/sections/Footer";
 
-type Params = { params: { lang: string } };
+type Params = { params: Promise<{ lang: string }> };
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const lang = isLocale(params.lang) ? params.lang : "ru";
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { lang: raw } = await params;
+  const lang = isLocale(raw) ? raw : "ru";
   const t = getDictionary(lang).guides;
   const url = `${siteConfig.url}/${lang}/guides`;
   return {
@@ -29,9 +30,10 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
-export default function GuidesIndex({ params }: Params) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
+export default async function GuidesIndex({ params }: Params) {
+  const { lang: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
   const t = getDictionary(lang).guides;
   const guides = getGuides(lang);
 

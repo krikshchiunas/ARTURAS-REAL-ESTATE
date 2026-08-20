@@ -15,7 +15,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-type Params = { params: { lang: string; slug: string } };
+type Params = { params: Promise<{ lang: string; slug: string }> };
 
 // Статические страницы под каждый объект и язык (SSG).
 export function generateStaticParams() {
@@ -24,9 +24,10 @@ export function generateStaticParams() {
   );
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const lang = isLocale(params.lang) ? params.lang : "ru";
-  const p = getProject(lang, params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { lang: raw, slug } = await params;
+  const lang = isLocale(raw) ? raw : "ru";
+  const p = getProject(lang, slug);
   if (!p) return {};
   return {
     title: p.name,
@@ -50,10 +51,11 @@ function Heading({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-export default function ProjectPage({ params }: Params) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
-  const project = getProject(lang, params.slug);
+export default async function ProjectPage({ params }: Params) {
+  const { lang: raw, slug } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
+  const project = getProject(lang, slug);
   if (!project) notFound();
 
   const t = getDictionary(lang).project;

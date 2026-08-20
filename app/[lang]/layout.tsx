@@ -40,12 +40,13 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { lang: string };
-}): Metadata {
-  const lang = isLocale(params.lang) ? params.lang : "ru";
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang: raw } = await params;
+  const lang = isLocale(raw) ? raw : "ru";
   const t = getDictionary(lang).meta;
   const url = `${siteConfig.url}/${lang}`;
 
@@ -91,15 +92,16 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function LangLayout({
+export default async function LangLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
+  const { lang: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
   const t = getDictionary(lang);
 
   const jsonLd = {

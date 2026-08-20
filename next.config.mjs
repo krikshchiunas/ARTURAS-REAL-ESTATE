@@ -64,6 +64,10 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // В домашней папке пользователя лежит посторонний package-lock.json, и Next
+  // принимает её за корень workspace — трассировка файлов тогда собирает не то.
+  // Прибиваем корень к папке проекта.
+  outputFileTracingRoot: import.meta.dirname,
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },

@@ -16,8 +16,9 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default function RedesignHomePage({ params }: { params: { lang: string } }) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
+export default async function RedesignHomePage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
   return <HomeExperience lang={lang} />;
 }

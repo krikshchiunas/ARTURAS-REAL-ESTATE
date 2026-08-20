@@ -14,7 +14,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-type Params = { params: { lang: string; slug: string } };
+type Params = { params: Promise<{ lang: string; slug: string }> };
 
 export function generateStaticParams() {
   return locales.flatMap((lang) =>
@@ -22,9 +22,10 @@ export function generateStaticParams() {
   );
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const lang = isLocale(params.lang) ? params.lang : "ru";
-  const g = getGuide(lang, params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { lang: raw, slug } = await params;
+  const lang = isLocale(raw) ? raw : "ru";
+  const g = getGuide(lang, slug);
   if (!g) return {};
   const url = `${siteConfig.url}/${lang}/guides/${g.slug}`;
   return {
@@ -47,10 +48,11 @@ function anchorId(text: string, i: number): string {
   return `section-${i + 1}`;
 }
 
-export default function GuidePage({ params }: Params) {
-  if (!isLocale(params.lang)) notFound();
-  const lang = params.lang as Locale;
-  const guide = getGuide(lang, params.slug);
+export default async function GuidePage({ params }: Params) {
+  const { lang: raw, slug } = await params;
+  if (!isLocale(raw)) notFound();
+  const lang = raw as Locale;
+  const guide = getGuide(lang, slug);
   if (!guide) notFound();
 
   const t = getDictionary(lang).guides;

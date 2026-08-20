@@ -58,7 +58,9 @@ export function HomeNarrative({ lang }: { lang: Locale }) {
     return () => st.kill();
   }, [chapters.length]);
 
-  const hrefFor = (target: string) => `/${lang}/redesign/${target === "map" ? "map" : target}`;
+  // «Проекты» ведут на карту — отдельной страницы-списка нет (как в референсе).
+  const hrefFor = (target: string) =>
+    `/${lang}/redesign/${target === "projects" ? "map" : target}`;
 
   return (
     <section ref={trackRef} className="relative" style={{ height: `${chapters.length * 100}vh` }}>
@@ -135,7 +137,8 @@ export function HomeNarrative({ lang }: { lang: Locale }) {
 // Статичный fallback: сцена не грузится, главы — обычные секции.
 export function HomeNarrativeFallback({ lang }: { lang: Locale }) {
   const t = chromeDict(lang);
-  const hrefFor = (target: string) => `/${lang}/redesign/${target}`;
+  const hrefFor = (target: string) =>
+    `/${lang}/redesign/${target === "projects" ? "map" : target}`;
   return (
     <div className="relative">
       <p className="px-6 pt-32 font-mono text-10 uppercase tracking-4 text-offwhite/40 md:px-16">

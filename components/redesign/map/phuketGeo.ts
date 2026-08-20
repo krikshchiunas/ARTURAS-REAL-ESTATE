@@ -1,26 +1,77 @@
 import { getProjects, type Project } from "@/lib/i18n";
 
-// География стилизованной карты Пхукета для редизайна. Координаты — в мировом
-// пространстве сцены (плоскость XZ, север = -Z). Реальные пляжи западного
-// побережья идут с севера на юг: Nai Yang → Layan → Bang Tao → Laguna.
-// Точные широты/долготы для клона не нужны — важен узнаваемый силуэт острова
-// и корректная кластеризация проектов по районам.
+// География карты Пхукета для редизайна. В отличие от прежней процедурной
+// «болванки» острова, теперь геометрия берётся из реальных данных OpenStreetMap
+// (береговая линия + дорожная сеть, файл phuketVectors.json), а проекты стоят на
+// своих настоящих координатах западного побережья: Nai Yang → Layan → Bang Tao →
+// Laguna (с севера на юг).
+//
+// ── Проекция lat/lng → мировые координаты сцены (плоскость XZ) ────────────────
+// Равнопромежуточная проекция с центром на острове. Восток = +X, север = −Z
+// (камера стартует с юга, компас показывает 000°). Те же константы зашиты в
+// scripts, которыми сгенерирован phuketVectors.json — менять их нужно
+// синхронно, иначе дороги и пины «разъедутся».
+const LAT0 = 7.9375;
+const LNG0 = 98.345;
+const M_PER_LAT = 111320;
+const M_PER_LNG = 111320 * Math.cos((LAT0 * Math.PI) / 180);
+const SCALE = 0.001227; // мировых единиц на метр (весь остров ≈ 60 ед. в высоту)
+
+export function projectLatLng(lat: number, lng: number): [number, number] {
+  const east = (lng - LNG0) * M_PER_LNG;
+  const north = (lat - LAT0) * M_PER_LAT;
+  return [east * SCALE, -north * SCALE];
+}
 
 export type RegionId = "nai-yang" | "layan" | "bang-tao" | "laguna";
 
 export type Region = {
   id: RegionId;
   name: string;
-  anchor: [number, number]; // центр района (x, z)
-  spread: number; // радиус разброса маркеров
+  // focus — реальный центроид района (куда летит камера при выборе).
+  focus: [number, number];
+  // marker — точка отрисовки ромба-кластера (всегда на суше).
+  marker: [number, number];
+  // lift — высота ромба над рельефом. Layan/Bang Tao/Laguna в реальности
+  // примыкают друг к другу, и на общем плане их подписи наслаивались. Разводим
+  // их не по карте (география осталась честной), а ПО ВЫСОТЕ — подписи встают на
+  // разных уровнях экрана и перестают сталкиваться.
+  lift: number;
 };
 
+// marker-позиции сверены с рельефом: каждая уверенно на суше (в радиусе 0.6 ед.
+// нет воды). Прежний marker Bang Tao [-10, -6.6] попадал в море — берег на той
+// широте начинается только с x≈-7.3, а «высота 10 м» там была артефактом DEM
+// на мелководье.
 export const REGIONS: Region[] = [
-  { id: "nai-yang", name: "Nai Yang", anchor: [-7, -26], spread: 6 },
-  { id: "layan", name: "Layan", anchor: [-13, -6], spread: 5 },
-  { id: "bang-tao", name: "Bang Tao", anchor: [-15, 8], spread: 5.5 },
-  { id: "laguna", name: "Laguna", anchor: [-9, 16], spread: 4 },
+  { id: "nai-yang", name: "Nai Yang", focus: [-5.1, -20.5], marker: [-5.5, -20.5], lift: 3.2 },
+  { id: "layan", name: "Layan", focus: [-5.4, -9.6], marker: [-6.2, -11.2], lift: 4.0 },
+  { id: "bang-tao", name: "Bang Tao", focus: [-6.5, -8.1], marker: [-6.4, -8.3], lift: 3.6 },
+  { id: "laguna", name: "Laguna", focus: [-5.4, -8.3], marker: [-4.2, -6.6], lift: 0.9 },
 ];
+
+// Реальные координаты проектов (lat, lng). Приблизительны с точностью до
+// пляжа/участка — Артурас сверит и поправит точечно. Порядок роли не играет:
+// привязка к району идёт через regionOf(location), а позиция — отсюда.
+export const PROJECT_COORDS: Record<string, [number, number]> = {
+  // Nai Yang (север, у аэропорта)
+  silhouette: [8.0875, 98.3055],
+  balcony: [8.0795, 98.3005],
+  serenity: [8.0935, 98.308],
+  olive: [8.0905, 98.315],
+  // Layan
+  "bellevue-beachfront": [8.016, 98.2945],
+  "sun-hills-layan": [8.007, 98.3035],
+  "layan-green-park": [8.008, 98.308],
+  "layan-verde": [8.001, 98.313],
+  // Bang Tao
+  "gardens-of-eden": [8.001, 98.287],
+  "ayana-heights": [7.993, 98.2995],
+  "siamese-bangtao": [7.9955, 98.3045],
+  // Laguna
+  "the-ozone": [7.9975, 98.301],
+  "sun-hills-lakeside": [7.999, 98.3095],
+};
 
 // Классификация проекта по строке location. Порядок важен: «Laguna» проверяем
 // раньше «Bang Tao», т.к. Laguna лежит внутри района Bang Tao и часто пишется
@@ -33,8 +84,8 @@ export function regionOf(location: string): RegionId {
   return "bang-tao"; // Bang Tao / Bangtao / всё прочее западное побережье
 }
 
-// Детерминированный хэш slug → [0,1). Одинаковая раскладка маркеров при каждом
-// рендере и на сервере, и на клиенте (без Math.random в разметке).
+// Детерминированный хэш slug → [0,1). Нужен только как запасной раскладчик, если
+// у проекта вдруг нет реальных координат в PROJECT_COORDS.
 function hash01(str: string, salt: number): number {
   let h = 2166136261 ^ salt;
   for (let i = 0; i < str.length; i++) {
@@ -50,8 +101,8 @@ export type ProjectPin = {
   labelLane: number; // 0..2 — вертикальная «дорожка» подписи против наложений
 };
 
-// Раскладываем проекты по их районам детерминированным «золотым» разбросом
-// вокруг якоря, чтобы маркеры не накладывались.
+// Раскладываем проекты по их настоящим координатам. Если координат нет —
+// падаем на детерминированный разброс вокруг центроида района (страховка).
 export function buildPins(lang: string): ProjectPin[] {
   const projects = getProjects(lang);
   const perRegion: Record<RegionId, number> = {
@@ -63,17 +114,21 @@ export function buildPins(lang: string): ProjectPin[] {
 
   return projects.map((project) => {
     const region = regionOf(project.location);
-    const r = REGIONS.find((x) => x.id === region)!;
     const idx = perRegion[region]++;
-    // Спираль Вогеля: равномерное заполнение диска без наложений.
-    const golden = 2.399963; // радианы
-    const t = idx + 0.6;
-    const radius = r.spread * Math.sqrt(t / 4) * (0.6 + hash01(project.slug, 7) * 0.5);
-    const angle = t * golden + hash01(project.slug, 13) * 0.6;
-    const x = r.anchor[0] + Math.cos(angle) * radius;
-    const z = r.anchor[1] + Math.sin(angle) * radius;
-    // Соседние по индексу подписи уводим на разные высоты (3 дорожки), чтобы
-    // горизонтальный текст меток не перекрывался в плотных районах.
+    const coord = PROJECT_COORDS[project.slug];
+    let x: number;
+    let z: number;
+    if (coord) {
+      [x, z] = projectLatLng(coord[0], coord[1]);
+    } else {
+      const r = REGIONS.find((v) => v.id === region)!;
+      const golden = 2.399963;
+      const t = idx + 0.6;
+      const radius = 2 * Math.sqrt(t / 4) * (0.6 + hash01(project.slug, 7) * 0.5);
+      const angle = t * golden + hash01(project.slug, 13) * 0.6;
+      x = r.focus[0] + Math.cos(angle) * radius;
+      z = r.focus[1] + Math.sin(angle) * radius;
+    }
     return { project, region, position: [x, 1.4, z], labelLane: idx % 3 };
   });
 }
