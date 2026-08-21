@@ -533,7 +533,8 @@ function ListPanel({
             {closeLabel}
           </button>
         </div>
-        <ul className="flex-1 overflow-y-auto">
+        {/* pb — чтобы последний проект в списке не прятался под нижней полосой */}
+        <ul className="flex-1 overflow-y-auto pb-[calc(env(safe-area-inset-bottom)+5rem)]">
           {pins.map((pin, i) => (
             <li key={pin.project.slug}>
               <button
@@ -609,7 +610,11 @@ function ProjectOverlay({
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col px-6 py-8 md:px-10">
+        {/* pb резервирует место под нижнюю полосу карты (Список проектов /
+            Фильтры, z-105): без него кнопка «Подробнее», прижатая mt-auto к
+            низу, уходила под полосу и на части устройств не нажималась. Теперь
+            она всегда над полосой, а длинный контент докручивается. */}
+        <div className="flex flex-1 flex-col px-6 pt-8 pb-[calc(env(safe-area-inset-bottom)+7rem)] md:px-10">
           <div className="grid grid-cols-2 gap-px bg-offwhite/10">
             <Cell label={labels.locationLabel} value={location} />
             <Cell label={labels.typeLabel} value={type} />

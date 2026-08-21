@@ -7,6 +7,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
 import { MenuOverlay } from "@/components/MenuOverlay";
+import { LangSwitch } from "@/components/LangSwitch";
 import { useSound } from "@/components/SoundManager";
 
 // Шапка редизайна (паттерн Hubtown): вордмарк слева, inline-навигация +
@@ -57,7 +58,7 @@ export function Header({ lang }: { lang: Locale }) {
           </span>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 md:gap-8">
           {/* Inline-навигация (desktop) */}
           <nav className="hidden items-center gap-7 lg:flex">
             {navLinks.map((l) => {
@@ -77,6 +78,9 @@ export function Header({ lang }: { lang: Locale }) {
               );
             })}
           </nav>
+
+          {/* Смена языка прямо в шапке — на любой странице, без открытия меню */}
+          <LangSwitch lang={lang} />
 
           <button
           type="button"
