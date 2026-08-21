@@ -155,7 +155,7 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
             }}
             onMouseEnter={() => play("hover")}
             aria-label={t.close}
-            className="flex h-9 w-9 items-center justify-center border border-night/25 text-night transition-colors duration-300 hover:bg-night hover:text-offwhite"
+            className="flex h-11 w-11 items-center justify-center border border-night/25 text-night transition-colors duration-300 hover:bg-night hover:text-offwhite"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" />
@@ -206,7 +206,7 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onMouseEnter={() => play("hover")}
-                  className="group flex items-baseline justify-between border-b border-night/10 pb-2"
+                  className="group flex min-h-[44px] items-center justify-between border-b border-night/10"
                 >
                   <span className="text-14 font-medium text-night/80 transition-colors duration-300 group-hover:text-night">
                     {s.label}
@@ -231,7 +231,7 @@ export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
                   play("click");
                   onClose();
                 }}
-                className={`font-mono text-11 uppercase tracking-4 transition-colors duration-300 ${
+                className={`flex min-h-[44px] min-w-[44px] items-center justify-center font-mono text-11 uppercase tracking-4 transition-colors duration-300 ${
                   l === lang ? "text-night underline underline-offset-4" : "text-night/40 hover:text-night"
                 }`}
               >

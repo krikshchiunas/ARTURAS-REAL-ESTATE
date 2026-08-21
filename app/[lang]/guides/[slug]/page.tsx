@@ -235,7 +235,7 @@ export default async function GuidePage({ params }: Params) {
                   <li key={s.heading}>
                     <a
                       href={`#${anchorId(i)}`}
-                      className="group flex items-baseline gap-4 border-b border-offwhite/10 py-3"
+                      className="group flex min-h-[44px] items-center gap-4 border-b border-offwhite/10 py-2"
                     >
                       <span className="font-mono text-10 tracking-4 text-offwhite/40">
                         {String(i + 1).padStart(2, "0")}
@@ -377,7 +377,7 @@ export default async function GuidePage({ params }: Params) {
       <nav className="flex flex-wrap items-center justify-between gap-6 border-t border-offwhite/10 px-6 py-8 md:px-16">
         <Link
           href={`/${lang}/guides`}
-          className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+          className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
         >
           <span
             aria-hidden
@@ -390,7 +390,7 @@ export default async function GuidePage({ params }: Params) {
         {next && next.slug !== guide.slug ? (
           <Link
             href={`/${lang}/guides/${next.slug}`}
-            className="group max-w-[60%] text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+            className="group inline-flex min-h-[44px] max-w-[60%] items-center justify-end text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
           >
             {c.next} — {next.title}
             <span

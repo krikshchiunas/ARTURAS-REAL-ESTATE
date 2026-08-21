@@ -11,11 +11,31 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: auto; /* Lenis управляет скроллом */
+    /* Сайт листается только вниз: горизонтальный сдвиг и «оттяжка» вбок
+       (свайп назад/вперёд на трекпаде и тач-экране) выключены. */
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
   }
 
   body {
     @apply bg-night text-offwhite font-sans antialiased;
     overflow-x: hidden;
+    overscroll-behavior-x: none;
+    /* Синяя вспышка по тапу на iOS/Android — своя подсветка у нас уже есть. */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Ничто не должно распирать вьюпорт по ширине: длинные слова и «неразрывные»
+     строки на узком экране — самая частая причина горизонтальной прокрутки. */
+  h1, h2, h3, p, li, dt, dd, span, a {
+    overflow-wrap: break-word;
+  }
+
+  /* Медиа не вылезает за свой контейнер ни при каких размерах. Canvas
+     сознательно не трогаем: его размер в пикселях выставляет WebGL-рендерер,
+     и внешнее ограничение рассинхронит буфер с картинкой. */
+  img, svg, video {
+    max-width: 100%;
   }
 
   ::selection {
@@ -36,6 +56,14 @@
     .rd-cursor-on button {
       cursor: none;
     }
+  }
+
+  /* Карта: все касания уходят в сцену. !important обязателен — OrbitControls
+     сам прописывает канвасу инлайновый touch-action, и без него палец на
+     телефоне скроллил бы страницу вместо перемещения по карте. */
+  .map-canvas,
+  .map-canvas canvas {
+    touch-action: none !important;
   }
 }
 

@@ -98,7 +98,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
                       href={d.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-baseline justify-between gap-6 py-6"
+                      className="group flex min-h-[56px] items-center justify-between gap-6 py-5"
                     >
                       <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
                         {c.contactPage.directLabel}
@@ -129,7 +129,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-baseline gap-4 border-b border-offwhite/10 pb-3"
+                      className="group flex min-h-[44px] items-center gap-4 border-b border-offwhite/10"
                     >
                       <span className="font-mono text-10 tracking-4 text-offwhite/40">
                         {String(i + 1).padStart(2, "0")}

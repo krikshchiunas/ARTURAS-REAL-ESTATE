@@ -53,7 +53,10 @@ export function CookieConsent({ lang }: { lang: string }) {
     <div
       role="dialog"
       aria-live="polite"
-      className="pointer-events-auto fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-5 z-[95] flex max-w-sm flex-col gap-4 border border-offwhite/20 bg-night/90 p-5 text-offwhite backdrop-blur-sm"
+      // На телефоне поднят выше: внизу живёт полоса карты и чип чата, и баннер
+      // с ними перекрывался. right-5 — чтобы на узком экране он не упирался в
+      // правый край, а тянулся по ширине.
+      className="pointer-events-auto fixed inset-x-5 bottom-[max(5.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] z-[95] flex flex-col gap-4 border border-offwhite/20 bg-night/90 p-5 text-offwhite backdrop-blur-sm sm:inset-x-auto sm:left-5 sm:max-w-sm md:bottom-[max(1.25rem,env(safe-area-inset-bottom))]"
     >
       <p className="font-mono text-11 uppercase leading-1.6 tracking-4 text-offwhite/70">
         {t.text}
@@ -62,14 +65,14 @@ export function CookieConsent({ lang }: { lang: string }) {
         <button
           type="button"
           onClick={() => decide(true)}
-          className="border border-offwhite/40 px-4 py-2 font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:bg-offwhite hover:text-night"
+          className="border border-offwhite/40 px-5 py-3 min-h-[44px] font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:bg-offwhite hover:text-night"
         >
           {t.accept}
         </button>
         <button
           type="button"
           onClick={() => decide(false)}
-          className="font-mono text-11 uppercase tracking-4 text-offwhite/50 transition-colors duration-300 hover:text-offwhite"
+          className="min-h-[44px] px-2 font-mono text-11 uppercase tracking-4 text-offwhite/50 transition-colors duration-300 hover:text-offwhite"
         >
           {t.decline}
         </button>

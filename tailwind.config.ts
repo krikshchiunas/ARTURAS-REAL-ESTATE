@@ -5,6 +5,12 @@ const config: Config = {
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
   ],
+  future: {
+    // На тач-экранах :hover «залипает» после тапа — подсветка остаётся на
+    // кнопке, пока не тронешь другую. С этим флагом hover:-варианты
+    // применяются только там, где указатель действительно наводится.
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {

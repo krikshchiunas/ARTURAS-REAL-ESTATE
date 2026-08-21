@@ -273,7 +273,7 @@ export default async function ProjectPage({ params }: Params) {
               </BracketButton>
               <Link
                 href={`/${lang}/map/${project.slug}`}
-                className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+                className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
               >
                 {c.projectsPage.openOnMap}
                 <span
@@ -517,7 +517,7 @@ export default async function ProjectPage({ params }: Params) {
               href={siteConfig.contacts.telegram}
               target="_blank"
               rel="noopener noreferrer"
-              className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+              className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
             >
               Telegram
               <span
@@ -535,7 +535,7 @@ export default async function ProjectPage({ params }: Params) {
       <nav className="flex flex-wrap items-center justify-between gap-6 border-t border-offwhite/10 px-6 py-8 md:px-16">
         <Link
           href={`/${lang}/projects`}
-          className="group font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+          className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
         >
           <span
             aria-hidden
@@ -548,7 +548,7 @@ export default async function ProjectPage({ params }: Params) {
         {next && next.slug !== project.slug ? (
           <Link
             href={`/${lang}/projects/${next.slug}`}
-            className="group text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+            className="group inline-flex min-h-[44px] items-center justify-end text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
           >
             {c.next} — {next.name}
             <span

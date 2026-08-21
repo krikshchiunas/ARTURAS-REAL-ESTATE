@@ -86,6 +86,10 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
   const [webglOk, setWebglOk] = useState(true);
   const [reduceMotion, setReduceMotion] = useState(false);
+  // Тач-режим меняет и подсказки онбординга (пальцы вместо мыши), и чувстви-
+  // тельность управления. Определяем по возможностям указателя, а не по ширине:
+  // планшет бывает шире ноутбука, а ноутбук — с сенсорным экраном.
+  const [touch, setTouch] = useState(false);
 
   const controlsRef = useRef<any>(null);
   const zoomRef = useRef<HTMLSpanElement>(null);
@@ -102,6 +106,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
       setWebglOk(false);
     }
     setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    setTouch(window.matchMedia("(hover: none), (pointer: coarse)").matches);
     // Онбординг один раз за сессию; ?nopreload пропускает (автотесты).
     const skip =
       sessionStorage.getItem(INTRO_KEY) ||
@@ -249,6 +254,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
         controlsRef={controlsRef}
         reduceMotion={reduceMotion}
         projectsWord={t.projectsWord}
+        touch={touch}
       />
 
       {/* Заголовок карты */}
@@ -257,6 +263,37 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           {t.mapPage.hudTitle}
         </p>
       </div>
+
+      {/* Районы на телефоне: лента чипов под заголовком. Вертикальный список
+          слева на узком экране не помещается, а без него с телефона вообще
+          нельзя было выбрать район. Лента скроллится пальцем по горизонтали,
+          сама страница при этом никуда не едет (overscroll-x: contain). */}
+      <nav
+        className="pointer-events-auto absolute inset-x-0 top-32 flex gap-2 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden"
+        aria-label={t.mapPage.filters}
+      >
+        {REGIONS.map((r) => {
+          const active = selectedRegion === r.id;
+          return (
+            <button
+              key={r.id}
+              type="button"
+              onClick={() => onRegionSelect(r.id)}
+              className={`flex min-h-[44px] shrink-0 items-center gap-2 border px-4 font-mono text-11 uppercase tracking-4 backdrop-blur-[2px] transition-colors duration-300 ${
+                active
+                  ? "border-offwhite/60 bg-offwhite/15 text-offwhite"
+                  : "border-offwhite/20 bg-night/70 text-offwhite/60"
+              }`}
+            >
+              <span
+                className={`inline-block h-1.5 w-1.5 ${active ? "bg-offwhite" : "bg-offwhite/30"}`}
+                aria-hidden
+              />
+              {r.name}
+            </button>
+          );
+        })}
+      </nav>
 
       {/* Список районов слева (стиль глав главной) */}
       <nav className="pointer-events-auto absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col gap-3 md:flex md:left-16">
@@ -284,13 +321,15 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
       </nav>
 
       {/* ZOOM + шкала (лево-низ, над полосой) */}
-      <div className="pointer-events-none absolute bottom-16 left-6 md:left-16">
-        {/* Мини-карта: силуэт острова + точка текущего вида */}
+      <div className="pointer-events-none absolute bottom-20 left-6 md:bottom-16 md:left-16">
+        {/* Мини-карта: силуэт острова + точка текущего вида. На телефоне
+            прячем: она перекрывалась баннером cookie и нижней полосой, а места
+            под неё нет — сама карта на весь экран важнее миниатюры. */}
         <svg
           width={MM_W}
           height={MM_H}
           viewBox={`0 0 ${MM_W} ${MM_H}`}
-          className="mb-3 border border-offwhite/12 bg-night/50 backdrop-blur-[2px]"
+          className="mb-3 hidden border border-offwhite/12 bg-night/50 backdrop-blur-[2px] sm:block"
           aria-hidden
         >
           <path d={MM_PATH} fill="none" stroke="#c2cbd6" strokeOpacity="0.5" strokeWidth="0.7" />
@@ -332,11 +371,14 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
       </div>
 
       {/* Нижняя полоса карты: SOUND | OPEN PROJECT LIST | FILTERS */}
-      <div className="pointer-events-none absolute inset-x-[14px] bottom-[14px] z-[105] flex items-stretch">
-        <div className="pointer-events-auto flex items-center border-t border-offwhite/12 bg-night/70 px-5 py-3 backdrop-blur-[2px]">
+      {/* Тумблер звука на телефоне спрятан: в полосе из трёх элементов при
+          375px подписи наезжали друг на друга. Остаются два главных действия,
+          каждое высотой в полноценную кнопку (44px). */}
+      <div className="pointer-events-none absolute inset-x-[14px] bottom-[max(14px,env(safe-area-inset-bottom))] z-[105] flex items-stretch">
+        <div className="pointer-events-auto hidden items-center border-t border-offwhite/12 bg-night/70 px-5 py-3 backdrop-blur-[2px] md:flex">
           <SoundToggle labels={{ on: t.soundOn, off: t.soundOff }} />
         </div>
-        <div className="flex flex-1 items-center justify-center border-t border-offwhite/12 bg-night/70 backdrop-blur-[2px]">
+        <div className="flex flex-1 items-stretch border-t border-offwhite/12 bg-night/70 backdrop-blur-[2px]">
           <button
             type="button"
             onClick={() => {
@@ -344,7 +386,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
               setListOpen(true);
             }}
             onMouseEnter={() => play("hover")}
-            className="pointer-events-auto flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-offwhite/70 transition-colors duration-300 hover:text-offwhite"
+            className="pointer-events-auto flex min-h-[44px] flex-1 items-center justify-center gap-2 px-3 font-mono text-11 uppercase tracking-4 text-offwhite/70 transition-colors duration-300 hover:text-offwhite"
           >
             <span className="inline-block h-1 w-3 border-y border-offwhite/60" aria-hidden />
             {t.mapPage.projectList}
@@ -354,7 +396,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           type="button"
           onClick={resetView}
           onMouseEnter={() => play("hover")}
-          className="pointer-events-auto flex items-center gap-2 border-t border-offwhite/12 bg-night/70 px-5 py-3 font-mono text-11 uppercase tracking-4 text-offwhite/70 backdrop-blur-[2px] transition-colors duration-300 hover:text-offwhite"
+          className="pointer-events-auto flex min-h-[44px] shrink-0 items-center gap-2 border-t border-offwhite/12 bg-night/70 px-5 font-mono text-11 uppercase tracking-4 text-offwhite/70 backdrop-blur-[2px] transition-colors duration-300 hover:text-offwhite"
         >
           {t.mapPage.filters}{" "}
           <span className="text-offwhite/40">
@@ -395,26 +437,51 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
       {/* Онбординг-гейт */}
       {intro && (
-        <div className="absolute inset-0 z-[80] flex flex-col items-center justify-center bg-night/85 px-6 backdrop-blur-[3px]">
-          <h2 className="text-center text-32 font-bold uppercase leading-1.1 text-offwhite md:text-48">
+        <div className="absolute inset-0 z-[80] flex flex-col items-center justify-center overflow-y-auto bg-night/85 px-6 py-24 backdrop-blur-[3px]">
+          <h2 className="text-center text-24 font-bold uppercase leading-1.1 text-offwhite sm:text-32 md:text-48">
             {t.mapPage.introTitle}
           </h2>
-          <div className="mt-10 grid w-full max-w-3xl gap-px bg-offwhite/10 sm:grid-cols-3">
-            {t.mapPage.introCards.map((card, i) => (
-              <div key={card.title} className="flex flex-col items-center gap-4 bg-night/90 px-6 py-8">
-                <span className="self-end font-mono text-10 tracking-4 text-offwhite/40">
+          {/* На тач-экране объясняем пальцами, на мыши — колесом и курсором:
+              подсказка «Скролл» телефону ничего не говорит. */}
+          <div className="mt-8 grid w-full max-w-3xl gap-px bg-offwhite/10 sm:mt-10 sm:grid-cols-3">
+            {(touch ? t.mapPage.introCardsTouch : t.mapPage.introCards).map((card, i) => (
+              <div
+                key={card.title}
+                className="flex items-center gap-4 bg-night/90 px-5 py-5 sm:flex-col sm:px-6 sm:py-8"
+              >
+                <span className="order-2 hidden font-mono text-10 tracking-4 text-offwhite/40 sm:order-none sm:block sm:self-end">
                   ■ {String(i + 1).padStart(3, "0")}
                 </span>
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-offwhite/5">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-offwhite/5 sm:h-16 sm:w-16">
+                  {/* Иконки под способ ввода: пальцем — «перетащить во все
+                      стороны / развести / наклонить», мышью — «колесо / тянуть /
+                      клик». Мышиный курсор рядом с надписью «Два пальца»
+                      противоречил бы подписи. */}
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d5e0ff" strokeWidth="1.3" aria-hidden>
-                    {i === 0 && <path d="M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4" />}
-                    {i === 1 && <path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4" />}
-                    {i === 2 && <path d="M7 4l10 8-6 1 3 6-3 1-3-6-4 4z" />}
+                    {touch ? (
+                      <>
+                        {i === 0 && (
+                          <path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l3 3" />
+                        )}
+                        {i === 1 && <path d="M4 20L10 14M4 20v-5M4 20h5M20 4l-6 6M20 4v5M20 4h-5" />}
+                        {i === 2 && <path d="M9 21V7M15 21V9M9 7L6 10M9 7l3 3M15 9l-3 3M15 9l3 3" />}
+                      </>
+                    ) : (
+                      <>
+                        {i === 0 && <path d="M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4" />}
+                        {i === 1 && <path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4" />}
+                        {i === 2 && <path d="M7 4l10 8-6 1 3 6-3 1-3-6-4 4z" />}
+                      </>
+                    )}
                   </svg>
                 </span>
-                <span className="text-16 font-bold uppercase text-offwhite">{card.title}</span>
-                <span className="text-center text-12 font-light leading-1.6 text-offwhite/60">
-                  {card.body}
+                <span className="flex flex-col gap-1 sm:contents">
+                  <span className="text-14 font-bold uppercase text-offwhite sm:text-16">
+                    {card.title}
+                  </span>
+                  <span className="text-12 font-light leading-1.6 text-offwhite/60 sm:text-center">
+                    {card.body}
+                  </span>
                 </span>
               </div>
             ))}
@@ -423,7 +490,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
             type="button"
             onClick={enterMap}
             onMouseEnter={() => play("hover")}
-            className="mt-10 bg-offwhite px-7 py-4 font-mono text-12 font-bold uppercase tracking-4 text-night transition-colors duration-300 hover:bg-white"
+            className="mt-8 min-h-[52px] w-full max-w-xs bg-offwhite px-7 font-mono text-12 font-bold uppercase tracking-4 text-night transition-colors duration-300 hover:bg-white sm:mt-10 sm:w-auto"
           >
             {t.mapPage.enterMap}
           </button>

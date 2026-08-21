@@ -26,7 +26,7 @@ export function ChatChip({ lang, label }: { lang: string; label: string }) {
         play("click");
         events.whatsapp("floating");
       }}
-      className="group fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-[90] flex items-center gap-2 border border-offwhite/20 bg-night/80 px-4 py-3 font-mono text-11 uppercase tracking-4 text-offwhite backdrop-blur-sm transition-colors duration-300 hover:border-offwhite/50 hover:bg-night-raised md:hidden"
+      className="group fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-[90] flex min-h-[48px] items-center gap-2 border border-offwhite/20 bg-night/80 px-4 py-3 font-mono text-11 uppercase tracking-4 text-offwhite backdrop-blur-sm transition-colors duration-300 hover:border-offwhite/50 hover:bg-night-raised md:hidden"
     >
       <span className="inline-block h-1 w-1 animate-pulse bg-offwhite" aria-hidden />
       {label}

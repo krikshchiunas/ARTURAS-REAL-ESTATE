@@ -74,7 +74,7 @@ export function Footer({ lang }: { lang: Locale }) {
                 rel="noopener noreferrer"
                 onMouseEnter={() => play("hover")}
                 onClick={() => play("click")}
-                className="group flex items-baseline gap-4 border-b border-offwhite/10 pb-3"
+                className="group flex min-h-[44px] items-center gap-4 border-b border-offwhite/10"
               >
                 <span className="font-mono text-10 tracking-4 text-offwhite/40">
                   {String(i + 1).padStart(2, "0")}
@@ -98,18 +98,18 @@ export function Footer({ lang }: { lang: Locale }) {
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-offwhite/10 px-6 py-5 md:px-16">
         <Link
           href={`${base}/about`}
-          className="font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors duration-300 hover:text-offwhite"
+          className="flex min-h-[44px] items-center font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors duration-300 hover:text-offwhite"
         >
           © {new Date().getFullYear()} Arturas · {t.rights}
         </Link>
         <div className="flex items-center gap-8">
           <SoundToggle labels={{ on: t.soundOn, off: t.soundOff }} />
-          <div className="flex items-center gap-4 font-mono text-11 uppercase tracking-4">
+          <div className="flex items-center gap-2 font-mono text-11 uppercase tracking-4">
             <button
               type="button"
               onClick={() => go(-1)}
               onMouseEnter={() => play("hover")}
-              className="text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+              className="flex min-h-[44px] items-center px-2 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
             >
               {t.prev}
             </button>
@@ -118,7 +118,7 @@ export function Footer({ lang }: { lang: Locale }) {
               type="button"
               onClick={() => go(1)}
               onMouseEnter={() => play("hover")}
-              className="text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+              className="flex min-h-[44px] items-center px-2 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
             >
               {t.next}
             </button>

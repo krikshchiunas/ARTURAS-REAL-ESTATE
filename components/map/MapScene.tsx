@@ -492,7 +492,13 @@ function Marker({
 // Прицел — на западное побережье; камера заметно наклонена (перспектива/3D).
 const DEFAULT_TARGET = new THREE.Vector3(-2, 0, -11);
 
-function Controls({ controlsRef }: { controlsRef: React.MutableRefObject<any> }) {
+function Controls({
+  controlsRef,
+  touch,
+}: {
+  controlsRef: React.MutableRefObject<any>;
+  touch: boolean;
+}) {
   // Во время движения камеры просим R3F временно снизить качество (AdaptiveDpr
   // ниже подхватывает) — кадры короче, камера идёт за пальцем без отставания.
   const regress = useThree((s) => s.performance.regress);
@@ -513,12 +519,19 @@ function Controls({ controlsRef }: { controlsRef: React.MutableRefObject<any> })
       minPolarAngle={0.2}
       target={DEFAULT_TARGET}
       screenSpacePanning={false}
+      // Жесты пальцами закреплены явно, а не оставлены на умолчания библиотеки:
+      // ОДИН палец — перемещение по карте, ДВА — щипок (приближение/отдаление)
+      // и одновременно поворот с наклоном камеры при движении пары вверх/вниз.
+      touches={{ ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE }}
+      // На тач-экране палец толще курсора: чуть спокойнее поворот, чтобы карта
+      // не «вырывалась» при двухпальцевом жесте.
+      panSpeed={touch ? 1.35 : 1}
     />
   );
 }
 
 export default function MapScene({
-  pins, activeSlug, selectedRegion, onSelect, onRegionSelect, controlsRef, reduceMotion = false, projectsWord,
+  pins, activeSlug, selectedRegion, onSelect, onRegionSelect, controlsRef, reduceMotion = false, projectsWord, touch = false,
 }: {
   pins: ProjectPin[];
   activeSlug: string | null;
@@ -528,6 +541,7 @@ export default function MapScene({
   controlsRef: React.MutableRefObject<any>;
   reduceMotion?: boolean;
   projectsWord: string;
+  touch?: boolean;
 }) {
   const animate = !reduceMotion;
   const counts = useMemo(() => {
@@ -542,6 +556,13 @@ export default function MapScene({
       // Наклонённый старт (перспектива), азимут 0 — компас 000°.
       camera={{ fov: 42, near: 0.1, far: 400, position: [-2, 26, 31] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
+      // Жесты должна получать сцена, а не браузер: иначе перетаскивание уходит в
+      // прокрутку страницы, а щипок — в зум всей страницы. Обёртке ставим
+      // touch-action здесь, а самому канвасу — правилом .map-canvas в globals.css:
+      // OrbitControls при отключении прописывает канвасу инлайновый
+      // touch-action: auto, и перебить его можно только !important.
+      className="map-canvas"
+      style={{ touchAction: "none" }}
       // Пока идёт жест — разрешение временно падает (AdaptiveDpr ниже), чтобы
       // кадр укладывался в бюджет и управление оставалось «липким» к пальцу.
       performance={{ min: 0.5 }}
@@ -590,7 +611,7 @@ export default function MapScene({
         />
       ))}
 
-      <Controls controlsRef={controlsRef} />
+      <Controls controlsRef={controlsRef} touch={touch} />
       <AdaptiveDpr />
 
       {!reduceMotion && (

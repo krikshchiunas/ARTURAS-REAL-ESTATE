@@ -175,7 +175,7 @@ export function SoundToggle({ labels }: { labels: { on: string; off: string } })
       type="button"
       onClick={toggle}
       aria-pressed={enabled}
-      className="group inline-flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+      className="group inline-flex min-h-[44px] items-center gap-2 font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
     >
       <span
         className={`inline-block h-1 w-1 ${

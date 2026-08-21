@@ -67,6 +67,9 @@ export type ChromeDict = {
     resetView: string;
     introTitle: string;
     introCards: readonly { title: string; body: string }[];
+    // Те же три подсказки, но про пальцы: на тач-экране «скролл» и
+    // «перетаскивание мышью» читателю ничего не говорят.
+    introCardsTouch: readonly { title: string; body: string }[];
     enterMap: string;
   };
   projectsPage: {
@@ -197,6 +200,11 @@ const en: ChromeDict = {
       { title: "Scroll", body: "Zoom in and out of the map" },
       { title: "Drag", body: "Move around" },
       { title: "Click", body: "View project details" },
+    ],
+    introCardsTouch: [
+      { title: "One finger", body: "Drag to move around the map" },
+      { title: "Pinch", body: "Spread to zoom in, pinch to zoom out" },
+      { title: "Two fingers", body: "Drag up or down to tilt the camera" },
     ],
     enterMap: "Enter the map",
   },
@@ -329,6 +337,11 @@ const ru: ChromeDict = {
       { title: "Перетаскивание", body: "Перемещайтесь по карте" },
       { title: "Клик", body: "Открывайте детали проекта" },
     ],
+    introCardsTouch: [
+      { title: "Один палец", body: "Ведите, чтобы перемещаться по карте" },
+      { title: "Щипок", body: "Развести — приблизить, свести — отдалить" },
+      { title: "Два пальца", body: "Ведите вверх или вниз, чтобы наклонить камеру" },
+    ],
     enterMap: "Открыть карту",
   },
   projectsPage: {
@@ -459,6 +472,11 @@ const uk: ChromeDict = {
       { title: "Скрол", body: "Наближайте та віддаляйте мапу" },
       { title: "Перетягування", body: "Пересувайтеся мапою" },
       { title: "Клік", body: "Відкривайте деталі проєкту" },
+    ],
+    introCardsTouch: [
+      { title: "Один палець", body: "Ведіть, щоб пересуватися мапою" },
+      { title: "Щипок", body: "Розвести — наблизити, звести — віддалити" },
+      { title: "Два пальці", body: "Ведіть вгору або вниз, щоб нахилити камеру" },
     ],
     enterMap: "Відкрити мапу",
   },
@@ -591,6 +609,11 @@ const de: ChromeDict = {
       { title: "Ziehen", body: "Auf der Karte bewegen" },
       { title: "Klicken", body: "Projektdetails ansehen" },
     ],
+    introCardsTouch: [
+      { title: "Ein Finger", body: "Ziehen, um die Karte zu bewegen" },
+      { title: "Zwei Finger spreizen", body: "Spreizen zoomt heran, Zusammenziehen heraus" },
+      { title: "Zwei Finger", body: "Nach oben oder unten ziehen neigt die Kamera" },
+    ],
     enterMap: "Karte öffnen",
   },
   projectsPage: {
@@ -721,6 +744,11 @@ const th: ChromeDict = {
       { title: "เลื่อน", body: "ซูมเข้าและออกจากแผนที่" },
       { title: "ลาก", body: "เลื่อนดูรอบ ๆ" },
       { title: "คลิก", body: "ดูรายละเอียดโครงการ" },
+    ],
+    introCardsTouch: [
+      { title: "หนึ่งนิ้ว", body: "ลากเพื่อเลื่อนดูแผนที่" },
+      { title: "หุบ–กางนิ้ว", body: "กางเพื่อซูมเข้า หุบเพื่อซูมออก" },
+      { title: "สองนิ้ว", body: "ลากขึ้นหรือลงเพื่อปรับมุมกล้อง" },
     ],
     enterMap: "เข้าสู่แผนที่",
   },

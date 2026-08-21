@@ -47,7 +47,7 @@ export function Header({ lang }: { lang: Locale }) {
           href={`${base}/about`}
           onMouseEnter={() => play("hover")}
           onClick={() => play("click")}
-          className="leading-none"
+          className="flex min-h-[44px] flex-col justify-center leading-none"
         >
           <span className="block text-18 font-bold uppercase tracking-[0.2em] text-offwhite">
             Arturas
@@ -68,7 +68,7 @@ export function Header({ lang }: { lang: Locale }) {
                   href={l.href}
                   onMouseEnter={() => play("hover")}
                   onClick={() => play("click")}
-                  className={`font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:text-offwhite ${
+                  className={`flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:text-offwhite ${
                     active ? "text-offwhite" : "text-offwhite/55"
                   }`}
                 >
@@ -86,9 +86,9 @@ export function Header({ lang }: { lang: Locale }) {
             play(open ? "click" : "modal");
             setOpen(!open);
           }}
-          className="group relative font-mono text-12 uppercase tracking-4 text-offwhite"
+          className="group relative flex min-h-[44px] items-center font-mono text-12 uppercase tracking-4 text-offwhite"
         >
-          <span className="relative block overflow-hidden px-4 py-2">
+          <span className="relative block overflow-hidden px-4 py-3">
             <span className="block transition-transform duration-500 ease-smooth group-hover:-translate-y-full">
               {open ? t.close : t.menu}
             </span>
