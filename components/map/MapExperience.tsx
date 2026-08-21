@@ -596,8 +596,11 @@ function ProjectOverlay({
   }, [onClose]);
 
   return (
-    <div className="absolute inset-y-0 left-0 z-[90] w-full max-w-lg animate-[slidein_0.5s_ease] border-r border-offwhite/10 bg-night/95 backdrop-blur-md">
-      <div className="flex h-full flex-col overflow-y-auto">
+    <div className="absolute inset-y-0 left-0 z-[90] flex w-full max-w-lg flex-col animate-[slidein_0.5s_ease] border-r border-offwhite/10 bg-night/95 backdrop-blur-md">
+      {/* Прокручивается всё, КРОМЕ кнопки: сама «Подробнее» вынесена в
+          закреплённый футер ниже, поэтому она видна всегда — и не зависит ни от
+          высоты экрана, ни от длины описания. */}
+      <div className="flex-1 overflow-y-auto">
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
           <Image src={image} alt={name} fill sizes="512px" className="object-cover opacity-80" />
           <div className="absolute inset-0 bg-gradient-to-t from-night to-transparent" />
@@ -610,11 +613,7 @@ function ProjectOverlay({
           </button>
         </div>
 
-        {/* pb резервирует место под нижнюю полосу карты (Список проектов /
-            Фильтры, z-105): без него кнопка «Подробнее», прижатая mt-auto к
-            низу, уходила под полосу и на части устройств не нажималась. Теперь
-            она всегда над полосой, а длинный контент докручивается. */}
-        <div className="flex flex-1 flex-col px-6 pt-8 pb-[calc(env(safe-area-inset-bottom)+7rem)] md:px-10">
+        <div className="px-6 pb-8 pt-8 md:px-10">
           <div className="grid grid-cols-2 gap-px bg-offwhite/10">
             <Cell label={labels.locationLabel} value={location} />
             <Cell label={labels.typeLabel} value={type} />
@@ -637,17 +636,19 @@ function ProjectOverlay({
               ))}
             </ul>
           )}
-
-          <div className="mt-auto pt-10">
-            <Link
-              href={discoverHref}
-              className="group inline-flex items-center gap-3 border border-offwhite/30 px-6 py-4 font-mono text-12 uppercase tracking-4 text-offwhite transition-colors duration-300 hover:bg-offwhite hover:text-night"
-            >
-              {labels.discoverMore}
-              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
-          </div>
         </div>
+      </div>
+
+      {/* Закреплённый футер с CTA. pb поднимает кнопку над нижней полосой карты
+          (Список проектов / Фильтры), чтобы она никогда под неё не пряталась. */}
+      <div className="shrink-0 border-t border-offwhite/10 bg-night px-6 pb-[calc(env(safe-area-inset-bottom)+6.5rem)] pt-5 md:px-10">
+        <Link
+          href={discoverHref}
+          className="group inline-flex min-h-[52px] items-center gap-3 border border-offwhite/30 px-6 py-4 font-mono text-12 uppercase tracking-4 text-offwhite transition-colors duration-300 hover:bg-offwhite hover:text-night"
+        >
+          {labels.discoverMore}
+          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </Link>
       </div>
     </div>
   );

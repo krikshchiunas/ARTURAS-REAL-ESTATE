@@ -11,16 +11,18 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: auto; /* Lenis управляет скроллом */
-    /* Сайт листается только вниз: горизонтальный сдвиг и «оттяжка» вбок
-       (свайп назад/вперёд на трекпаде и тач-экране) выключены. */
+    /* Контент по горизонтали не прокручивается — сайт листается только вниз.
+       Но overscroll-behavior-x НЕ трогаем: именно он отвечает за нативный
+       жест «свайп вбок = назад/вперёд» на трекпаде MacBook и на тач-экране.
+       Раньше он был выключен, из-за чего жест истории не работал. Горизонтальные
+       ленты внутри (чипы районов, галерея) гасят свайп у себя через
+       overscroll-x-contain, поэтому там жест истории не срабатывает по ошибке. */
     overflow-x: hidden;
-    overscroll-behavior-x: none;
   }
 
   body {
     @apply bg-night text-offwhite font-sans antialiased;
     overflow-x: hidden;
-    overscroll-behavior-x: none;
     /* Синяя вспышка по тапу на iOS/Android — своя подсветка у нас уже есть. */
     -webkit-tap-highlight-color: transparent;
   }
