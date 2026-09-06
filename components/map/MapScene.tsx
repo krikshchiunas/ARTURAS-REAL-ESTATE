@@ -280,15 +280,15 @@ function RegionDiamond({
         >
           <span
             className={`relative block h-6 w-6 rotate-45 border transition-colors duration-300 ${
-              active ? "border-offwhite" : "border-offwhite/60 group-hover:border-offwhite"
+              active ? "border-bone" : "border-bone/60 group-hover:border-bone"
             }`}
           >
-            <span className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 bg-offwhite" />
+            <span className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 bg-bone" />
           </span>
-          <span className="mt-1 whitespace-nowrap bg-offwhite px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-night">
+          <span className="mt-1 whitespace-nowrap bg-bone px-1.5 py-0.5 text-[9px] font-sans font-semibold uppercase tracking-[0.2em] lining-nums text-ink">
             {String(count).padStart(2, "0")} {projectsWord}
           </span>
-          <span className="whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.35em] text-offwhite">
+          <span className="whitespace-nowrap text-[11px] font-sans font-medium uppercase tracking-[0.35em] text-bone">
             {name}
           </span>
         </button>
@@ -474,10 +474,10 @@ function Marker({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); onSelect(pin.project.slug); }}
-            className={`whitespace-nowrap border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-sm transition-colors duration-300 ${
+            className={`whitespace-nowrap border px-2 py-1 text-[10px] uppercase tracking-[0.2em] backdrop-blur-sm transition-colors duration-300 ${
               active
-                ? "border-offwhite bg-offwhite text-night"
-                : "border-offwhite/60 bg-night/80 text-offwhite"
+                ? "border-bone bg-bone text-ink"
+                : "border-bone/60 bg-ink/80 text-bone"
             }`}
           >
             {pin.project.name}

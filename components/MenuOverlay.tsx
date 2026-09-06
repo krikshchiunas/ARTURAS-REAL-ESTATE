@@ -2,244 +2,158 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { gsap } from "gsap";
-import { locales, type Locale } from "@/lib/i18n/config";
-import { getDictionary, getSocials, siteConfig } from "@/lib/i18n";
+import { linkPrefetch } from "@/lib/prefetch";
+import type { Locale } from "@/lib/i18n/config";
+import { getDictionary, getSocials, whatsappHref } from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
-import { useSound } from "@/components/SoundManager";
+import { Button } from "@/components/Button";
 
-// Меню-оверлей в стиле Hubtown: светлая (offwhite) панель, выезжающая справа
-// на ~35% ширины и инвертирующая цвета (тёмный текст на светлом). Крупные
-// ссылки навигации стопкой, нумерованные вторичные ссылки, языки + сайт внизу.
-// Левая часть — затемнение страницы (клик закрывает). Esc закрывает.
+type NavLink = { label: string; href: string; match: string[] };
 
-type MenuOverlayProps = {
+/**
+ * Мобильное меню на весь экран.
+ *
+ * Три вещи, без которых оверлей недоступен с клавиатуры и на скринридере:
+ * фокус уезжает внутрь при открытии и возвращается на кнопку при закрытии,
+ * Tab заперт внутри диалога, Escape закрывает. Плюс блокировка прокрутки фона
+ * без сдвига макета — ширина скроллбара компенсируется padding-right.
+ */
+export function MenuOverlay({
+  lang,
+  open,
+  onClose,
+  links,
+}: {
   lang: Locale;
   open: boolean;
   onClose: () => void;
-};
-
-export function MenuOverlay({ lang, open, onClose }: MenuOverlayProps) {
+  links: NavLink[];
+}) {
   const t = chromeDict(lang);
+  const d = getDictionary(lang);
   const socials = getSocials(lang);
-  const pathname = usePathname();
-  const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const firstRun = useRef(true);
-  const { play } = useSound();
-
-  const base = `/${lang}`;
-  // Отдельной «Главной» нет — сайт начинается с «Обо мне». Projects открывает
-  // карту; полный список объектов — панель «Список проектов» внутри неё.
-  const items = [
-    { label: t.nav.about, href: `${base}/about` },
-    { label: t.nav.projects, href: `${base}/map` },
-    { label: getDictionary(lang).guides.indexEyebrow, href: `${base}/guides` },
-    { label: t.nav.contact, href: `${base}/contact` },
-  ];
-
-  const langHref = (l: string) => pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l}`);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    const panel = panelRef.current;
-    const backdrop = backdropRef.current;
-    if (!root || !panel || !backdrop) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const links = panel.querySelectorAll("[data-menu-link]");
-    const sides = panel.querySelectorAll("[data-menu-side]");
-
-    if (open) {
-      window.dispatchEvent(new Event("lenis:stop"));
-      document.body.style.overflow = "hidden";
-      gsap.set(root, { autoAlpha: 1 });
-      gsap.fromTo(
-        backdrop,
-        { autoAlpha: 0 },
-        { autoAlpha: 1, duration: reduce ? 0 : 0.4, overwrite: "auto" },
-      );
-      gsap.fromTo(
-        panel,
-        { xPercent: 100 },
-        { xPercent: 0, duration: reduce ? 0 : 0.7, ease: "power4.inOut", overwrite: "auto" },
-      );
-      gsap.fromTo(
-        links,
-        { yPercent: 120, opacity: 0 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration: reduce ? 0 : 0.6,
-          stagger: reduce ? 0 : 0.07,
-          delay: reduce ? 0 : 0.28,
-          ease: "power3.out",
-          overwrite: "auto",
-        },
-      );
-      gsap.fromTo(
-        sides,
-        { autoAlpha: 0, y: 14 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: reduce ? 0 : 0.5,
-          stagger: reduce ? 0 : 0.04,
-          delay: reduce ? 0 : 0.4,
-          ease: "power2.out",
-          overwrite: "auto",
-        },
-      );
-    } else {
-      window.dispatchEvent(new Event("lenis:start"));
-      document.body.style.overflow = "";
-      if (firstRun.current) {
-        gsap.set(root, { autoAlpha: 0 });
-        gsap.set(panel, { xPercent: 100 });
-      } else {
-        gsap.to(backdrop, { autoAlpha: 0, duration: reduce ? 0 : 0.4, overwrite: "auto" });
-        gsap.to(panel, {
-          xPercent: 100,
-          duration: reduce ? 0 : 0.5,
-          ease: "power4.inOut",
-          overwrite: "auto",
-          onComplete: () => gsap.set(root, { autoAlpha: 0 }),
-        });
-      }
-    }
-    firstRun.current = false;
-  }, [open]);
+  const restoreTo = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
 
-  const siteUrl = siteConfig.url.replace(/^https?:\/\//, "").toUpperCase();
+    restoreTo.current = document.activeElement as HTMLElement;
+
+    // Блокируем фон, компенсируя ширину скроллбара, иначе контент прыгает.
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    const prevOverflow = document.body.style.overflow;
+    const prevPad = document.body.style.paddingRight;
+    document.body.style.overflow = "hidden";
+    if (gap > 0) document.body.style.paddingRight = `${gap}px`;
+
+    const focusables = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+
+    focusables()[0]?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPad;
+      restoreTo.current?.focus();
+    };
+  }, [open, onClose]);
 
   return (
     <div
-      ref={rootRef}
       role="dialog"
       aria-modal="true"
+      aria-label={t.menu}
+      // Скрываем от скринридера и от Tab, пока меню закрыто.
       aria-hidden={!open}
-      className="invisible fixed inset-0 z-[130]"
+      inert={!open}
+      className={`fixed inset-0 z-[110] lg:hidden ${
+        open ? "pointer-events-auto" : "pointer-events-none"
+      }`}
     >
-      {/* Затемнение слева — клик закрывает */}
-      <div
-        ref={backdropRef}
-        onClick={onClose}
-        className="absolute inset-0 bg-night/70 backdrop-blur-[2px]"
-      />
-
-      {/* Светлая панель справа */}
       <div
         ref={panelRef}
-        className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-offwhite px-8 pb-8 pt-6 text-night md:px-10"
+        // overscroll-contain — против «протекания» прокрутки на страницу под
+        // меню. body получает overflow:hidden, но прокручивает страницу не он,
+        // а html (у него свой overflow-y:auto), поэтому одного замка на body
+        // мало: когда содержимое меню короче экрана, тач-жест уходит на фон.
+        // Тот же приём уже стоит на ленте районов карты.
+        className={`h-full overflow-y-auto overscroll-contain bg-ink/95 backdrop-blur-2xl transition-opacity duration-base ease-smooth ${
+          open ? "opacity-100" : "opacity-0"
+        }`}
       >
-        {/* Верх: метка + закрыть */}
-        <div className="flex items-center justify-between">
-          <span data-menu-side className="flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-night/70">
-            <span className="inline-block h-1.5 w-1.5 bg-night" /> Explore
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              play("click");
-              onClose();
-            }}
-            onMouseEnter={() => play("hover")}
-            aria-label={t.close}
-            className="flex h-11 w-11 items-center justify-center border border-night/25 text-night transition-colors duration-300 hover:bg-night hover:text-offwhite"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
-              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Большие ссылки навигации */}
-        <nav className="mt-12">
-          <ul>
-            {items.map((item) => {
-              const active =
-                item.href === base
-                  ? pathname === base || pathname === `${base}/`
-                  : pathname.startsWith(item.href);
-              return (
-                <li key={item.href} className="overflow-hidden">
+        <div className="shell flex min-h-full flex-col justify-between pb-12 pt-28">
+          <nav aria-label={d.a11y.menu}>
+            <ul>
+              {links.map((l, i) => (
+                <li key={l.href} className="border-b border-bone/10">
                   <Link
-                    href={item.href}
-                    onClick={() => {
-                      play("click");
-                      onClose();
-                    }}
-                    onMouseEnter={() => play("hover")}
-                    data-menu-link
-                    className={`group block py-0.5 text-40 font-bold uppercase leading-[1.08] tracking-tight transition-colors duration-300 md:text-48 ${
-                      active ? "text-night" : "text-night/85 hover:text-night"
-                    }`}
+                    href={l.href}
+                    prefetch={linkPrefetch(l.href)}
+                    onClick={onClose}
+                    className="flex items-baseline gap-5 py-5 transition-colors duration-micro hover:text-gold"
                   >
-                    {item.label}
+                    <span className="text-eyebrow tabular text-bone-dim">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-title">{l.label}</span>
                   </Link>
                 </li>
-              );
-            })}
-          </ul>
-        </nav>
+              ))}
+            </ul>
+          </nav>
 
-        {/* Нумерованные вторичные ссылки (соцканалы) */}
-        <div data-menu-side className="mt-auto">
-          <span className="flex items-center gap-2 font-mono text-11 uppercase tracking-4 text-night/60">
-            <span className="inline-block h-1.5 w-1.5 bg-night" /> {t.links}
-          </span>
-          <ul className="mt-5 space-y-2.5">
-            {socials.map((s, i) => (
-              <li key={s.key}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onMouseEnter={() => play("hover")}
-                  className="group flex min-h-[44px] items-center justify-between border-b border-night/10"
-                >
-                  <span className="text-14 font-medium text-night/80 transition-colors duration-300 group-hover:text-night">
+          <div className="mt-12">
+            <Button
+              href={whatsappHref(d.common.whatsappPrefill)}
+              variant="primary"
+              size="lg"
+              className="w-full"
+              arrow
+            >
+              {d.common.whatsapp}
+            </Button>
+
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+              {socials.map((s) => (
+                <li key={s.key}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-[44px] items-center text-micro text-bone-dim transition-colors duration-micro hover:text-bone"
+                  >
                     {s.label}
-                  </span>
-                  <span className="font-mono text-10 tracking-4 text-night/40">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Низ: языки + сайт */}
-        <div data-menu-side className="mt-8 flex items-center justify-between border-t border-night/10 pt-5">
-          <div className="flex gap-3">
-            {locales.map((l) => (
-              <Link
-                key={l}
-                href={langHref(l)}
-                onClick={() => {
-                  play("click");
-                  onClose();
-                }}
-                className={`flex min-h-[44px] min-w-[44px] items-center justify-center font-mono text-11 uppercase tracking-4 transition-colors duration-300 ${
-                  l === lang ? "text-night underline underline-offset-4" : "text-night/40 hover:text-night"
-                }`}
-              >
-                {l}
-              </Link>
-            ))}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-          <span className="font-mono text-10 uppercase tracking-4 text-night/50">{siteUrl}</span>
         </div>
       </div>
     </div>

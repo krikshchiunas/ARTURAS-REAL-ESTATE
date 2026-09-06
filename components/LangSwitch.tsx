@@ -3,20 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { locales, type Locale } from "@/lib/i18n/config";
-import { useSound } from "@/components/SoundManager";
+import { localeName, locales, type Locale } from "@/lib/i18n/config";
 
-// Переключатель языка прямо в шапке — доступен на любой странице, не только со
-// дна меню. Компактная кнопка с текущим кодом (RU/EN/…), по тапу раскрывает
-// список из пяти языков; каждый пункт — полноценная цель ≥44px под палец.
-//
-// Href строится заменой префикса локали в текущем пути, так что язык
-// переключается на той же странице, а не сбрасывает на главную.
+/**
+ * Переключатель языка. Href строится заменой префикса локали в текущем пути,
+ * поэтому язык меняется на той же странице, а не сбрасывает на главную.
+ * Каждый пункт — цель ≥44px, список закрывается по Escape и клику снаружи.
+ */
 export function LangSwitch({ lang }: { lang: Locale }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { play } = useSound();
 
   const hrefFor = (l: string) => pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l}`);
 
@@ -42,27 +39,26 @@ export function LangSwitch({ lang }: { lang: Locale }) {
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Language"
-        onMouseEnter={() => play("hover")}
-        onClick={() => {
-          play(open ? "click" : "modal");
-          setOpen((v) => !v);
-        }}
-        className="flex min-h-[44px] items-center gap-1.5 px-1 font-mono text-11 uppercase tracking-4 text-offwhite/70 transition-colors duration-300 hover:text-offwhite"
+        aria-label={localeName[lang]}
+        onClick={() => setOpen((v) => !v)}
+        className="flex min-h-[44px] cursor-pointer items-center gap-1.5 px-2 text-eyebrow font-medium uppercase tracking-eyebrow text-bone transition-colors duration-micro hover:text-gold"
       >
         {lang}
-        <span
-          aria-hidden
-          className={`inline-block text-[8px] transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 10 6"
+          className={`h-1.5 w-2.5 fill-none stroke-current stroke-[1.5] transition-transform duration-micro ${
+            open ? "rotate-180" : ""
+          }`}
         >
-          ▾
-        </span>
+          <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
 
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 top-[calc(100%+0.25rem)] min-w-[7rem] border border-offwhite/15 bg-night/95 backdrop-blur-md"
+          className="absolute right-0 top-[calc(100%+0.5rem)] min-w-[9rem] overflow-hidden rounded-control border border-bone/15 bg-ink-soft/95 shadow-xl backdrop-blur-md"
         >
           {locales.map((l) => (
             <li key={l}>
@@ -70,16 +66,18 @@ export function LangSwitch({ lang }: { lang: Locale }) {
                 href={hrefFor(l)}
                 role="option"
                 aria-selected={l === lang}
-                onClick={() => play("click")}
-                className={`flex min-h-[44px] items-center justify-between gap-6 border-b border-offwhite/10 px-4 font-mono text-11 uppercase tracking-4 transition-colors duration-300 last:border-b-0 ${
+                hrefLang={l}
+                className={`flex min-h-[44px] items-center justify-between gap-4 border-b border-bone/10 px-4 text-micro transition-colors duration-micro last:border-b-0 ${
                   l === lang
-                    ? "bg-offwhite/10 text-offwhite"
-                    : "text-offwhite/55 hover:bg-offwhite/5 hover:text-offwhite"
+                    ? "bg-bone/10 text-bone"
+                    : "text-bone-dim hover:bg-bone/5 hover:text-bone"
                 }`}
               >
-                {l}
+                {localeName[l]}
+                {/* Текущий язык помечен не только цветом — точка нужна тем,
+                    кто не различает оттенки. */}
                 {l === lang && (
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 bg-offwhite" />
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold" />
                 )}
               </Link>
             </li>

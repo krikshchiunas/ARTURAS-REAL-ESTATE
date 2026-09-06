@@ -4,19 +4,18 @@ import { useState } from "react";
 import { getDictionary } from "@/lib/i18n";
 import { getAttribution } from "@/lib/attribution";
 import { events } from "@/lib/analytics";
-import { BracketButton } from "@/components/BracketButton";
-import { useSound } from "@/components/SoundManager";
+import { Button } from "@/components/Button";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = { name?: string; message?: string; contact?: string };
 
-// Форма заявки редизайна. Контракт и валидация — 1:1 со старой формой
-// (/api/telegram-lead): honeypot company, attribution из sessionStorage,
-// обязательные имя + запрос + один из мессенджеров. Меняется только оболочка:
-// HUD-поля на night-фоне и bracket-кнопка отправки.
+// Форма заявки. Контракт и валидация не менялись (/api/telegram-lead):
+// honeypot company, attribution из sessionStorage, обязательные имя + запрос
+// и хотя бы один мессенджер. Изменилась оболочка и разбор ошибок: у каждой
+// ошибки есть значок и текст (не только цвет), поля объявляют autocomplete
+// и inputmode, чтобы на телефоне открывалась нужная клавиатура.
 export function LeadForm({ lang }: { lang: string }) {
   const t = getDictionary(lang).contact;
-  const { play } = useSound();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [errorMsg, setErrorMsg] = useState("");
@@ -67,7 +66,6 @@ export function LeadForm({ lang }: { lang: string }) {
       form.reset();
       setErrors({});
       setStatus("success");
-      play("modal");
       events.lead("form");
     } catch {
       setStatus("error");
@@ -77,27 +75,24 @@ export function LeadForm({ lang }: { lang: string }) {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-start gap-6 border border-offwhite/15 p-8 md:p-12">
-        <span className="inline-block h-1 w-1 animate-pulse bg-offwhite" aria-hidden />
-        <h3 className="text-24 font-bold uppercase leading-1.1 md:text-32">
-          {t.success.title}
-        </h3>
-        <p className="max-w-[28rem] text-14 font-light leading-1.6 text-offwhite/70">
-          {t.success.body}
-        </p>
-        <button
-          type="button"
-          onClick={() => setStatus("idle")}
-          className="font-mono text-11 uppercase tracking-4 text-offwhite/50 transition-colors duration-300 hover:text-offwhite"
-        >
+      <div
+        role="status"
+        className="flex flex-col items-start gap-5 rounded-control border border-sage/40 bg-sage/10 p-8 md:p-10"
+      >
+        <svg aria-hidden="true" viewBox="0 0 20 20" className="h-7 w-7 fill-sage">
+          <path d="M10 .8a9.2 9.2 0 1 0 0 18.4A9.2 9.2 0 0 0 10 .8Zm4.5 6.8-5.2 5.6a1 1 0 0 1-1.45.03L5.5 11.3a1 1 0 1 1 1.4-1.42l1.6 1.58 4.5-4.85A1 1 0 1 1 14.5 7.6Z" />
+        </svg>
+        <h3 className="font-display text-title">{t.success.title}</h3>
+        <p className="measure text-body text-bone-dim">{t.success.body}</p>
+        <Button variant="secondary" onClick={() => setStatus("idle")}>
           {t.success.again}
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
       {/* Honeypot: скрыт от людей и скринридеров, исключён из табуляции. */}
       <input
         type="text"
@@ -108,11 +103,12 @@ export function LeadForm({ lang }: { lang: string }) {
         className="hidden"
       />
 
-      <div className="grid gap-7 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <Field
           id="name"
           label={t.fields.name}
           required
+          autoComplete="name"
           placeholder={t.fields.namePlaceholder}
           error={errors.name}
         />
@@ -120,6 +116,8 @@ export function LeadForm({ lang }: { lang: string }) {
           id="email"
           label={t.fields.email}
           type="email"
+          inputMode="email"
+          autoComplete="email"
           hint={t.fields.optional}
           placeholder={t.fields.emailPlaceholder}
         />
@@ -133,9 +131,9 @@ export function LeadForm({ lang }: { lang: string }) {
         helper={t.fields.budgetHelper}
       />
 
-      <div className="flex flex-col gap-3">
-        <label htmlFor="message" className="font-mono text-11 uppercase tracking-4 text-offwhite/60">
-          {t.fields.message} <span aria-hidden className="text-offwhite">*</span>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="message" className="text-eyebrow uppercase tracking-eyebrow text-bone-dim">
+          {t.fields.message} <span className="text-gold">*</span>
         </label>
         <textarea
           id="message"
@@ -144,57 +142,84 @@ export function LeadForm({ lang }: { lang: string }) {
           placeholder={t.fields.messagePlaceholder}
           aria-invalid={errors.message ? true : undefined}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`resize-none border bg-offwhite/[0.03] px-4 py-3 text-16 font-light text-offwhite placeholder:text-offwhite/30 transition-colors duration-300 focus:border-offwhite/50 focus:bg-offwhite/[0.06] focus:outline-none ${
-            errors.message ? "border-offwhite/60" : "border-offwhite/15"
+          className={`resize-y rounded-control border bg-bone/[0.03] px-4 py-3 text-body text-bone transition-colors duration-micro placeholder:text-bone-faint focus:bg-bone/[0.06] focus:outline-none ${
+            errors.message ? "border-danger" : "border-bone/15 focus:border-bone/45"
           }`}
         />
-        {errors.message && (
-          <span id="message-error" className="font-mono text-10 uppercase tracking-4 text-offwhite/70">
-            {errors.message}
-          </span>
-        )}
+        {errors.message && <FieldError id="message-error">{errors.message}</FieldError>}
       </div>
 
-      <div className="grid gap-7 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <Field
           id="telegram"
           label={t.fields.telegram}
+          autoComplete="username"
           hint={t.fields.optional}
           placeholder={t.fields.telegramPlaceholder}
           invalid={Boolean(errors.contact)}
+          describedBy={errors.contact ? "contact-error" : undefined}
         />
         <Field
           id="whatsapp"
           label={t.fields.whatsapp}
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
           hint={t.fields.optional}
           placeholder={t.fields.whatsappPlaceholder}
           invalid={Boolean(errors.contact)}
+          describedBy={errors.contact ? "contact-error" : undefined}
         />
       </div>
-      {errors.contact && (
-        <span className="-mt-4 font-mono text-10 uppercase tracking-4 text-offwhite/70">
-          {errors.contact}
-        </span>
-      )}
+      {errors.contact && <FieldError id="contact-error">{errors.contact}</FieldError>}
 
       {status === "error" && errorMsg && (
         <div
           role="alert"
-          className="border border-offwhite/30 bg-offwhite/5 px-4 py-3 text-14 font-light text-offwhite/80"
+          className="flex items-start gap-3 rounded-control border border-danger/40 bg-danger/10 px-4 py-3 text-micro text-bone"
         >
+          <AlertIcon />
           {errorMsg}
         </div>
       )}
 
-      <div className="mt-2 flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-        <p className="max-w-[26rem] font-mono text-10 uppercase leading-1.6 tracking-4 text-offwhite/40">
-          {t.consent}
-        </p>
-        <BracketButton type="submit" disabled={status === "submitting"}>
+      <div className="mt-2 flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
+        <p className="max-w-[38ch] text-micro text-bone-dim">{t.consent}</p>
+        <Button
+          type="submit"
+          size="lg"
+          disabled={status === "submitting"}
+          className="max-md:w-full"
+        >
           {status === "submitting" ? t.submitting : t.submit}
-        </BracketButton>
+        </Button>
       </div>
     </form>
+  );
+}
+
+// Значок рядом с ошибкой: смысл не должен держаться на одном цвете —
+// дальтоник и монохромный экран обязаны прочитать состояние.
+function AlertIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      className="mt-0.5 h-4 w-4 shrink-0 fill-danger"
+    >
+      <path d="M8 1.5 15 14H1L8 1.5Zm0 4.2a.75.75 0 0 0-.75.75v2.6a.75.75 0 0 0 1.5 0v-2.6A.75.75 0 0 0 8 5.7Zm0 5.1a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z" />
+    </svg>
+  );
+}
+
+// role="alert" — иначе провал валидации виден только глазами: поля получают
+// aria-invalid, но пока фокус не придёт на поле, скринридер молчит.
+function FieldError({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <span id={id} role="alert" className="flex items-start gap-2 text-micro text-danger">
+      <AlertIcon />
+      {children}
+    </span>
   );
 }
 
@@ -202,56 +227,65 @@ function Field({
   id,
   label,
   type = "text",
+  inputMode,
+  autoComplete,
   placeholder,
   helper,
   hint,
   required,
   error,
   invalid,
+  describedBy,
 }: {
   id: string;
   label: string;
   type?: string;
+  inputMode?: "email" | "tel" | "text";
+  autoComplete?: string;
   placeholder?: string;
   helper?: string;
   hint?: string;
   required?: boolean;
   error?: string;
   invalid?: boolean;
+  // Сообщение об ошибке, живущее вне поля: у пары «Telegram / WhatsApp» оно
+  // одно на два поля и лежит под ними.
+  describedBy?: string;
 }) {
   const isInvalid = Boolean(error) || Boolean(invalid);
   return (
-    <div className="flex flex-col gap-3">
-      <label htmlFor={id} className="font-mono text-11 uppercase tracking-4 text-offwhite/60">
-        {label}{" "}
-        {required && (
-          <span aria-hidden className="text-offwhite">
-            *
-          </span>
-        )}
-        {hint && <span className="ml-2 normal-case text-offwhite/30">{hint}</span>}
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-eyebrow uppercase tracking-eyebrow text-bone-dim">
+        {label} {required && <span className="text-gold">*</span>}
+        {hint && <span className="ml-2 normal-case tracking-normal text-bone-faint">{hint}</span>}
       </label>
       <input
         id={id}
         name={id}
         type={type}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
         placeholder={placeholder}
         aria-invalid={isInvalid ? true : undefined}
-        aria-describedby={error ? `${id}-error` : undefined}
-        className={`border bg-offwhite/[0.03] px-4 py-3 text-16 font-light text-offwhite placeholder:text-offwhite/30 transition-colors duration-300 focus:border-offwhite/50 focus:bg-offwhite/[0.06] focus:outline-none ${
-          isInvalid ? "border-offwhite/60" : "border-offwhite/15"
+        aria-describedby={
+          error
+            ? `${id}-error`
+            : describedBy
+              ? describedBy
+              : helper
+                ? `${id}-helper`
+                : undefined
+        }
+        className={`min-h-[48px] rounded-control border bg-bone/[0.03] px-4 py-3 text-body text-bone transition-colors duration-micro placeholder:text-bone-faint focus:bg-bone/[0.06] focus:outline-none ${
+          isInvalid ? "border-danger" : "border-bone/15 focus:border-bone/45"
         }`}
       />
       {helper && !error && (
-        <span className="font-mono text-10 uppercase tracking-4 text-offwhite/40">
+        <span id={`${id}-helper`} className="text-micro text-bone-faint">
           {helper}
         </span>
       )}
-      {error && (
-        <span id={`${id}-error`} className="font-mono text-10 uppercase tracking-4 text-offwhite/70">
-          {error}
-        </span>
-      )}
+      {error && <FieldError id={`${id}-error`}>{error}</FieldError>}
     </div>
   );
 }

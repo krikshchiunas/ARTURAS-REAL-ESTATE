@@ -1,8 +1,8 @@
 {
-  "name": "maison-noir",
+  "name": "arturas-real-estate",
   "version": "1.0.0",
   "private": true,
-  "description": "Maison Noir — premium luxury real estate experience",
+  "description": "Arturas Real Estate — Phuket investment property advisory",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,9 +13,7 @@
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
     "@react-three/postprocessing": "3.0.4",
-    "framer-motion": "^11.15.0",
     "gsap": "^3.12.5",
-    "lenis": "^1.1.18",
     "next": "^15.5.23",
     "postprocessing": "^6.39.2",
     "react": "^19.0.0",

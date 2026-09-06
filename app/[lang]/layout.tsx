@@ -1,19 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Onest, JetBrains_Mono } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  Inter,
+  Noto_Sans_Thai,
+  Noto_Serif_Thai,
+  Poiret_One,
+} from "next/font/google";
 import { notFound } from "next/navigation";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { SoundProvider } from "@/components/SoundManager";
-import { PageTransition } from "@/components/PageTransition";
 import { Analytics, GtmNoScript } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
-import { chromeDict } from "@/components/dict";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Cursor } from "@/components/Cursor";
-import { ChatChip } from "@/components/ChatChip";
-import { BottomBar } from "@/components/BottomBar";
-import { Preloader } from "@/components/Preloader";
-import { HudFrame } from "@/components/HudFrame";
 import {
   htmlLang,
   isLocale,
@@ -24,20 +21,51 @@ import {
 import { getDictionary, siteConfig } from "@/lib/i18n";
 import "../globals.css";
 
-// Один гротеск на всё — Onest (геометрический, полная кириллица; свободный
-// аналог Px Grotesk оригинала). Гигантские uppercase-заголовки и текст делят
-// один шрифт: иерархию строят кегль и вес, а не смена гарнитуры.
-const sans = Onest({
+// Тройка: волосяной ар-деко для «скульптурных» моментов, нейтральный гротеск
+// для текста, моно для клинических меток. Иерархию держит смена гарнитуры и
+// огромная разница кеглей, а не пять оттенков серого.
+//
+// Poiret One существует в одном начертании и это осознанный выбор: у него нет
+// «жирного», значит заголовок нельзя сделать громче весом — только размером и
+// воздухом. Ровно та дисциплина, которой требует система.
+const display = Poiret_One({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-display",
+});
+
+const sans = Inter({
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   display: "swap",
   variable: "--font-sans",
 });
 
-const mono = JetBrains_Mono({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "700"],
+const mono = IBM_Plex_Mono({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "500"],
   display: "swap",
   variable: "--font-mono",
+});
+
+// Тайский набор — отдельными шрифтами и намеренно без preload: у Playfair и
+// Inter нет тайских глифов, но тянуть эти файлы в четырёх остальных локалях
+// незачем. Браузер возьмёт их, только когда встретит тайский текст; порядок в
+// font-family (tailwind.config.ts) ставит их сразу после основных, поэтому
+// подмена идёт по глифам, а не по всему абзацу.
+const displayThai = Noto_Serif_Thai({
+  subsets: ["thai"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  preload: false,
+  variable: "--font-display-thai",
+});
+
+const sansThai = Noto_Sans_Thai({
+  subsets: ["thai"],
+  display: "swap",
+  preload: false,
+  variable: "--font-sans-thai",
 });
 
 export function generateStaticParams() {
@@ -75,11 +103,13 @@ export async function generateMetadata({
       siteName: siteConfig.name,
       title: t.homeTitle,
       description: t.description,
+      images: [{ url: "/hero/hero-poster.jpg", width: 1280, height: 715 }],
     },
     twitter: {
       card: "summary_large_image",
       title: t.homeTitle,
       description: t.description,
+      images: ["/hero/hero-poster.jpg"],
     },
     robots: { index: true, follow: true },
     alternates: { canonical: url, languages },
@@ -87,12 +117,11 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#020a19",
+  themeColor: "#0B0C0A",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
-  // Edge-to-edge на iPhone: фон уходит под чёлку/индикатор,
-  // отступы безопасных зон добавлены через env(safe-area-inset-*).
+  // Edge-to-edge на iPhone: фон уходит под чёлку и индикатор.
   viewportFit: "cover",
 };
 
@@ -107,7 +136,6 @@ export default async function LangLayout({
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
   const t = getDictionary(lang);
-  const c = chromeDict(lang);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -116,9 +144,9 @@ export default async function LangLayout({
     name: siteConfig.name,
     alternateName: ["Arturas Krik Real Estate", "Артурас — недвижимость Пхукет"],
     description: t.meta.description,
-    url: `${siteConfig.url}/${lang}/about`,
-    logo: `${siteConfig.url}/hero-poster.jpg`,
-    image: `${siteConfig.url}/hero-poster.jpg`,
+    url: `${siteConfig.url}/${lang}`,
+    logo: `${siteConfig.url}/hero/hero-poster.jpg`,
+    image: `${siteConfig.url}/hero/hero-poster.jpg`,
     founder: {
       "@type": "Person",
       name: siteConfig.founder,
@@ -171,10 +199,19 @@ export default async function LangLayout({
   return (
     <html
       lang={htmlLang[lang]}
-      className={`${sans.variable} ${mono.variable}`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} ${displayThai.variable} ${sansThai.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-night text-offwhite selection:bg-royal selection:text-offwhite">
+      <body className="bg-ink text-bone">
+        {/* Помечаем документ как «скрипты работают» ДО первой отрисовки:
+            только под этим классом появляющиеся блоки стартуют прозрачными
+            (см. .js .reveal-init в globals.css). Инлайн и синхронно —
+            иначе между отрисовкой и гидратацией контент мигнёт. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js")`,
+          }}
+        />
         <GtmNoScript />
         <script
           type="application/ld+json"
@@ -182,24 +219,13 @@ export default async function LangLayout({
         />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[140] focus:border focus:border-offwhite/40 focus:bg-night focus:px-5 focus:py-3 focus:font-mono focus:text-11 focus:uppercase focus:tracking-4 focus:text-offwhite"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[200] focus:rounded-control focus:bg-gold focus:px-5 focus:py-3 focus:text-micro focus:font-medium focus:text-ink"
         >
           {t.a11y.skipToContent}
         </a>
-        <SoundProvider>
-          <SmoothScroll>
-            <Preloader texts={c.preloader} />
-            <HudFrame />
-            <Header lang={lang} />
-            {children}
-            <Footer lang={lang} />
-            {/* Desktop: постоянная нижняя HUD-полоса; mobile: компактный чип чата */}
-            <BottomBar lang={lang} />
-            <ChatChip lang={lang} label={c.chat} />
-          </SmoothScroll>
-          <PageTransition />
-        </SoundProvider>
-        <Cursor />
+        <Header lang={lang} />
+        {children}
+        <Footer lang={lang} />
         <Analytics />
         <CookieConsent lang={lang} />
       </body>

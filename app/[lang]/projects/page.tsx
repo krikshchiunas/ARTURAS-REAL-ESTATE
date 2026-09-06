@@ -5,11 +5,13 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getProjects, siteConfig } from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
-import { Reveal, HeadlineReveal } from "@/components/Reveal";
-import { BracketButton } from "@/components/BracketButton";
+import { Reveal } from "@/components/Reveal";
+import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
+import { Button } from "@/components/Button";
 
-// Индекс объектов: реестр строк во всю ширину. Кадр проекта проявляется под
-// строкой на hover — приём референса, целиком на CSS, без клиентского JS.
+// Индекс объектов: сетка карточек. Прежний «реестр строк» с проявляющимся
+// кадром на hover ушёл вместе со старым дизайном — на телефоне hover не
+// существует, и половина объектов там оставалась просто строкой текста.
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -50,6 +52,7 @@ export default async function ProjectsIndexPage({
   const lang = raw as Locale;
   const c = chromeDict(lang);
   const projects = getProjects(lang);
+  const base = `/${lang}`;
 
   // Список объектов для поисковиков и LLM — тот же порядок, что на странице.
   const itemListJsonLd = {
@@ -66,86 +69,84 @@ export default async function ProjectsIndexPage({
   };
 
   return (
-    <main id="main" className="relative">
+    <main id="main">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
 
-      {/* Hero */}
-      <section className="flex min-h-[70vh] flex-col justify-center px-6 pt-32 md:min-h-[80vh] md:px-16">
-        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-          {c.projectsPage.chapter}
-        </p>
-        <HeadlineReveal
+      <section className="shell pb-14 pt-36">
+        <HeroReveal>
+          <span className="marker text-gold">{c.projectsPage.chapter}</span>
+        </HeroReveal>
+        <HeroHeadline
           text={c.projectsPage.title}
-          className="mt-8 max-w-[12ch] text-54 font-bold uppercase leading-0.9 md:text-120 md:leading-0.8"
+          delay={100}
+          className="mt-5 max-w-[16ch] font-display tracking-monument text-display"
         />
-        <Reveal delay={0.5}>
-          <p className="mt-10 max-w-[36rem] text-16 font-light leading-1.6 text-offwhite/70">
+        <HeroReveal delay={400}>
+          <p className="mt-7 max-w-[48ch] text-lead text-bone-dim">
             {c.projectsPage.sub}
           </p>
-          <div className="mt-10">
-            <BracketButton href={`/${lang}/map`}>
+          <div className="mt-9">
+            <Button href={`${base}/map`} variant="secondary" arrow>
               {c.mapPage.enterMap}
-            </BracketButton>
+            </Button>
           </div>
-        </Reveal>
+        </HeroReveal>
       </section>
 
-      {/* Шапка реестра (desktop) */}
-      <div className="mt-10 hidden grid-cols-12 gap-6 border-t border-offwhite/10 px-6 py-4 font-mono text-10 uppercase tracking-4 text-offwhite/40 md:grid md:px-16">
-        <span className="col-span-1">№</span>
-        <span className="col-span-5">{c.projectsPage.headers.project}</span>
-        <span className="col-span-3">{c.projectsPage.headers.location}</span>
-        <span className="col-span-3">{c.projectsPage.headers.type}</span>
-      </div>
+      <section className="shell pb-section">
+        <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((p, i) => (
+            <Reveal as="li" key={p.slug} delay={(i % 3) * 90}>
+              <Link href={`${base}/projects/${p.slug}`} className="group block">
+                <div className="relative aspect-[4/5] overflow-hidden bg-ink-raised">
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    // Три колонки на десктопе, две на планшете, одна на телефоне —
+                    // sizes должен это повторять, иначе браузер тянет лишние пиксели.
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-slow ease-smooth group-hover:scale-[1.04]"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"
+                  />
+                </div>
 
-      {/* Реестр объектов */}
-      <div className="border-t border-offwhite/10">
-        {projects.map((p, i) => (
-          <Link
-            key={p.slug}
-            href={`/${lang}/projects/${p.slug}`}
-            className="group relative block overflow-hidden border-b border-offwhite/10"
-          >
-            {/* Кадр объекта проявляется под строкой */}
-            <Image
-              src={p.image}
-              alt=""
-              aria-hidden
-              fill
-              sizes="100vw"
-              className="object-cover opacity-0 transition-opacity duration-700 ease-smooth group-hover:opacity-25"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-night/0 transition-colors duration-700 group-hover:bg-night/30"
-            />
-
-            <div className="relative grid grid-cols-12 items-center gap-x-6 gap-y-2 px-6 py-8 md:px-16 md:py-10">
-              <span className="col-span-2 font-mono text-10 tracking-4 text-offwhite/40 md:col-span-1">
-                {String(i + 1).padStart(3, "0")}
-              </span>
-              <h2 className="col-span-10 text-24 font-bold uppercase leading-1.1 transition-transform duration-500 ease-smooth group-hover:translate-x-2 md:col-span-5 md:text-40">
-                {p.name}
-              </h2>
-              <span className="col-span-6 col-start-3 font-mono text-11 uppercase tracking-4 text-offwhite/55 md:col-span-3 md:col-start-auto">
-                {p.location}
-              </span>
-              <span className="col-span-4 font-mono text-11 uppercase tracking-4 text-offwhite/55 md:col-span-2">
-                {p.type}
-              </span>
-              <span
-                aria-hidden
-                className="col-span-12 hidden justify-self-end font-mono text-14 text-offwhite/40 transition-transform duration-500 ease-smooth group-hover:translate-x-1 group-hover:text-offwhite md:col-span-1 md:block"
-              >
-                ↗
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
+                {/* Номер стоял поверх кадра в text-bone-faint. Скрим у карточки
+                    поднимается снизу, вверху он прозрачен — над светлым небом
+                    (04, 06) цифра пропадала совсем, а на запасной подложке
+                    ink-raised давала 4.13:1, ниже AA. Тот же приём, что на
+                    главной: номер уходит в подпись под кадр, на сплошной фон,
+                    золотом — 8.34:1, и фотография остаётся нетронутой. */}
+                <div className="mt-5 flex items-baseline gap-4 border-t border-bone/15 pt-4">
+                  <span className="marker tabular text-gold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-display text-title transition-colors duration-micro group-hover:text-gold">
+                      {p.name}
+                    </h2>
+                    <dl className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-micro text-bone-dim">
+                      <dt className="sr-only">{c.projectsPage.headers.location}</dt>
+                      <dd>{p.location}</dd>
+                      <span aria-hidden="true" className="text-bone-faint">
+                        ·
+                      </span>
+                      <dt className="sr-only">{c.projectsPage.headers.type}</dt>
+                      <dd>{p.type}</dd>
+                    </dl>
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

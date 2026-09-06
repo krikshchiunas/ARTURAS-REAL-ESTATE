@@ -1,3 +1,5 @@
+import type { Locale } from "./config";
+
 // Языко-НЕЗАВИСИМЫЕ данные сайта: ссылки, имена брендов, пути к картинкам,
 // порядок объектов и услуг, раскладка bento. Тексты — в файлах локалей.
 
@@ -15,7 +17,9 @@ const WHATSAPP_NUMBER = "380667808098";
 // Бренд и каналы связи. Не переводятся.
 export const siteConfig = {
   name: "Arturas Real Estate",
-  founder: "Артурас",
+  // Каноническое имя основателя — латиницей, как в логотипе. Локализованную
+  // форму берут из founderName(): см. ниже.
+  founder: "Arturas",
   url: SITE_URL,
   contacts: {
     whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
@@ -27,6 +31,22 @@ export const siteConfig = {
     tiktok: "https://www.tiktok.com/@arturas_krik?_r=1&_t=ZG-96WU3EI43P6",
   },
 } as const;
+
+// Имя основателя в письменности локали. Раньше здесь была одна кириллическая
+// строка на все языки, и под портретом на /en, /de и /th стояло «АРТУРАС» —
+// прямо под латинским логотипом «Arturas» в шапке. Кириллица уместна только
+// там, где кириллический и остальной текст.
+const founderNames: Record<Locale, string> = {
+  ru: "Артурас",
+  uk: "Артурас",
+  en: "Arturas",
+  de: "Arturas",
+  th: "Arturas",
+};
+
+export function founderName(lang: Locale): string {
+  return founderNames[lang];
+}
 
 // Ссылка на WhatsApp с предзаполненным текстом первого сообщения.
 // Предзаполненное сообщение заметно повышает конверсию в диалог: человеку не

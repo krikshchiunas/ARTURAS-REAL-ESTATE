@@ -1,80 +1,82 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-// Одометр референса: каждая цифра — колонка 0–9, при входе секции во вьюпорт
-// колонки прокручиваются до целевого значения с каскадом слева направо.
-// Нецифровые символы («+», «М» и т.п.) рендерятся статично.
+/**
+ * Счётчик: число досчитывает от нуля до значения при входе в кадр.
+ *
+ * Раньше здесь был барабан из десяти цифр под маской высотой 1em. С обычной
+ * гарнитурой он работал, но дисплейный ар-деко рисует цифры геометрическими
+ * окружностями заметно выше em-квадрата — в окно маски лезли соседние цифры,
+ * и число разваливалось на дуги. Считать значение вместо прокрутки барабана
+ * надёжнее: результат не зависит ни от метрик шрифта, ни от набора
+ * OpenType-фич в нём.
+ *
+ * Разбираем строку вида «15+», «500+»: число анимируется, любой хвост
+ * (плюс, единицы) остаётся на месте. Если цифр нет вовсе — просто печатаем
+ * значение как есть.
+ */
 export function Odometer({ value, className = "" }: { value: string; className?: string }) {
+  const match = value.match(/^(\D*)(\d[\d\s.,]*)(.*)$/);
+  const prefix = match?.[1] ?? "";
+  const digits = match?.[2] ?? "";
+  const suffix = match?.[3] ?? "";
+  const target = digits ? Number(digits.replace(/[^\d]/g, "")) : null;
+
   const ref = useRef<HTMLSpanElement>(null);
+  // Стартуем сразу с настоящего значения и обнуляемся только в момент, когда
+  // анимация реально начинается. Иначе при отключённом JS, упавшем бандле или
+  // не сработавшем наблюдателе на странице навсегда осталось бы «0+».
+  const [shown, setShown] = useState<number | null>(target);
 
   useEffect(() => {
+    if (target === null) return;
     const el = ref.current;
     if (!el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const cols = Array.from(el.querySelectorAll<HTMLElement>("[data-odo-col]"));
 
-    if (reduce) {
-      cols.forEach((col) => {
-        const digit = Number(col.dataset.odoCol);
-        gsap.set(col, { yPercent: -digit * 10 });
-      });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShown(target);
       return;
     }
 
-    const tweens = cols.map((col, i) => {
-      const digit = Number(col.dataset.odoCol);
-      return gsap.fromTo(
-        col,
-        { yPercent: 0 },
-        {
-          yPercent: -digit * 10,
-          duration: 1.7 + i * 0.15,
-          ease: "power4.inOut",
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        },
-      );
-    });
-
+    let raf = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        setShown(0); // отсчёт начинается — только теперь можно показать ноль
+        const started = performance.now();
+        const duration = 1400;
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - started) / duration);
+          // expo.out — та же кривая, что у остального интерфейса: быстрый
+          // старт и долгое замедление, число «оседает», а не щёлкает.
+          const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+          setShown(Math.round(target * eased));
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
     return () => {
-      tweens.forEach((t) => {
-        t.scrollTrigger?.kill();
-        t.kill();
-      });
+      io.disconnect();
+      cancelAnimationFrame(raf);
     };
-  }, [value]);
+  }, [target]);
 
   return (
     <span
       ref={ref}
+      // Значение целиком уходит в aria-label: пока идёт счёт, скринридер
+      // не должен зачитывать промежуточные числа.
       aria-label={value}
-      className={`inline-flex items-baseline leading-none ${className}`}
+      className={`inline-block tabular-nums lining-nums ${className}`}
     >
-      {value.split("").map((ch, i) =>
-        /\d/.test(ch) ? (
-          <span
-            key={i}
-            aria-hidden
-            className="inline-block h-[1em] overflow-hidden"
-          >
-            <span data-odo-col={ch} className="block will-change-transform">
-              {Array.from({ length: 10 }, (_, d) => (
-                <span key={d} className="block h-[1em]">
-                  {d}
-                </span>
-              ))}
-            </span>
-          </span>
-        ) : (
-          <span key={i} aria-hidden className="inline-block">
-            {ch}
-          </span>
-        ),
-      )}
+      <span aria-hidden="true">
+        {target === null ? value : `${prefix}${shown ?? target}${suffix}`}
+      </span>
     </span>
   );
 }

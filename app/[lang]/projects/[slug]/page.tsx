@@ -12,12 +12,13 @@ import {
 import { projectMeta } from "@/lib/i18n/meta";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { chromeDict } from "@/components/dict";
-import { Reveal, HeadlineReveal } from "@/components/Reveal";
-import { BracketButton } from "@/components/BracketButton";
+import { Reveal } from "@/components/Reveal";
+import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
+import { Button } from "@/components/Button";
 
-// Карточка объекта в языке сайта: полноэкранный кадр-герой с наложенным
-// названием, ряды данных gap-px и лента галереи. Все цифры и тексты приходят
-// из локалей — страница только раскладывает их по HUD-сетке.
+// Карточка объекта: кадр-герой, ключевые цифры, концепция, галерея,
+// планировки, расположение, инвестиционная логика и паспорт. Все тексты и
+// цифры приходят из локалей — страница только раскладывает их.
 
 type Params = { params: Promise<{ lang: string; slug: string }> };
 
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-// Заголовок раздела: mono-подпись слева, гигантский uppercase под ней.
+// Заголовок раздела: рубрика золотом, под ней антиква.
 function SectionHead({
   eyebrow,
   title,
@@ -64,25 +65,15 @@ function SectionHead({
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-4">
       <div>
-        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-          {eyebrow}
-        </p>
-        <HeadlineReveal
-          as="h2"
-          text={title}
-          className="mt-5 max-w-[18ch] text-32 font-bold uppercase leading-0.9 md:text-56"
-        />
+        <span className="marker text-gold">{eyebrow}</span>
+        <h2 className="mt-4 max-w-[18ch] font-display tracking-monument text-section text-balance">{title}</h2>
       </div>
-      {aside ? (
-        <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-          {aside}
-        </span>
-      ) : null}
+      {aside ? <span className="eyebrow text-bone-dim">{aside}</span> : null}
     </div>
   );
 }
 
-// Ряд «подпись — значение» с mono-нумерацией, общий приём страниц сайта.
+// Ряд «подпись — значение».
 function DataRow({
   index,
   label,
@@ -93,16 +84,14 @@ function DataRow({
   value: string;
 }) {
   return (
-    <div className="flex items-baseline justify-between gap-6 border-t border-offwhite/10 py-5">
+    <div className="flex items-baseline justify-between gap-6 border-t border-bone/10 py-4">
       <div className="flex items-baseline gap-4">
-        <span className="font-mono text-10 tracking-4 text-offwhite/40">
+        <span className="tabular text-eyebrow text-gold">
           {String(index).padStart(2, "0")}
         </span>
-        <span className="text-16 font-light text-offwhite/80">{label}</span>
+        <span className="text-body text-bone-dim">{label}</span>
       </div>
-      <span className="text-right font-mono text-13 uppercase tracking-2 text-offwhite">
-        {value}
-      </span>
+      <span className="shrink-0 text-right text-micro text-bone">{value}</span>
     </div>
   );
 }
@@ -121,6 +110,7 @@ export default async function ProjectPage({ params }: Params) {
   const index = projects.findIndex((p) => p.slug === project.slug);
   const number = String(index + 1).padStart(2, "0");
   const next = projects[(index + 1) % projects.length];
+  const base = `/${lang}`;
 
   // Structured data: помогает LLM (ChatGPT, Claude, Perplexity, Gemini) и
   // поисковикам понять, что это конкретный объект недвижимости — с ценой,
@@ -217,7 +207,7 @@ export default async function ProjectPage({ params }: Params) {
   };
 
   return (
-    <main id="main" className="relative">
+    <main id="main">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
@@ -227,8 +217,8 @@ export default async function ProjectPage({ params }: Params) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      {/* Герой: кадр объекта на весь экран, название поверх затемнения */}
-      <section className="relative flex min-h-[92vh] flex-col justify-end overflow-hidden px-6 pb-16 pt-32 md:px-16 md:pb-24">
+      {/* Герой */}
+      <section className="relative flex min-h-[85svh] flex-col justify-end overflow-hidden">
         <Image
           src={project.image}
           alt={project.name}
@@ -237,99 +227,100 @@ export default async function ProjectPage({ params }: Params) {
           sizes="100vw"
           className="object-cover"
         />
-        {/* Двойное затемнение: снизу под текст, сверху под шапку */}
         <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/25"
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"
         />
         <div
-          aria-hidden
-          className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-night/80 to-transparent"
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ink/90 to-transparent"
         />
 
-        <div className="relative">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-11 uppercase tracking-4 text-offwhite/60">
-            <span>{number}</span>
-            <span className="h-3 w-px bg-offwhite/25" aria-hidden />
-            <span>{project.type}</span>
-            <span className="h-3 w-px bg-offwhite/25" aria-hidden />
-            <span>{project.location}</span>
-          </div>
+        <div className="shell relative z-10 pb-16 pt-32">
+          <nav aria-label="breadcrumb">
+            <ol className="flex flex-wrap items-center gap-x-3 gap-y-1 text-eyebrow uppercase tracking-eyebrow text-bone-dim">
+              <li>
+                {/* Цель под палец: по одной строке текста (15px) промахнуться
+                    легче, чем попасть — поэтому min-h, а не голая ссылка. */}
+                <Link
+                  href={`${base}/projects`}
+                  className="inline-flex min-h-[44px] items-center transition-colors duration-micro hover:text-bone"
+                >
+                  {c.projectsPage.title}
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li className="tabular text-gold">{number}</li>
+            </ol>
+          </nav>
 
-          <HeadlineReveal
+          <HeroHeadline
             text={project.name}
-            className="mt-7 max-w-[14ch] text-54 font-bold uppercase leading-0.9 md:text-120 md:leading-0.8"
+            className="mt-5 max-w-[14ch] font-display tracking-monument text-display"
           />
 
-          <Reveal delay={0.45}>
-            <p className="mt-8 max-w-[38rem] text-16 font-light leading-1.6 text-offwhite/75">
+          <HeroReveal delay={380}>
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-micro text-bone-dim">
+              <span>{project.type}</span>
+              <span aria-hidden="true" className="h-3 w-px bg-bone/25" />
+              <span>{project.location}</span>
+            </div>
+
+            <p className="mt-7 max-w-[48ch] text-lead text-bone/85">
               {project.summary}
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <BracketButton
+
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Button
                 href={whatsappHref(`${dict.common.whatsappPrefill} (${project.name})`)}
+                arrow
               >
                 {t.learnMore}
-              </BracketButton>
-              <Link
-                href={`/${lang}/map/${project.slug}`}
-                className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
-              >
+              </Button>
+              <Button href={`${base}/map/${project.slug}`} variant="secondary">
                 {c.projectsPage.openOnMap}
-                <span
-                  aria-hidden
-                  className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  ↗
-                </span>
-              </Link>
+              </Button>
             </div>
-          </Reveal>
+          </HeroReveal>
         </div>
       </section>
 
       {/* Ключевые цифры */}
-      <section className="border-t border-offwhite/10">
-        <dl className="grid grid-cols-2 gap-px bg-offwhite/10 md:grid-cols-4">
+      <section className="border-t border-bone/10">
+        <dl className="grid grid-cols-2 gap-px bg-bone/10 md:grid-cols-4">
           {project.highlights.map((h) => (
-            <div key={h.label} className="bg-night p-6 md:p-10">
-              <dt className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
+            <div key={h.label} className="bg-ink p-6 md:p-9">
+              <dt className="text-eyebrow uppercase tracking-eyebrow text-bone-dim">
                 {h.label}
               </dt>
-              <dd className="mt-4 text-24 font-bold uppercase leading-1.1 md:text-40">
-                {h.value}
-              </dd>
+              <dd className="mt-3 font-display text-title text-gold">{h.value}</dd>
             </div>
           ))}
         </dl>
       </section>
 
       {/* Концепция */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+      <section className="border-t border-bone/10">
+        <div className="shell grid gap-12 py-section lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <SectionHead eyebrow={t.conceptEyebrow} title={t.conceptTitle} />
           </div>
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="text-20 font-light leading-1.2 text-offwhite/90 md:text-32">
-                {project.concept}
-              </p>
+              <p className="font-display text-title text-bone">{project.concept}</p>
             </Reveal>
             {project.keyPoints.length ? (
-              <Reveal className="mt-12" delay={0.1}>
+              <Reveal className="mt-10" delay={100}>
                 <ul className="grid gap-x-10 sm:grid-cols-2">
                   {project.keyPoints.map((point, i) => (
                     <li
                       key={point}
-                      className="flex items-baseline gap-4 border-t border-offwhite/10 py-4"
+                      className="flex items-baseline gap-4 border-t border-bone/10 py-4"
                     >
-                      <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                      <span className="tabular text-eyebrow text-gold">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-14 font-light leading-1.6 text-offwhite/75">
-                        {point}
-                      </span>
+                      <span className="text-micro text-bone-dim">{point}</span>
                     </li>
                   ))}
                 </ul>
@@ -340,17 +331,19 @@ export default async function ProjectPage({ params }: Params) {
       </section>
 
       {/* Галерея: первый кадр во всю ширину, дальше — пары */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <SectionHead
-          eyebrow={t.galleryEyebrow}
-          title={t.galleryTitle}
-          aside={`${String(project.gallery.length).padStart(2, "0")} —`}
-        />
-        <div className="mt-14 grid gap-px bg-offwhite/10 md:grid-cols-2">
+      <section className="border-t border-bone/10">
+        <div className="shell py-section">
+          <SectionHead
+            eyebrow={t.galleryEyebrow}
+            title={t.galleryTitle}
+            aside={String(project.gallery.length).padStart(2, "0")}
+          />
+        </div>
+        <div className="grid gap-px bg-bone/10 md:grid-cols-2">
           {project.gallery.map((src, i) => (
             <figure
               key={src}
-              className={`relative bg-night ${i === 0 ? "md:col-span-2" : ""}`}
+              className={`relative bg-ink ${i === 0 ? "md:col-span-2" : ""}`}
             >
               <div
                 className={`relative w-full ${
@@ -361,24 +354,22 @@ export default async function ProjectPage({ params }: Params) {
                   src={src}
                   alt={`${project.name} — ${t.galleryAlt.replace("{n}", String(i + 1))}`}
                   fill
+                  loading="lazy"
                   sizes={i === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
                   className="object-cover"
                 />
               </div>
-              <figcaption className="pointer-events-none absolute left-4 top-4 font-mono text-10 tracking-4 text-offwhite/70 mix-blend-difference">
-                ■ {String(i + 1).padStart(3, "0")}
-              </figcaption>
             </figure>
           ))}
         </div>
       </section>
 
       {/* Планировки + инфраструктура */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
+      <section className="border-t border-bone/10">
+        <div className="shell grid gap-14 py-section lg:grid-cols-2 lg:gap-16">
           <div>
             <SectionHead eyebrow={t.unitsEyebrow} title={t.unitsTitle} />
-            <div className="mt-12">
+            <div className="mt-10">
               {project.units.map((u, i) => (
                 <DataRow key={u.type} index={i + 1} label={u.type} value={u.area} />
               ))}
@@ -386,19 +377,17 @@ export default async function ProjectPage({ params }: Params) {
           </div>
           <div>
             <SectionHead eyebrow={t.amenitiesEyebrow} title={t.amenitiesTitle} />
-            <Reveal className="mt-12" delay={0.08}>
+            <Reveal className="mt-10" delay={80}>
               <ul className="grid gap-x-10 sm:grid-cols-2">
                 {project.amenities.map((a, i) => (
                   <li
                     key={a}
-                    className="flex items-baseline gap-4 border-t border-offwhite/10 py-4"
+                    className="flex items-baseline gap-4 border-t border-bone/10 py-4"
                   >
-                    <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                    <span className="tabular text-eyebrow text-gold">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-14 font-light leading-1.6 text-offwhite/75">
-                      {a}
-                    </span>
+                    <span className="text-micro text-bone-dim">{a}</span>
                   </li>
                 ))}
               </ul>
@@ -408,14 +397,14 @@ export default async function ProjectPage({ params }: Params) {
       </section>
 
       {/* Расположение */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+      <section className="border-t border-bone/10 bg-ink-soft">
+        <div className="shell grid gap-12 py-section lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <SectionHead eyebrow={t.locationEyebrow} title={project.location} />
-            <Reveal className="mt-10" delay={0.1}>
-              <BracketButton href={`/${lang}/map/${project.slug}`}>
+            <Reveal className="mt-9" delay={100}>
+              <Button href={`${base}/map/${project.slug}`} variant="secondary" arrow>
                 {c.projectsPage.openOnMap}
-              </BracketButton>
+              </Button>
             </Reveal>
           </div>
           <div className="lg:col-span-7">
@@ -427,26 +416,20 @@ export default async function ProjectPage({ params }: Params) {
       </section>
 
       {/* Инвестиционная логика */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+      <section className="border-t border-bone/10">
+        <div className="shell grid gap-12 py-section lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <SectionHead eyebrow={t.investmentEyebrow} title={t.investmentTitle} />
           </div>
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
-                {project.investment}
-              </p>
+              <p className="text-body text-bone-dim">{project.investment}</p>
             </Reveal>
             {project.payment ? (
-              <Reveal className="mt-10" delay={0.08}>
-                <div className="border border-offwhite/12 bg-night-raised/40 p-6 backdrop-blur-sm md:p-8">
-                  <p className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
-                    {t.paymentLabel}
-                  </p>
-                  <p className="mt-4 text-16 font-light leading-1.6 text-offwhite/85">
-                    {project.payment}
-                  </p>
+              <Reveal className="mt-9" delay={80}>
+                <div className="rounded-control border border-bone/10 bg-ink-raised p-6 md:p-8">
+                  <span className="marker text-gold">{t.paymentLabel}</span>
+                  <p className="mt-4 text-body text-bone">{project.payment}</p>
                 </div>
               </Reveal>
             ) : null}
@@ -456,19 +439,14 @@ export default async function ProjectPage({ params }: Params) {
 
       {/* Застройщик */}
       {project.developer && project.developerNote ? (
-        <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+        <section className="border-t border-bone/10">
+          <div className="shell grid gap-12 py-section lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
-              <SectionHead
-                eyebrow={t.developerEyebrow}
-                title={project.developer}
-              />
+              <SectionHead eyebrow={t.developerEyebrow} title={project.developer} />
             </div>
             <div className="lg:col-span-7">
               <Reveal>
-                <p className="text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
-                  {project.developerNote}
-                </p>
+                <p className="text-body text-bone-dim">{project.developerNote}</p>
               </Reveal>
             </div>
           </div>
@@ -476,70 +454,57 @@ export default async function ProjectPage({ params }: Params) {
       ) : null}
 
       {/* Паспорт объекта */}
-      <section className="border-t border-offwhite/10 px-6 pt-24 md:px-16 md:pt-32">
-        <SectionHead eyebrow={t.specEyebrow} title={t.specTitle} />
-      </section>
-      <section className="mt-14 border-t border-offwhite/10">
+      <section className="border-t border-bone/10">
+        <div className="shell pb-12 pt-section">
+          <SectionHead eyebrow={t.specEyebrow} title={t.specTitle} />
+        </div>
         {/* При нечётном числе параметров последняя ячейка на мобиле растягивается
             на всю строку — иначе в сетке остаётся пустая «дыра». */}
-        <dl className="grid grid-cols-2 gap-px bg-offwhite/10 max-md:[&>div:last-child:nth-child(odd)]:col-span-2 md:grid-cols-3 lg:grid-cols-5">
+        <dl className="grid grid-cols-2 gap-px border-t border-bone/10 bg-bone/10 max-md:[&>div:last-child:nth-child(odd)]:col-span-2 md:grid-cols-3 lg:grid-cols-5">
           {project.spec.map((s) => (
-            <div key={s.label} className="bg-night p-6 md:p-8">
-              <dt className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
+            <div key={s.label} className="bg-ink p-6 md:p-8">
+              <dt className="text-eyebrow uppercase tracking-eyebrow text-bone-dim">
                 {s.label}
               </dt>
-              <dd className="mt-4 text-16 font-light leading-1.6 text-offwhite/85">
-                {s.value}
-              </dd>
+              <dd className="mt-3 text-micro text-bone">{s.value}</dd>
             </div>
           ))}
         </dl>
       </section>
 
       {/* Финальный CTA */}
-      <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-        <HeadlineReveal
-          as="h2"
-          text={t.ctaTitle.replace("{name}", project.name)}
-          className="max-w-[16ch] text-40 font-bold uppercase leading-0.9 md:text-104 md:leading-0.8"
-        />
-        <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-[32rem] text-16 font-light leading-1.6 text-offwhite/70">
-            {t.ctaBody}
-          </p>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-            <BracketButton
-              href={whatsappHref(`${dict.common.whatsappPrefill} (${project.name})`)}
-            >
-              {dict.common.whatsapp}
-            </BracketButton>
-            <a
-              href={siteConfig.contacts.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
-            >
-              Telegram
-              <span
-                aria-hidden
-                className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
+      <section className="border-t border-bone/10">
+        <div className="shell py-section">
+          <h2 className="max-w-[18ch] font-display tracking-monument text-section text-balance">
+            {t.ctaTitle.replace("{name}", project.name)}
+          </h2>
+          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p className="measure text-body text-bone-dim">{t.ctaBody}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                href={whatsappHref(`${dict.common.whatsappPrefill} (${project.name})`)}
+                size="lg"
+                arrow
               >
-                ↗
-              </span>
-            </a>
+                {dict.common.whatsapp}
+              </Button>
+              <Button href={siteConfig.contacts.telegram} variant="secondary" size="lg">
+                Telegram
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Навигация по объектам: назад к списку и следующий проект */}
-      <nav className="flex flex-wrap items-center justify-between gap-6 border-t border-offwhite/10 px-6 py-8 md:px-16">
+      {/* Навигация по объектам */}
+      <nav className="shell flex flex-wrap items-center justify-between gap-6 border-t border-bone/10 py-7">
         <Link
-          href={`/${lang}/projects`}
-          className="group inline-flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+          href={`${base}/projects`}
+          className="group inline-flex min-h-[44px] items-center gap-3 text-micro text-bone-dim transition-colors duration-micro hover:text-bone"
         >
           <span
-            aria-hidden
-            className="mr-3 inline-block transition-transform duration-300 group-hover:-translate-x-1"
+            aria-hidden="true"
+            className="inline-block transition-transform duration-micro group-hover:-translate-x-1"
           >
             ←
           </span>
@@ -547,13 +512,13 @@ export default async function ProjectPage({ params }: Params) {
         </Link>
         {next && next.slug !== project.slug ? (
           <Link
-            href={`/${lang}/projects/${next.slug}`}
-            className="group inline-flex min-h-[44px] items-center justify-end text-right font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+            href={`${base}/projects/${next.slug}`}
+            className="group inline-flex min-h-[44px] items-center gap-3 text-right text-micro text-bone-dim transition-colors duration-micro hover:text-bone"
           >
             {c.next} — {next.name}
             <span
-              aria-hidden
-              className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden="true"
+              className="inline-block transition-transform duration-micro group-hover:translate-x-1"
             >
               →
             </span>

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDictionary, getGuides, siteConfig } from "@/lib/i18n";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { Reveal, HeadlineReveal } from "@/components/Reveal";
+import { Reveal } from "@/components/Reveal";
+import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
 
-// Индекс гидов: hero + карточки-плитки в HUD-стиле (прямые углы, mono-подписи,
-// кадр статьи как фон, подсвечивающийся на hover).
+// Индекс гидов: hero + карточки статей в редакционной сетке.
 
 type Params = { params: Promise<{ lang: string }> };
 
@@ -57,82 +57,67 @@ export default async function GuidesIndex({ params }: Params) {
   };
 
   return (
-    <main id="main" className="relative">
+    <main id="main">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
 
-      {/* Hero */}
-      <section className="flex min-h-[70vh] flex-col justify-center px-6 pt-32 md:min-h-[80vh] md:px-16">
-        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-          {t.indexEyebrow}
-        </p>
-        <HeadlineReveal
+      <section className="shell pb-14 pt-36">
+        <HeroReveal>
+          <span className="marker text-gold">{t.indexEyebrow}</span>
+        </HeroReveal>
+        <HeroHeadline
           text={t.indexTitle}
-          className="mt-8 max-w-[14ch] text-48 font-bold uppercase leading-0.9 md:text-104 md:leading-0.8"
+          delay={100}
+          className="mt-5 max-w-[16ch] font-display tracking-monument text-display"
         />
-        <Reveal delay={0.5}>
-          <p className="mt-10 max-w-[36rem] text-16 font-light leading-1.6 text-offwhite/70">
+        <HeroReveal delay={400}>
+          <p className="mt-7 max-w-[48ch] text-lead text-bone-dim">
             {t.indexSubtitle}
           </p>
-        </Reveal>
+        </HeroReveal>
       </section>
 
-      {/* Плитки статей */}
-      <section className="mt-10 border-t border-offwhite/10">
-        <ul className="grid gap-px bg-offwhite/10 md:grid-cols-2">
+      <section className="shell pb-section">
+        <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2">
           {guides.map((g, i) => (
-            <li key={g.slug} className="bg-night">
-              <Link
-                href={`/${lang}/guides/${g.slug}`}
-                className="group relative flex h-full flex-col overflow-hidden"
-              >
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
+            <Reveal as="li" key={g.slug} delay={(i % 2) * 90}>
+              <Link href={`/${lang}/guides/${g.slug}`} className="group flex h-full flex-col">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-ink-raised">
                   <Image
                     src={g.image}
                     alt={g.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover opacity-70 transition-all duration-700 ease-smooth group-hover:scale-[1.03] group-hover:opacity-100"
+                    className="object-cover transition-transform duration-slow ease-smooth group-hover:scale-[1.03]"
                   />
                   <div
-                    aria-hidden
-                    className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-transparent"
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent"
                   />
-                  <span className="absolute left-5 top-5 font-mono text-10 tracking-4 text-offwhite/70">
-                    ■ {String(i + 1).padStart(3, "0")}
-                  </span>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6 md:p-10">
-                  <span className="font-mono text-10 uppercase tracking-4 text-offwhite/50">
-                    {g.category}
-                  </span>
-                  <h2 className="mt-5 text-24 font-bold uppercase leading-1.1 transition-transform duration-500 ease-smooth group-hover:translate-x-1 md:text-32">
+                <div className="flex flex-1 flex-col pt-5">
+                  <span className="marker text-gold">{g.category}</span>
+                  <h2 className="mt-4 font-display text-title transition-colors duration-micro group-hover:text-gold">
                     {g.title}
                   </h2>
-                  <p className="mt-5 text-14 font-light leading-1.6 text-offwhite/70">
-                    {g.description}
-                  </p>
-                  <div className="mt-auto flex items-center gap-4 pt-8 font-mono text-10 uppercase tracking-4 text-offwhite/40">
+                  <p className="mt-4 text-micro text-bone-dim">{g.description}</p>
+
+                  <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-6 text-eyebrow uppercase tracking-eyebrow text-bone-dim">
                     <span>
                       {t.readingMinutes.replace("{n}", String(g.readingMinutes))}
                     </span>
-                    <span className="h-3 w-px bg-offwhite/20" aria-hidden />
-                    <span>
+                    <span aria-hidden="true" className="h-3 w-px bg-bone/20" />
+                    {/* Дата в <time> — машиночитаемая, в отличие от голой строки. */}
+                    <time dateTime={g.updatedAt}>
                       {t.updatedLabel} {g.updatedAt}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="ml-auto text-14 text-offwhite/40 transition-transform duration-500 ease-smooth group-hover:translate-x-1 group-hover:text-offwhite"
-                    >
-                      ↗
-                    </span>
+                    </time>
                   </div>
                 </div>
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </section>

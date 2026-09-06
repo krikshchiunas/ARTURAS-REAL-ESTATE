@@ -1,129 +1,121 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { linkPrefetch } from "@/lib/prefetch";
+import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n/config";
-import { whatsappHref, getDictionary, getSocials } from "@/lib/i18n";
-import { chromeDict, pageOrder } from "@/components/dict";
-import { BracketButton } from "@/components/BracketButton";
-import { SoundToggle, useSound } from "@/components/SoundManager";
+import { getDictionary, getSocials, whatsappHref } from "@/lib/i18n";
+import { chromeDict } from "@/components/dict";
+import { Button } from "@/components/Button";
 
-// Футер редизайна (паттерн референса): гигантский CTA «Work with us»,
-// нумерованный список ссылок 01–06 (наши соцканалы), нижняя HUD-полоса:
-// копирайт · Sound On/Off · Prev./Next — листание страниц по порядку сайта.
 export function Footer({ lang }: { lang: Locale }) {
   const t = chromeDict(lang);
-  const common = getDictionary(lang).common;
+  const d = getDictionary(lang);
   const socials = getSocials(lang);
   const pathname = usePathname();
-  const router = useRouter();
-  const { play } = useSound();
 
-  // Карта — полноэкранный интерактивный режим со своим HUD; футер под ней лишний.
+  // Карта — полноэкранный интерактивный режим со своим управлением; футер под
+  // ней лишний и мешает жестам.
   if (pathname.startsWith(`/${lang}/map`)) return null;
 
   const base = `/${lang}`;
-  // Карточка объекта и статья-гид заканчиваются собственным призывом («Подберём
-  // {объект} под вашу цель», «Обсудим вашу цель»). Общий футерный «Работаем
-  // вместе» встал бы сразу под ним — два гигантских CTA подряд. На таких
-  // страницах общий блок убираем, ссылки и нижняя полоса остаются.
+  // Карточка объекта и статья-гид заканчиваются собственным призывом. Общий
+  // CTA встал бы сразу под ним — два больших блока подряд.
   const ownCta = new RegExp(`^/${lang}/(projects|guides)/[^/]+`).test(pathname);
 
-  const current = pageOrder.findIndex((p) => pathname.startsWith(`${base}${p}`));
-  const go = (dir: -1 | 1) => {
-    const idx = current === -1 ? 0 : current;
-    const next = (idx + dir + pageOrder.length) % pageOrder.length;
-    play("click");
-    router.push(`${base}${pageOrder[next]}`);
-  };
+  const nav = [
+    { label: t.nav.about, href: `${base}/about` },
+    { label: t.nav.projects, href: `${base}/map` },
+    { label: d.guides.indexEyebrow, href: `${base}/guides` },
+    { label: t.nav.contact, href: `${base}/contact` },
+  ];
 
   return (
-    // z-20 обязателен: фоновые сцены (About, Contact) висят fixed с z-index 1,
-    // и без собственного слоя футер оказывается ПОД ними — вместо «Работаем
-    // вместе» внизу страницы остаётся один куб на весь экран. Секции страниц
-    // спасает их собственный z-10, футер живёт в layout и своего не имел.
-    <footer className="relative z-20 border-t border-offwhite/10 bg-night text-offwhite">
-      {/* CTA-блок */}
-      {ownCta ? null : (
-        <div className="px-6 py-24 md:px-16 md:py-36">
-          <h2 className="max-w-[8ch] text-54 font-bold uppercase leading-0.9 md:text-140 md:leading-0.8">
-            {t.workTitle}
-          </h2>
-          <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
-            <p className="max-w-[30rem] text-16 font-light leading-1.6 text-offwhite/70">
-              {t.workBody}
-            </p>
-            <BracketButton href={whatsappHref(common.whatsappPrefill)}>
-              {t.workCta}
-            </BracketButton>
+    <footer className="relative z-20 border-t border-bone/10 bg-ink">
+      {!ownCta && (
+        <div className="shell py-section">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <p className="eyebrow">{d.contact.eyebrow}</p>
+              <h2 className="mt-5 font-display text-section tracking-monument text-balance">
+                {t.workTitle}
+              </h2>
+            </div>
+            <div className="lg:col-span-5">
+              <p className="measure text-body text-bone-dim">{t.workBody}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button
+                  href={whatsappHref(d.common.whatsappPrefill)}
+                  variant="primary"
+                  size="lg"
+                  arrow
+                >
+                  {t.workCta}
+                </Button>
+                <Button href={`${base}/contact`} variant="secondary" size="lg">
+                  {t.nav.contact}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Нумерованные ссылки */}
-      <div className="border-t border-offwhite/10 px-6 py-14 md:px-16">
-        <span className="font-mono text-11 uppercase tracking-4 text-offwhite/40">
-          {t.links}
-        </span>
-        <ul className="mt-8 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-          {socials.map((s, i) => (
-            <li key={s.key}>
-              <a
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseEnter={() => play("hover")}
-                onClick={() => play("click")}
-                className="group flex min-h-[44px] items-center gap-4 border-b border-offwhite/10"
-              >
-                <span className="font-mono text-10 tracking-4 text-offwhite/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-16 font-light text-offwhite/80 transition-colors duration-300 group-hover:text-offwhite">
-                  {s.label}
-                </span>
-                <span
-                  aria-hidden
-                  className="ml-auto font-mono text-10 text-offwhite/30 transition-transform duration-300 group-hover:translate-x-1"
+      <div className="shell grid gap-10 border-t border-bone/10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <span className="font-display text-title text-bone">Arturas</span>
+          <p className="mt-3 max-w-[22rem] text-micro text-bone-dim">
+            {d.meta.tagline}
+          </p>
+        </div>
+
+        <nav aria-label={d.a11y.footerNav}>
+          <span className="eyebrow">{t.nav.about}</span>
+          <ul className="mt-4 space-y-1">
+            {nav.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  prefetch={linkPrefetch(l.href)}
+                  className="flex min-h-[44px] items-center text-micro text-bone-dim transition-colors duration-micro hover:text-bone"
                 >
-                  ↗
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="sm:col-span-2 lg:col-span-2">
+          <span className="eyebrow">{t.links}</span>
+          <ul className="mt-4 grid gap-x-8 sm:grid-cols-2">
+            {socials.map((s) => (
+              <li key={s.key}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex min-h-[44px] items-center gap-2 text-micro text-bone-dim transition-colors duration-micro hover:text-bone"
+                >
+                  {s.label}
+                  <span
+                    aria-hidden="true"
+                    className="text-bone-faint transition-transform duration-micro group-hover:translate-x-0.5"
+                  >
+                    ↗
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {/* Нижняя HUD-полоса */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-offwhite/10 px-6 py-5 md:px-16">
-        <Link
-          href={`${base}/about`}
-          className="flex min-h-[44px] items-center font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors duration-300 hover:text-offwhite"
-        >
-          © {new Date().getFullYear()} Arturas · {t.rights}
-        </Link>
-        <div className="flex items-center gap-8">
-          <SoundToggle labels={{ on: t.soundOn, off: t.soundOff }} />
-          <div className="flex items-center gap-2 font-mono text-11 uppercase tracking-4">
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              onMouseEnter={() => play("hover")}
-              className="flex min-h-[44px] items-center px-2 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
-            >
-              {t.prev}
-            </button>
-            <span className="h-3 w-px bg-offwhite/20" aria-hidden />
-            <button
-              type="button"
-              onClick={() => go(1)}
-              onMouseEnter={() => play("hover")}
-              className="flex min-h-[44px] items-center px-2 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
-            >
-              {t.next}
-            </button>
-          </div>
-        </div>
+      <div className="shell flex flex-wrap items-center justify-between gap-3 border-t border-bone/10 py-6">
+        <span className="text-micro text-bone-dim">
+          © {new Date().getFullYear()} Arturas Real Estate · {t.rights}
+        </span>
+        <span className="text-micro text-bone-dim">Phuket, Thailand</span>
       </div>
     </footer>
   );

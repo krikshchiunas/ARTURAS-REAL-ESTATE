@@ -4,68 +4,112 @@
 
 @layer base {
   * {
-    @apply border-offwhite/10;
+    @apply border-bone/10;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    scroll-behavior: auto; /* Lenis управляет скроллом */
-    /* Контент по горизонтали не прокручивается — сайт листается только вниз.
-       Но overscroll-behavior-x НЕ трогаем: именно он отвечает за нативный
-       жест «свайп вбок = назад/вперёд» на трекпаде MacBook и на тач-экране.
-       Раньше он был выключен, из-за чего жест истории не работал. Горизонтальные
-       ленты внутри (чипы районов, галерея) гасят свайп у себя через
-       overscroll-x-contain, поэтому там жест истории не срабатывает по ошибке. */
     overflow-x: hidden;
+    /* Прокрутка нативная: Lenis и кастомный курсор из проекта убраны вместе
+       со старым дизайном — на тач-устройствах и трекпаде родная инерция
+       ощущается лучше любой эмуляции. */
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-night text-offwhite font-sans antialiased;
+    @apply bg-ink font-sans text-body text-bone antialiased;
     overflow-x: hidden;
-    /* Синяя вспышка по тапу на iOS/Android — своя подсветка у нас уже есть. */
+    /* Синяя вспышка по тапу на iOS/Android. */
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Ничто не должно распирать вьюпорт по ширине: длинные слова и «неразрывные»
-     строки на узком экране — самая частая причина горизонтальной прокрутки. */
+  /* Зерно поверх всего. Ровная заливка #0B0C0A на большом экране читается
+     как «цифровая пустота» и выдаёт градиентные полосы (banding) на скриме
+     под видео; лёгкий шум их разбивает и добавляет бумажную фактуру.
+     feTurbulence в data-URI — никакой картинки грузить не нужно.
+     pointer-events: none обязателен, иначе слой съедает все клики. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Ничто не должно распирать вьюпорт: длинные слова и «неразрывные» строки
+     на узком экране — самая частая причина горизонтальной прокрутки. */
   h1, h2, h3, p, li, dt, dd, span, a {
     overflow-wrap: break-word;
   }
 
-  /* Медиа не вылезает за свой контейнер ни при каких размерах. Canvas
-     сознательно не трогаем: его размер в пикселях выставляет WebGL-рендерер,
-     и внешнее ограничение рассинхронит буфер с картинкой. */
+  /* Заголовки НЕ переводим на дисплейную гарнитуру огулом: у волосяного
+     ар-деко на 20–30px штрих истончается до серой дымки. Крупные
+     «скульптурные» моменты помечаются классом .monument точечно, всё
+     остальное живёт гротеском. */
+  h1, h2, h3, h4 {
+    @apply font-normal tracking-tight;
+    text-wrap: balance;
+  }
+
   img, svg, video {
     max-width: 100%;
   }
 
   ::selection {
-    @apply bg-royal text-offwhite;
+    @apply bg-gold text-ink;
   }
 
-  /* Тонкий фокус для доступности, не ломающий эстетику */
+  /* Видимый фокус обязателен: он единственный ориентир при навигации
+     с клавиатуры. Золото на тёмном — 8.34:1. */
   :focus-visible {
-    @apply outline-none ring-1 ring-offwhite/60 ring-offset-2 ring-offset-night;
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-ink;
+  }
+
+  /* Цифры в таблицах и статистике не должны «прыгать» при смене значения. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }
 
 @layer components {
-  /* Пока активен кастомный курсор, системный на указательных устройствах прячем. */
-  @media (pointer: fine) {
-    .rd-cursor-on body,
-    .rd-cursor-on a,
-    .rd-cursor-on button {
-      cursor: none;
-    }
+  .shell {
+    @apply mx-auto w-full max-w-shell px-gutter;
   }
 
-  /* Карта: все касания уходят в сцену. !important обязателен — OrbitControls
-     сам прописывает канвасу инлайновый touch-action, и без него палец на
-     телефоне скроллил бы страницу вместо перемещения по карте. */
-  .map-canvas,
-  .map-canvas canvas {
-    touch-action: none !important;
+  /* Надпись-рубрика над заголовком секции. */
+  .eyebrow {
+    @apply text-eyebrow font-medium uppercase tracking-eyebrow text-gold;
+  }
+
+  /* «Скульптурный» заголовок: одно-два слова во всю полосу. Единственное
+     место, где появляется дисплейная гарнитура. */
+  .monument {
+    @apply font-display text-monument tracking-monument;
+    text-wrap: balance;
+  }
+
+  /* Клиническая метка-маркер: индекс раздела, координаты, единицы. Задаёт
+     сетке «лабораторный» ритм и работает контрапунктом к огромным словам —
+     tiny labels, huge impact. */
+  .marker {
+    @apply font-mono text-[0.6875rem] uppercase leading-none tracking-marker text-bone-faint;
+  }
+
+  /* Тонкая линия-разделитель секций — просвет, а не рамка. */
+  .rule {
+    @apply h-px w-full bg-bone/10;
+  }
+
+  /* Стартовое состояние блоков, которые проявляются при прокрутке.
+     Действует ТОЛЬКО когда на <html> есть класс js, то есть скрипт
+     выполнился и появление точно кто-то включит. Без JS (сломанный бандл,
+     отключённые скрипты, часть краулеров) правило не применяется — и весь
+     контент ниже сгиба остаётся видимым, а не прячется навсегда. */
+  .js .reveal-init {
+    opacity: 0;
   }
 }
 
@@ -77,10 +121,20 @@
   .text-pretty {
     text-wrap: pretty;
   }
+
+  /* Читаемая длина строки: 60–75 знаков на десктопе. */
+  .measure {
+    max-width: 68ch;
+  }
 }
 
-/* Полное уважение к prefers-reduced-motion */
+/* Полное уважение к prefers-reduced-motion. Видео-герой в этом режиме
+   останавливается и показывает постер — см. components/HeroVideo.tsx. */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {

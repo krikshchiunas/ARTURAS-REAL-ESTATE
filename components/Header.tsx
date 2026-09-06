@@ -2,117 +2,148 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { linkPrefetch } from "@/lib/prefetch";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n";
+import { getDictionary, whatsappHref } from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
 import { MenuOverlay } from "@/components/MenuOverlay";
 import { LangSwitch } from "@/components/LangSwitch";
-import { useSound } from "@/components/SoundManager";
+import { Button } from "@/components/Button";
 
-// Шапка редизайна (паттерн Hubtown): вордмарк слева, inline-навигация +
-// кнопка MENU справа. Полное меню-оверлей открывается кнопкой MENU.
+/**
+ * Шапка: прозрачная поверх видео-героя, при прокрутке набирает подложку.
+ *
+ * Подложка появляется не сразу, а после 24px — иначе она мигала бы от каждого
+ * микродвижения трекпада. Слушатель пассивный и просто читает scrollY, без
+ * записи в layout.
+ */
 export function Header({ lang }: { lang: Locale }) {
   const t = chromeDict(lang);
+  const d = getDictionary(lang);
   const [open, setOpen] = useState(false);
+  const [solid, setSolid] = useState(false);
   const pathname = usePathname();
-  const { play } = useSound();
+
+  useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    const onScroll = () => setSolid(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const base = `/${lang}`;
-  // Projects открывает карту — список всех объектов достаётся оттуда панелью
-  // «Список проектов», поэтому пункт подсвечен и на карте, и на страницах
-  // списка/карточки.
-  const navLinks = [
+  // «Проекты» ведут на карту: полный список объектов достаётся оттуда панелью,
+  // поэтому пункт подсвечен и на /map, и на /projects.
+  const links = [
     { label: t.nav.about, href: `${base}/about`, match: [`${base}/about`] },
     {
       label: t.nav.projects,
       href: `${base}/map`,
       match: [`${base}/map`, `${base}/projects`],
     },
-    {
-      label: getDictionary(lang).guides.indexEyebrow,
-      href: `${base}/guides`,
-      match: [`${base}/guides`],
-    },
+    { label: d.guides.indexEyebrow, href: `${base}/guides`, match: [`${base}/guides`] },
     { label: t.nav.contact, href: `${base}/contact`, match: [`${base}/contact`] },
   ];
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[120] flex items-center justify-between px-6 pt-6 md:px-16 md:pt-7">
-        <Link
-          href={`${base}/about`}
-          onMouseEnter={() => play("hover")}
-          onClick={() => play("click")}
-          className="flex min-h-[44px] flex-col justify-center leading-none"
-        >
-          <span className="block text-18 font-bold uppercase tracking-[0.2em] text-offwhite">
-            Arturas
-          </span>
-          <span className="mt-1 block font-mono text-9 uppercase tracking-4 text-offwhite/50">
-            Real Estate — Phuket
-          </span>
-        </Link>
+      <header
+        className={`fixed inset-x-0 top-0 z-[120] transition-colors duration-base ease-smooth ${
+          solid || open
+            ? "border-b border-bone/10 bg-ink/85 backdrop-blur-xl"
+            : "border-b border-transparent"
+        }`}
+      >
+        <div className="shell flex items-center justify-between gap-4 py-3.5">
+          <Link
+            href={base}
+            className="flex min-h-[44px] flex-col justify-center leading-none"
+          >
+            <span className="font-display text-[1.35rem] tracking-tight text-bone">
+              Arturas
+            </span>
+            {/* Пока шапка прозрачна, она лежит на кадре заката — приглушённый
+                тон там даёт ~2:1 и просто теряется. Гасим его только когда
+                под шапкой появляется сплошная подложка. */}
+            <span
+              className={`mt-1 text-[0.6rem] uppercase tracking-eyebrow transition-colors duration-base ${
+                solid ? "text-bone-dim" : "text-bone"
+              }`}
+            >
+              Real Estate · Phuket
+            </span>
+          </Link>
 
-        <div className="flex items-center gap-4 md:gap-8">
-          {/* Inline-навигация (desktop) */}
-          <nav className="hidden items-center gap-7 lg:flex">
-            {navLinks.map((l) => {
+          <nav
+            aria-label={d.a11y.mainNav}
+            className="hidden items-center gap-9 lg:flex"
+          >
+            {links.map((l) => {
               const active = l.match.some((m) => pathname.startsWith(m));
               return (
                 <Link
                   key={l.href}
                   href={l.href}
-                  onMouseEnter={() => play("hover")}
-                  onClick={() => play("click")}
-                  className={`flex min-h-[44px] items-center font-mono text-11 uppercase tracking-4 transition-colors duration-300 hover:text-offwhite ${
-                    active ? "text-offwhite" : "text-offwhite/55"
+                  prefetch={linkPrefetch(l.href)}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative flex min-h-[44px] items-center text-eyebrow font-medium uppercase tracking-eyebrow transition-colors duration-micro hover:text-bone ${
+                    active || !solid ? "text-bone" : "text-bone-dim"
                   }`}
                 >
                   {l.label}
+                  {/* Активный пункт помечен подчёркиванием, а не только цветом. */}
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-2 h-px bg-gold"
+                    />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Смена языка прямо в шапке — на любой странице, без открытия меню */}
-          <LangSwitch lang={lang} />
+          <div className="flex items-center gap-1 sm:gap-3">
+            <LangSwitch lang={lang} />
 
-          <button
-          type="button"
-          aria-expanded={open}
-          onMouseEnter={() => play("hover")}
-          onClick={() => {
-            play(open ? "click" : "modal");
-            setOpen(!open);
-          }}
-          className="group relative flex min-h-[44px] items-center font-mono text-12 uppercase tracking-4 text-offwhite"
-        >
-          <span className="relative block overflow-hidden px-4 py-3">
-            <span className="block transition-transform duration-500 ease-smooth group-hover:-translate-y-full">
-              {open ? t.close : t.menu}
-            </span>
-            <span
-              aria-hidden
-              className="absolute inset-0 block translate-y-full px-4 py-2 transition-transform duration-500 ease-smooth group-hover:translate-y-0"
+            <Button
+              href={whatsappHref(d.common.whatsappPrefill)}
+              variant="primary"
+              size="md"
+              className="hidden md:inline-flex"
             >
-              {open ? t.close : t.menu}
-            </span>
-          </span>
-          {/* Уголки-маркеры по краям кнопки */}
-          <span aria-hidden className="absolute left-0 top-0 h-[3px] w-[3px] bg-current" />
-          <span aria-hidden className="absolute right-0 top-0 h-[3px] w-[3px] bg-current opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <span aria-hidden className="absolute bottom-0 left-0 h-[3px] w-[3px] bg-current opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <span aria-hidden className="absolute bottom-0 right-0 h-[3px] w-[3px] bg-current" />
-          </button>
+              {d.common.whatsapp}
+            </Button>
+
+            {/* Бургер — только там, где нет inline-навигации. */}
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-label={open ? t.close : t.menu}
+              onClick={() => setOpen((v) => !v)}
+              className="flex h-11 w-11 cursor-pointer items-center justify-center lg:hidden"
+            >
+              <span className="relative block h-3 w-6">
+                <span
+                  className={`absolute left-0 block h-px w-6 bg-bone transition-all duration-base ease-smooth ${
+                    open ? "top-1.5 rotate-45" : "top-0"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 block h-px w-6 bg-bone transition-all duration-base ease-smooth ${
+                    open ? "top-1.5 -rotate-45" : "top-3"
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 
-      <MenuOverlay lang={lang} open={open} onClose={() => setOpen(false)} />
+      <MenuOverlay lang={lang} open={open} onClose={() => setOpen(false)} links={links} />
     </>
   );
 }

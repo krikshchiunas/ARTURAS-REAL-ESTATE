@@ -3,12 +3,12 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary, getSocials, siteConfig, whatsappHref } from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
-import { Reveal, HeadlineReveal } from "@/components/Reveal";
+import { Reveal } from "@/components/Reveal";
+import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
 import { LeadForm } from "@/components/LeadForm";
-import { SceneBackdrop } from "@/components/webgl/SceneBackdrop";
 
-// Contact в структуре референса: hero «Get in touch» → слева прямые каналы
-// и соцсети (mono-нумерация), справа форма «Drop us a line» → Telegram-бот.
+// Контакт: hero → слева прямые каналы и соцсети, справа форма → Telegram-бот.
+// Фоновая WebGL-сцена «куб над водой» удалена вместе со старым дизайном.
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -39,7 +39,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function ContactPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang: raw } = await params;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
@@ -52,62 +56,48 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
   ];
 
   return (
-    <main className="relative min-h-screen">
-      {/* Фон-сцена на всю страницу: куб-монолит над водой под луной.
-          Прокрутка поднимает куб вместе с камерой. */}
-      <SceneBackdrop scene="contact" />
-
-      {/* Hero */}
-      <section className="relative z-10 flex min-h-screen flex-col justify-center px-6 pt-28 md:px-16">
-        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-          {c.stubs.contact.chapter}
-        </p>
-        <HeadlineReveal
+    <main id="main">
+      <section className="shell pb-14 pt-36">
+        <HeroReveal>
+          <span className="marker text-gold">{c.stubs.contact.chapter}</span>
+        </HeroReveal>
+        <HeroHeadline
           text={c.stubs.contact.title}
-          className="mt-8 max-w-[12ch] text-54 font-bold uppercase leading-0.9 md:text-120 md:leading-0.8"
+          delay={100}
+          className="mt-5 max-w-[14ch] font-display tracking-monument text-display"
         />
-        <Reveal delay={0.5}>
-          <p className="mt-10 max-w-[34rem] text-16 font-light leading-1.6 text-offwhite/70">
+        <HeroReveal delay={400}>
+          <p className="mt-7 max-w-[46ch] text-lead text-bone-dim">
             {c.stubs.contact.sub}
           </p>
-        </Reveal>
+        </HeroReveal>
       </section>
 
-      {/* Каналы + форма. data-scene-end: подъём куба заканчивается ровно здесь,
-          чтобы под формой не оставалось прокрутки по пустому фону. */}
-      <section
-        data-scene-end
-        className="relative z-10 border-t border-offwhite/10 bg-night/60 px-6 py-24 backdrop-blur-sm md:px-16 md:py-32"
-      >
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+      <section className="border-t border-bone/10">
+        <div className="shell grid gap-14 py-section lg:grid-cols-12 lg:gap-16">
+          {/* Прямые каналы */}
           <div className="lg:col-span-5">
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="text-32 font-bold uppercase leading-0.9 md:text-48">
-                {c.contactPage.infoTitle}
-              </h2>
-              <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-                {c.contactPage.infoSubtitle}
-              </span>
+              <h2 className="font-display tracking-monument text-section">{c.contactPage.infoTitle}</h2>
+              <span className="eyebrow text-bone-dim">{c.contactPage.infoSubtitle}</span>
             </div>
 
-            <Reveal className="mt-12">
-              <ul className="space-y-px bg-offwhite/10">
+            <Reveal className="mt-10">
+              <ul>
                 {direct.map((d) => (
-                  <li key={d.label} className="bg-night">
+                  <li key={d.label} className="border-t border-bone/10 last:border-b">
                     <a
                       href={d.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex min-h-[56px] items-center justify-between gap-6 py-5"
+                      className="group flex min-h-[64px] items-center justify-between gap-6"
                     >
-                      <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-                        {c.contactPage.directLabel}
-                      </span>
-                      <span className="text-24 font-bold uppercase transition-colors duration-300 group-hover:text-offwhite md:text-30">
+                      <span className="marker text-gold">{c.contactPage.directLabel}</span>
+                      <span className="flex items-center gap-3 font-display text-title transition-colors duration-micro group-hover:text-gold">
                         {d.label}
                         <span
-                          aria-hidden
-                          className="ml-3 inline-block font-mono text-14 text-offwhite/40 transition-transform duration-300 group-hover:translate-x-1"
+                          aria-hidden="true"
+                          className="text-micro text-bone-dim transition-transform duration-micro group-hover:translate-x-1"
                         >
                           ↗
                         </span>
@@ -118,28 +108,26 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               </ul>
             </Reveal>
 
-            <Reveal className="mt-14" delay={0.1}>
-              <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-                {c.contactPage.socialsLabel}
-              </p>
-              <ul className="mt-6 space-y-3">
+            <Reveal className="mt-12" delay={100}>
+              <span className="marker text-gold">{c.contactPage.socialsLabel}</span>
+              <ul className="mt-5">
                 {socials.map((s, i) => (
                   <li key={s.key}>
                     <a
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex min-h-[44px] items-center gap-4 border-b border-offwhite/10"
+                      className="group flex min-h-[44px] items-center gap-4 border-b border-bone/10"
                     >
-                      <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                      <span className="tabular text-eyebrow text-gold">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-16 font-light text-offwhite/80 transition-colors duration-300 group-hover:text-offwhite">
+                      <span className="text-micro text-bone-dim transition-colors duration-micro group-hover:text-bone">
                         {s.label}
                       </span>
                       <span
-                        aria-hidden
-                        className="ml-auto font-mono text-10 text-offwhite/30 transition-transform duration-300 group-hover:translate-x-1"
+                        aria-hidden="true"
+                        className="ml-auto text-micro text-bone-faint transition-transform duration-micro group-hover:translate-x-1"
                       >
                         ↗
                       </span>
@@ -150,13 +138,10 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
             </Reveal>
           </div>
 
+          {/* Форма */}
           <div className="lg:col-span-7">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="text-32 font-bold uppercase leading-0.9 md:text-48">
-                {c.contactPage.formTitle}
-              </h2>
-            </div>
-            <Reveal className="mt-12" delay={0.15}>
+            <h2 className="font-display tracking-monument text-section">{c.contactPage.formTitle}</h2>
+            <Reveal className="mt-10" delay={140}>
               <LeadForm lang={lang} />
             </Reveal>
           </div>

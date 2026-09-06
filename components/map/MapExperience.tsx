@@ -13,13 +13,12 @@ import {
   type RegionId,
 } from "@/components/map/phuketGeo";
 import vectors from "@/components/map/phuketVectors.json";
-import { SoundToggle, useSound } from "@/components/SoundManager";
 
 const MapScene = dynamic(() => import("@/components/map/MapScene"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">
-      <span className="animate-pulse font-mono text-11 uppercase tracking-4 text-offwhite/40">
+      <span className="animate-pulse text-eyebrow uppercase tracking-eyebrow text-bone-faint">
         Loading map…
       </span>
     </div>
@@ -72,7 +71,6 @@ const MM_PATH = (() => {
 
 export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: string }) {
   const t = chromeDict(lang);
-  const { play } = useSound();
   const allPins = useMemo(() => buildPins(lang), [lang]);
 
   const deepRegion = deepSlug
@@ -193,19 +191,17 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
   const onRegionSelect = useCallback(
     (id: RegionId) => {
-      play("modal");
       setSelectedRegion((prev) => {
         const next = prev === id ? null : id;
         flyToRegion(next);
         return next;
       });
     },
-    [flyToRegion, play],
+    [flyToRegion],
   );
 
   const onSelect = useCallback(
     (slug: string) => {
-      play("modal");
       const pin = allPins.find((p) => p.project.slug === slug);
       if (pin && pin.region !== selectedRegion) {
         setSelectedRegion(pin.region);
@@ -214,26 +210,23 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
       setSelected(slug);
       window.history.replaceState(null, "", `/${lang}/map/${slug}`);
     },
-    [allPins, flyToRegion, lang, play, selectedRegion],
+    [allPins, flyToRegion, lang, selectedRegion],
   );
 
   const closeOverlay = useCallback(() => {
-    play("click");
     setSelected(null);
     window.history.replaceState(null, "", `/${lang}/map`);
-  }, [lang, play]);
+  }, [lang]);
 
   const resetView = useCallback(() => {
-    play("click");
     setSelectedRegion(null);
     flyToRegion(null);
-  }, [flyToRegion, play]);
+  }, [flyToRegion]);
 
   const enterMap = useCallback(() => {
-    play("modal");
     sessionStorage.setItem(INTRO_KEY, "1");
     setIntro(false);
-  }, [play]);
+  }, []);
 
   const selectedPin = allPins.find((p) => p.project.slug === selected) ?? null;
 
@@ -244,7 +237,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-night">
+    <div className="relative h-screen w-full overflow-hidden bg-ink">
       <MapScene
         pins={allPins}
         activeSlug={selected}
@@ -259,7 +252,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
       {/* Заголовок карты */}
       <div className="pointer-events-none absolute left-6 top-24 md:left-16 md:top-28">
-        <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
+        <p className="text-eyebrow uppercase tracking-eyebrow text-bone-faint">
           {t.mapPage.hudTitle}
         </p>
       </div>
@@ -279,14 +272,14 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
               key={r.id}
               type="button"
               onClick={() => onRegionSelect(r.id)}
-              className={`flex min-h-[44px] shrink-0 items-center gap-2 border px-4 font-mono text-11 uppercase tracking-4 backdrop-blur-[2px] transition-colors duration-300 ${
+              className={`flex min-h-[44px] shrink-0 items-center gap-2 border px-4 text-eyebrow uppercase tracking-eyebrow backdrop-blur-[2px] transition-colors duration-300 ${
                 active
-                  ? "border-offwhite/60 bg-offwhite/15 text-offwhite"
-                  : "border-offwhite/20 bg-night/70 text-offwhite/60"
+                  ? "border-bone/60 bg-bone/15 text-bone"
+                  : "border-bone/20 bg-ink/70 text-bone-faint"
               }`}
             >
               <span
-                className={`inline-block h-1.5 w-1.5 ${active ? "bg-offwhite" : "bg-offwhite/30"}`}
+                className={`inline-block h-1.5 w-1.5 ${active ? "bg-bone" : "bg-bone/30"}`}
                 aria-hidden
               />
               {r.name}
@@ -304,14 +297,13 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
               key={r.id}
               type="button"
               onClick={() => onRegionSelect(r.id)}
-              onMouseEnter={() => play("hover")}
-              className={`flex items-center gap-3 font-mono text-11 uppercase tracking-4 transition-colors duration-300 ${
-                active ? "text-offwhite" : "text-offwhite/30 hover:text-offwhite/70"
+              className={`flex items-center gap-3 text-eyebrow uppercase tracking-eyebrow transition-colors duration-300 ${
+                active ? "text-bone" : "text-bone-faint hover:text-bone-faint"
               }`}
             >
               <span
                 className={`inline-block h-1.5 w-1.5 transition-opacity duration-300 ${
-                  active ? "bg-offwhite opacity-100" : "opacity-0"
+                  active ? "bg-bone opacity-100" : "opacity-0"
                 }`}
               />
               {r.name}
@@ -329,21 +321,21 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           width={MM_W}
           height={MM_H}
           viewBox={`0 0 ${MM_W} ${MM_H}`}
-          className="mb-3 hidden border border-offwhite/12 bg-night/50 backdrop-blur-[2px] sm:block"
+          className="mb-3 hidden border border-bone/10 bg-ink/50 backdrop-blur-[2px] sm:block"
           aria-hidden
         >
           <path d={MM_PATH} fill="none" stroke="#c2cbd6" strokeOpacity="0.5" strokeWidth="0.7" />
           <circle ref={mmDotRef} cx={mmX(-2)} cy={mmY(-11)} r="3" fill="#eef2f6" />
           <circle ref={mmHaloRef} cx={mmX(-2)} cy={mmY(-11)} r="7" fill="#eef2f6" fillOpacity="0.18" />
         </svg>
-        <div className="flex items-baseline gap-4 font-mono text-10 uppercase tracking-4 text-offwhite/50">
+        <div className="flex items-baseline gap-4 text-eyebrow uppercase tracking-eyebrow text-bone-faint">
           <span>
-            {t.mapPage.zoom} <span ref={zoomRef} className="text-offwhite">1.00X</span>
+            {t.mapPage.zoom} <span ref={zoomRef} className="text-bone">1.00X</span>
           </span>
-          <span className="text-offwhite/70">2KM</span>
+          <span className="text-bone-faint">2KM</span>
         </div>
-        <div className="mt-2 h-px w-28 bg-offwhite/30">
-          <div className="h-full w-1/3 bg-offwhite" />
+        <div className="mt-2 h-px w-28 bg-bone/30">
+          <div className="h-full w-1/3 bg-bone" />
         </div>
       </div>
 
@@ -351,19 +343,19 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
       <div className="pointer-events-none absolute bottom-16 right-6 hidden md:right-16 md:block">
         <div className="relative h-24 w-24">
           {/* Стороны света */}
-          <span className="absolute left-1/2 top-0 -translate-x-1/2 font-mono text-10 text-offwhite/70">N</span>
-          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 font-mono text-10 text-offwhite/40">S</span>
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-10 text-offwhite/40">W</span>
-          <span className="absolute right-0 top-1/2 -translate-y-1/2 font-mono text-10 text-offwhite/40">E</span>
+          <span className="absolute left-1/2 top-0 -translate-x-1/2 text-eyebrow text-bone-faint">N</span>
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-eyebrow text-bone-faint">S</span>
+          <span className="absolute left-0 top-1/2 -translate-y-1/2 text-eyebrow text-bone-faint">W</span>
+          <span className="absolute right-0 top-1/2 -translate-y-1/2 text-eyebrow text-bone-faint">E</span>
           {/* Вращающаяся роза-ромб */}
           <div ref={roseRef} className="absolute inset-3 will-change-transform">
-            <div className="absolute inset-0 rotate-45 border border-offwhite/25" />
-            <span className="absolute left-1/2 top-0 h-2.5 w-px -translate-x-1/2 bg-offwhite" />
+            <div className="absolute inset-0 rotate-45 border border-bone/25" />
+            <span className="absolute left-1/2 top-0 h-2.5 w-px -translate-x-1/2 bg-bone" />
           </div>
           {/* Центр: N + градусы */}
           <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
-            <span className="text-16 font-bold text-offwhite">N</span>
-            <span ref={compassDegRef} className="mt-0.5 font-mono text-[9px] tracking-4 text-offwhite/60">
+            <span className="text-body font-bold text-bone">N</span>
+            <span ref={compassDegRef} className="mt-0.5 text-[9px] tracking-eyebrow text-bone-faint">
               000°
             </span>
           </div>
@@ -375,31 +367,27 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           375px подписи наезжали друг на друга. Остаются два главных действия,
           каждое высотой в полноценную кнопку (44px). */}
       <div className="pointer-events-none absolute inset-x-[14px] bottom-[max(14px,env(safe-area-inset-bottom))] z-[105] flex items-stretch">
-        <div className="pointer-events-auto hidden items-center border-t border-offwhite/12 bg-night/70 px-5 py-3 backdrop-blur-[2px] md:flex">
-          <SoundToggle labels={{ on: t.soundOn, off: t.soundOff }} />
+        <div className="pointer-events-auto hidden items-center border-t border-bone/10 bg-ink/70 px-5 py-3 backdrop-blur-[2px] md:flex">
         </div>
-        <div className="flex flex-1 items-stretch border-t border-offwhite/12 bg-night/70 backdrop-blur-[2px]">
+        <div className="flex flex-1 items-stretch border-t border-bone/10 bg-ink/70 backdrop-blur-[2px]">
           <button
             type="button"
             onClick={() => {
-              play("modal");
               setListOpen(true);
             }}
-            onMouseEnter={() => play("hover")}
-            className="pointer-events-auto flex min-h-[44px] flex-1 items-center justify-center gap-2 px-3 font-mono text-11 uppercase tracking-4 text-offwhite/70 transition-colors duration-300 hover:text-offwhite"
+            className="pointer-events-auto flex min-h-[44px] flex-1 items-center justify-center gap-2 px-3 text-eyebrow uppercase tracking-eyebrow text-bone-faint transition-colors duration-300 hover:text-bone"
           >
-            <span className="inline-block h-1 w-3 border-y border-offwhite/60" aria-hidden />
+            <span className="inline-block h-1 w-3 border-y border-bone/60" aria-hidden />
             {t.mapPage.projectList}
           </button>
         </div>
         <button
           type="button"
           onClick={resetView}
-          onMouseEnter={() => play("hover")}
-          className="pointer-events-auto flex min-h-[44px] shrink-0 items-center gap-2 border-t border-offwhite/12 bg-night/70 px-5 font-mono text-11 uppercase tracking-4 text-offwhite/70 backdrop-blur-[2px] transition-colors duration-300 hover:text-offwhite"
+          className="pointer-events-auto flex min-h-[44px] shrink-0 items-center gap-2 border-t border-bone/10 bg-ink/70 px-5 text-eyebrow uppercase tracking-eyebrow text-bone-faint backdrop-blur-[2px] transition-colors duration-300 hover:text-bone"
         >
           {t.mapPage.filters}{" "}
-          <span className="text-offwhite/40">
+          <span className="text-bone-faint">
             [{selectedRegion ? "01" : "00"}]
           </span>
         </button>
@@ -437,22 +425,22 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
 
       {/* Онбординг-гейт */}
       {intro && (
-        <div className="absolute inset-0 z-[80] flex flex-col items-center justify-center overflow-y-auto bg-night/85 px-6 py-24 backdrop-blur-[3px]">
-          <h2 className="text-center text-24 font-bold uppercase leading-1.1 text-offwhite sm:text-32 md:text-48">
+        <div className="absolute inset-0 z-[80] flex flex-col items-center justify-center overflow-y-auto bg-ink/85 px-6 py-24 backdrop-blur-[3px]">
+          <h2 className="text-center text-title font-display text-bone sm:text-section md:text-section">
             {t.mapPage.introTitle}
           </h2>
           {/* На тач-экране объясняем пальцами, на мыши — колесом и курсором:
               подсказка «Скролл» телефону ничего не говорит. */}
-          <div className="mt-8 grid w-full max-w-3xl gap-px bg-offwhite/10 sm:mt-10 sm:grid-cols-3">
+          <div className="mt-8 grid w-full max-w-3xl gap-px bg-bone/10 sm:mt-10 sm:grid-cols-3">
             {(touch ? t.mapPage.introCardsTouch : t.mapPage.introCards).map((card, i) => (
               <div
                 key={card.title}
-                className="flex items-center gap-4 bg-night/90 px-5 py-5 sm:flex-col sm:px-6 sm:py-8"
+                className="flex items-center gap-4 bg-ink/90 px-5 py-5 sm:flex-col sm:px-6 sm:py-8"
               >
-                <span className="order-2 hidden font-mono text-10 tracking-4 text-offwhite/40 sm:order-none sm:block sm:self-end">
+                <span className="order-2 hidden text-eyebrow tracking-eyebrow text-bone-faint sm:order-none sm:block sm:self-end">
                   ■ {String(i + 1).padStart(3, "0")}
                 </span>
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-offwhite/5 sm:h-16 sm:w-16">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-bone/5 sm:h-16 sm:w-16">
                   {/* Иконки под способ ввода: пальцем — «перетащить во все
                       стороны / развести / наклонить», мышью — «колесо / тянуть /
                       клик». Мышиный курсор рядом с надписью «Два пальца»
@@ -476,10 +464,10 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
                   </svg>
                 </span>
                 <span className="flex flex-col gap-1 sm:contents">
-                  <span className="text-14 font-bold uppercase text-offwhite sm:text-16">
+                  <span className="text-body font-display text-bone">
                     {card.title}
                   </span>
-                  <span className="text-12 font-light leading-1.6 text-offwhite/60 sm:text-center">
+                  <span className="text-micro text-bone-faint sm:text-center">
                     {card.body}
                   </span>
                 </span>
@@ -489,8 +477,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           <button
             type="button"
             onClick={enterMap}
-            onMouseEnter={() => play("hover")}
-            className="mt-8 min-h-[52px] w-full max-w-xs bg-offwhite px-7 font-mono text-12 font-bold uppercase tracking-4 text-night transition-colors duration-300 hover:bg-white sm:mt-10 sm:w-auto"
+            className="mt-8 min-h-[52px] w-full max-w-xs bg-bone px-7 text-eyebrow font-medium uppercase tracking-eyebrow text-ink transition-colors duration-300 hover:bg-white sm:mt-10 sm:w-auto"
           >
             {t.mapPage.enterMap}
           </button>
@@ -517,18 +504,18 @@ function ListPanel({
 }) {
   return (
     <div
-      className={`absolute inset-y-0 right-0 z-[85] w-full max-w-md border-l border-offwhite/10 bg-night/95 backdrop-blur-md transition-transform duration-500 ease-smooth ${
+      className={`absolute inset-y-0 right-0 z-[85] w-full max-w-md border-l border-bone/10 bg-ink/95 backdrop-blur-md transition-transform duration-500 ease-smooth ${
         open ? "translate-x-0" : "translate-x-full"
       }`}
       aria-hidden={!open}
     >
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between border-b border-offwhite/10 px-6 py-6 pt-24 md:pt-6">
-          <span className="font-mono text-11 uppercase tracking-4 text-offwhite/60">{title}</span>
+        <div className="flex items-center justify-between border-b border-bone/10 px-6 py-6 pt-24 md:pt-6">
+          <span className="text-eyebrow uppercase tracking-eyebrow text-bone-faint">{title}</span>
           <button
             type="button"
             onClick={onClose}
-            className="font-mono text-11 uppercase tracking-4 text-offwhite/60 transition-colors duration-300 hover:text-offwhite"
+            className="text-eyebrow uppercase tracking-eyebrow text-bone-faint transition-colors duration-300 hover:text-bone"
           >
             {closeLabel}
           </button>
@@ -540,20 +527,20 @@ function ListPanel({
               <button
                 type="button"
                 onClick={() => onSelect(pin.project.slug)}
-                className="group flex w-full items-baseline gap-4 border-b border-offwhite/10 px-6 py-5 text-left transition-colors duration-300 hover:bg-offwhite/5"
+                className="group flex w-full items-baseline gap-4 border-b border-bone/10 px-6 py-5 text-left transition-colors duration-300 hover:bg-bone/5"
               >
-                <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                <span className="text-eyebrow tracking-eyebrow text-bone-faint">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="flex-1">
-                  <span className="block text-18 font-bold uppercase leading-1.1 text-offwhite">
+                  <span className="block text-body font-display text-bone">
                     {pin.project.name}
                   </span>
-                  <span className="mt-1 block font-mono text-10 uppercase tracking-4 text-offwhite/40">
+                  <span className="mt-1 block text-eyebrow uppercase tracking-eyebrow text-bone-faint">
                     {pin.project.location}
                   </span>
                 </span>
-                <span aria-hidden className="font-mono text-offwhite/30 transition-transform duration-300 group-hover:translate-x-1">
+                <span aria-hidden className="text-bone-faint transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
               </button>
@@ -596,42 +583,42 @@ function ProjectOverlay({
   }, [onClose]);
 
   return (
-    <div className="absolute inset-y-0 left-0 z-[90] flex w-full max-w-lg flex-col animate-[slidein_0.5s_ease] border-r border-offwhite/10 bg-night/95 backdrop-blur-md">
+    <div className="absolute inset-y-0 left-0 z-[90] flex w-full max-w-lg flex-col animate-[slidein_0.5s_ease] border-r border-bone/10 bg-ink/95 backdrop-blur-md">
       {/* Прокручивается всё, КРОМЕ кнопки: сама «Подробнее» вынесена в
           закреплённый футер ниже, поэтому она видна всегда — и не зависит ни от
           высоты экрана, ни от длины описания. */}
       <div className="flex-1 overflow-y-auto">
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
           <Image src={image} alt={name} fill sizes="512px" className="object-cover opacity-80" />
-          <div className="absolute inset-0 bg-gradient-to-t from-night to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-24 border border-offwhite/30 bg-night/70 px-3 py-1.5 font-mono text-10 uppercase tracking-4 text-offwhite backdrop-blur-sm transition-colors duration-300 hover:bg-offwhite hover:text-night md:top-6"
+            className="absolute right-4 top-24 border border-bone/30 bg-ink/70 px-3 py-1.5 text-eyebrow uppercase tracking-eyebrow text-bone backdrop-blur-sm transition-colors duration-300 hover:bg-bone hover:text-ink md:top-6"
           >
             {labels.close}
           </button>
         </div>
 
         <div className="px-6 pb-8 pt-8 md:px-10">
-          <div className="grid grid-cols-2 gap-px bg-offwhite/10">
+          <div className="grid grid-cols-2 gap-px bg-bone/10">
             <Cell label={labels.locationLabel} value={location} />
             <Cell label={labels.typeLabel} value={type} />
           </div>
 
-          <h2 className="mt-8 text-40 font-bold uppercase leading-0.9 text-offwhite md:text-56">
+          <h2 className="mt-8 text-section font-display text-bone md:text-section">
             {name}
           </h2>
-          <p className="mt-6 text-16 font-light leading-1.6 text-offwhite/70">{summary}</p>
+          <p className="mt-6 text-body font-light text-bone-faint">{summary}</p>
 
           {keyPoints.length > 0 && (
             <ul className="mt-8 space-y-2">
               {keyPoints.slice(0, 4).map((k, i) => (
-                <li key={i} className="flex gap-3 border-b border-offwhite/10 pb-2">
-                  <span className="font-mono text-10 tracking-4 text-offwhite/40">
+                <li key={i} className="flex gap-3 border-b border-bone/10 pb-2">
+                  <span className="text-eyebrow tracking-eyebrow text-bone-faint">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-14 font-light text-offwhite/70">{k}</span>
+                  <span className="text-micro text-bone-faint">{k}</span>
                 </li>
               ))}
             </ul>
@@ -641,10 +628,10 @@ function ProjectOverlay({
 
       {/* Закреплённый футер с CTA. pb поднимает кнопку над нижней полосой карты
           (Список проектов / Фильтры), чтобы она никогда под неё не пряталась. */}
-      <div className="shrink-0 border-t border-offwhite/10 bg-night px-6 pb-[calc(env(safe-area-inset-bottom)+6.5rem)] pt-5 md:px-10">
+      <div className="shrink-0 border-t border-bone/10 bg-ink px-6 pb-[calc(env(safe-area-inset-bottom)+6.5rem)] pt-5 md:px-10">
         <Link
           href={discoverHref}
-          className="group inline-flex min-h-[52px] items-center gap-3 border border-offwhite/30 px-6 py-4 font-mono text-12 uppercase tracking-4 text-offwhite transition-colors duration-300 hover:bg-offwhite hover:text-night"
+          className="group inline-flex min-h-[52px] items-center gap-3 border border-bone/30 px-6 py-4 text-micro uppercase tracking-eyebrow text-bone transition-colors duration-300 hover:bg-bone hover:text-ink"
         >
           {labels.discoverMore}
           <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -656,9 +643,9 @@ function ProjectOverlay({
 
 function Cell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-night p-4">
-      <span className="font-mono text-10 uppercase tracking-4 text-offwhite/40">{label}</span>
-      <span className="mt-2 block text-14 font-light text-offwhite/80">{value}</span>
+    <div className="bg-ink p-4">
+      <span className="text-eyebrow uppercase tracking-eyebrow text-bone-faint">{label}</span>
+      <span className="mt-2 block text-micro text-bone">{value}</span>
     </div>
   );
 }
@@ -677,24 +664,24 @@ function MapFallback({
 }) {
   return (
     <main className="min-h-screen px-6 pt-28 md:px-16">
-      <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">{title}</p>
-      <ul className="mt-10 border-t border-offwhite/10">
+      <p className="text-eyebrow uppercase tracking-eyebrow text-bone-faint">{title}</p>
+      <ul className="mt-10 border-t border-bone/10">
         {pins.map((pin, i) => (
           <li key={pin.project.slug}>
             <Link
               href={`/${lang}/projects/${pin.project.slug}`}
-              className="group grid grid-cols-12 items-center gap-4 border-b border-offwhite/10 py-6"
+              className="group grid grid-cols-12 items-center gap-4 border-b border-bone/10 py-6"
             >
-              <span className="col-span-1 font-mono text-10 tracking-4 text-offwhite/40">
+              <span className="col-span-1 text-eyebrow tracking-eyebrow text-bone-faint">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="col-span-6 text-24 font-bold uppercase text-offwhite md:text-32">
+              <span className="col-span-6 text-title font-display text-bone md:text-section">
                 {pin.project.name}
               </span>
-              <span className="col-span-3 font-mono text-11 uppercase tracking-4 text-offwhite/50">
+              <span className="col-span-3 text-eyebrow uppercase tracking-eyebrow text-bone-faint">
                 {pin.project.location}
               </span>
-              <span className="col-span-2 text-right font-mono text-10 uppercase tracking-4 text-offwhite/40 transition-colors group-hover:text-offwhite">
+              <span className="col-span-2 text-right text-eyebrow uppercase tracking-eyebrow text-bone-faint transition-colors group-hover:text-bone">
                 {discoverLabel} →
               </span>
             </Link>

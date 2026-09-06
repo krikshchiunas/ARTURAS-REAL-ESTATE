@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { getDictionary, getServices, getStats, siteConfig } from "@/lib/i18n";
+import {
+  founderName,
+  getDictionary,
+  getServices,
+  getStats,
+  siteConfig,
+  whatsappHref,
+} from "@/lib/i18n";
 import { chromeDict } from "@/components/dict";
-import { Reveal, HeadlineReveal } from "@/components/Reveal";
+import { Reveal } from "@/components/Reveal";
+import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
 import { Odometer } from "@/components/Odometer";
-import { BracketButton } from "@/components/BracketButton";
-import { SceneBackdrop } from "@/components/webgl/SceneBackdrop";
+import { Button } from "@/components/Button";
 
-// About в стиле careers-страницы Hubtown: фиксированный WebGL-фон «путь света»
-// через ночной город на всю страницу (прокрутка ведёт камеру по улице), контент
-// плывёт поверх — hero, манифест, паспорт, одометры и парящие полупрозрачные
-// карточки 001–004 в шахматной раскладке.
+// «Обо мне»: портрет + манифест + паспорт данных + цифры + процесс.
+// Фоновая WebGL-сцена «путь света» удалена вместе со старым дизайном — фон
+// здесь держат типографика и воздух, а не третий слой графики.
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -44,16 +51,11 @@ export async function generateMetadata({
 
 const PROCESS_KEYS = ["selection", "analysis", "deal", "management"] as const;
 
-// Шахматная раскладка парящих карточек (desktop), как в референсе. Последняя
-// карточка стоит у самого низа дорожки — под ней не остаётся пустого фона.
-const CARD_POSITIONS = [
-  "md:left-[6%] md:top-[0%]",
-  "md:right-[8%] md:top-[24%]",
-  "md:left-[14%] md:top-[49%]",
-  "md:right-[12%] md:top-[74%]",
-] as const;
-
-export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang: raw } = await params;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
@@ -66,168 +68,158 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
   );
 
   return (
-    <main className="relative min-h-screen">
-      {/* Фон-сцена на всю страницу (фиксированная, под контентом) */}
-      <SceneBackdrop scene="about" />
+    <main id="main">
+      {/* Hero: портрет слева, заявление справа */}
+      <section className="shell grid gap-12 pb-section pt-36 lg:grid-cols-12 lg:items-end">
+        <HeroReveal className="lg:col-span-5">
+          <div className="relative aspect-[4/5] overflow-hidden bg-ink-raised">
+            <Image
+              src="/arturas.jpg"
+              alt={founderName(lang)}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover"
+            />
+          </div>
+        </HeroReveal>
 
-      <div className="relative z-10">
-        {/* Hero */}
-        <section className="flex min-h-screen flex-col justify-center px-6 md:px-16">
-          <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-            {c.stubs.about.chapter}
-          </p>
-          <HeadlineReveal
+        <div className="lg:col-span-7">
+          <HeroReveal>
+            <span className="marker text-gold">{c.stubs.about.chapter}</span>
+          </HeroReveal>
+          <HeroHeadline
+            as="h1"
             text={c.stubs.about.title}
-            className="mt-8 max-w-[12ch] text-54 font-bold uppercase leading-0.9 md:text-120 md:leading-0.8"
+            delay={100}
+            className="mt-5 max-w-[16ch] font-display tracking-monument text-display"
           />
-          <Reveal delay={0.5}>
-            <p className="mt-10 max-w-[34rem] text-16 font-light leading-1.6 text-offwhite/70">
+          <HeroReveal delay={420}>
+            <p className="mt-7 max-w-[46ch] text-lead text-bone-dim">
               {c.stubs.about.sub}
             </p>
-          </Reveal>
-        </section>
+          </HeroReveal>
+        </div>
+      </section>
 
-        {/* Манифест */}
-        <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-36">
-          <p className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-            {t.intro.eyebrow}
-          </p>
-          <Reveal className="mt-10">
-            <p className="max-w-[52rem] text-24 font-light leading-1.2 text-offwhite/90 md:text-40">
+      {/* Манифест */}
+      <section className="border-t border-bone/10">
+        <div className="shell py-section">
+          <Reveal>
+            <span className="marker text-gold">{t.intro.eyebrow}</span>
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="measure mt-8 font-display font-display tracking-monument text-section text-balance">
               {t.intro.manifesto}
             </p>
           </Reveal>
-        </section>
+        </div>
+      </section>
 
-        {/* Паспорт данных — полупрозрачные ячейки поверх сцены */}
-        <section className="border-t border-offwhite/10 px-6 py-24 md:px-16">
+      {/* Паспорт данных */}
+      <section className="border-t border-bone/10 bg-ink-soft">
+        <div className="shell py-section">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
-            <HeadlineReveal
-              as="h2"
-              text={c.about.specTitle}
-              className="text-32 font-bold uppercase leading-0.9 md:text-56"
-            />
-            <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-              {c.about.specSubtitle}
-            </span>
+            <h2 className="font-display tracking-monument text-section">{c.about.specTitle}</h2>
+            <span className="marker text-gold">{c.about.specSubtitle}</span>
           </div>
+
           <Reveal className="mt-12">
-            <dl className="grid grid-cols-2 gap-px bg-offwhite/10 md:grid-cols-3">
+            {/* Линии рисует просвет фона (gap-px), а не рамки ячеек —
+                иначе на стыках они удваиваются. */}
+            <dl className="grid grid-cols-2 gap-px bg-bone/10 md:grid-cols-3">
               {c.about.specs.map(([label, value]) => (
-                <div key={label} className="bg-night/70 p-6 backdrop-blur-sm md:p-8">
-                  <dt className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
+                <div key={label} className="bg-ink-soft p-6 md:p-8">
+                  <dt className="text-eyebrow uppercase tracking-eyebrow text-bone-dim">
                     {label}
                   </dt>
-                  <dd className="mt-4 text-20 font-bold md:text-30">{value}</dd>
+                  <dd className="mt-3 font-display text-title text-bone">{value}</dd>
                 </div>
               ))}
             </dl>
           </Reveal>
-          <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
+
+          <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-14">
             <Reveal>
-              <p className="text-16 font-light leading-1.6 text-offwhite/70">
-                {t.founder.p1}
-              </p>
+              <p className="text-body text-bone-dim">{t.founder.p1}</p>
             </Reveal>
-            <Reveal delay={0.12}>
-              <p className="text-16 font-light leading-1.6 text-offwhite/70">
-                {t.founder.p2}
-              </p>
+            <Reveal delay={110}>
+              <p className="text-body text-bone-dim">{t.founder.p2}</p>
             </Reveal>
           </div>
-          <Reveal className="mt-14" delay={0.1}>
-            <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
-              <p className="max-w-[28rem] font-mono text-11 uppercase leading-1.6 tracking-4 text-offwhite/50">
+
+          <Reveal className="mt-12" delay={80}>
+            <div className="flex flex-col items-start gap-7 md:flex-row md:items-center md:justify-between">
+              <p className="max-w-[42ch] border-l-2 border-gold pl-5 text-body text-bone">
                 {t.founder.note}
               </p>
-              <BracketButton href={`/${lang}/contact`}>{c.workCta}</BracketButton>
+              <Button href={whatsappHref(t.common.whatsappPrefill)} arrow>
+                {c.workCta}
+              </Button>
             </div>
           </Reveal>
-        </section>
+        </div>
+      </section>
 
-        {/* Одометры */}
-        <section className="border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32">
-          <div className="max-w-[36rem]">
-            <HeadlineReveal
-              as="h2"
-              text={t.stats.title}
-              className="text-32 font-bold uppercase leading-0.9 md:text-56"
-            />
-            <Reveal delay={0.2}>
-              <p className="mt-6 text-16 font-light leading-1.6 text-offwhite/70">
-                {t.stats.body}
-              </p>
+      {/* Цифры */}
+      <section className="border-t border-bone/10">
+        <div className="shell py-section">
+          <div className="max-w-prose">
+            <h2 className="font-display tracking-monument text-section text-balance">{t.stats.title}</h2>
+            <Reveal delay={120}>
+              <p className="mt-6 text-body text-bone-dim">{t.stats.body}</p>
             </Reveal>
           </div>
-          <div className="mt-16">
+
+          <dl className="mt-14">
             {stats.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.05}>
-                <div className="flex flex-col gap-4 border-t border-offwhite/10 py-10 md:flex-row md:items-baseline md:justify-between md:gap-10 md:py-12">
-                  {/* Подпись крупнее заголовочного mono: длинные формулировки
-                      вроде «просчитанных инвестиционных моделей» должны
-                      читаться, а не тесниться мелким шрифтом. */}
-                  <span className="max-w-[30rem] font-mono text-14 uppercase leading-1.6 tracking-2 text-offwhite/75 md:text-18">
-                    {String(i + 1).padStart(3, "0")} — {s.label}
-                  </span>
-                  <Odometer
-                    value={s.value}
-                    className="shrink-0 font-mono text-56 font-bold text-offwhite md:text-120"
-                  />
+              <Reveal key={s.label} delay={i * 70}>
+                <div className="flex flex-col gap-3 border-t border-bone/10 py-8 md:flex-row md:items-baseline md:justify-between md:gap-10">
+                  <dt className="flex max-w-[44ch] items-baseline gap-4 text-body text-bone-dim">
+                    <span className="tabular text-eyebrow text-gold">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {s.label}
+                  </dt>
+                  <dd>
+                    <Odometer
+                      value={s.value}
+                      className="shrink-0 font-display text-[clamp(2.5rem,1.8rem+2.6vw,4.5rem)] text-bone"
+                    />
+                  </dd>
                 </div>
               </Reveal>
             ))}
-          </div>
-        </section>
+          </dl>
+        </div>
+      </section>
 
-        {/* Парящие карточки 001–004 поверх потоков (референс: careers).
-            data-scene-end: путь света досказывается на последней карточке,
-            дальше идёт футер — уже с финальным кадром, а не пустым фоном. */}
-        <section
-          data-scene-end
-          className="relative border-t border-offwhite/10 px-6 py-24 md:px-16 md:py-32"
-        >
+      {/* Процесс */}
+      <section className="border-t border-bone/10 bg-ink-soft">
+        <div className="shell py-section">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
-            <HeadlineReveal
-              as="h2"
-              text={t.services.title}
-              className="text-32 font-bold uppercase leading-0.9 md:text-56"
-            />
-            <span className="font-mono text-11 uppercase tracking-4 text-offwhite/50">
-              {c.about.processChapter}
-            </span>
+            <h2 className="font-display tracking-monument text-section">{t.services.title}</h2>
+            <span className="marker text-gold">{c.about.processChapter}</span>
           </div>
-          <Reveal delay={0.15}>
-            <p className="mt-6 max-w-[34rem] text-16 font-light leading-1.6 text-offwhite/70">
-              {t.services.body}
-            </p>
+          <Reveal delay={120}>
+            <p className="measure mt-6 text-body text-bone-dim">{t.services.body}</p>
           </Reveal>
 
-          <div className="relative mt-14 flex flex-col gap-8 md:mt-20 md:block md:h-[145vh]">
+          <ol className="mt-14 grid gap-px bg-bone/10 md:grid-cols-2">
             {process.map((s, i) => (
-              <Reveal
-                key={s.key}
-                delay={i * 0.06}
-                className={`md:absolute md:w-[31rem] ${CARD_POSITIONS[i]}`}
-              >
-                <div className="border border-offwhite/12 bg-night/45 p-7 backdrop-blur-md transition-colors duration-500 hover:bg-night/65 md:p-10">
-                  <div className="flex items-start justify-between">
-                    <span className="inline-block h-2 w-2 bg-offwhite/60" aria-hidden />
-                    <span className="font-mono text-11 tracking-4 text-offwhite/50">
-                      ■ {String(i + 1).padStart(3, "0")}
-                    </span>
-                  </div>
-                  <h3 className="mt-7 text-24 font-bold uppercase leading-1.1 md:text-32">
-                    {s.title}
-                  </h3>
-                  <p className="mt-5 text-16 font-light leading-1.6 text-offwhite/75 md:text-18">
-                    {s.body}
-                  </p>
-                </div>
-              </Reveal>
+              <li key={s.key} className="bg-ink-soft">
+                <Reveal delay={i * 80} className="h-full p-7 md:p-10">
+                  <span className="tabular text-eyebrow tracking-eyebrow text-gold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-5 font-display text-title">{s.title}</h3>
+                  <p className="mt-4 text-body text-bone-dim">{s.body}</p>
+                </Reveal>
+              </li>
             ))}
-          </div>
-        </section>
-      </div>
+          </ol>
+        </div>
+      </section>
     </main>
   );
 }

@@ -17,3 +17,9 @@ node_modules/
 # Справочные копии для карты — дубли рабочих файлов в components/redesign/map/,
 # не часть сборки (см. фон 3/README.md)
 фон 3/
+
+# Скилы ставятся из skills-lock.json (источник + хеш), в репозитории им
+# делать нечего: это 10 МБ вендоренных файлов, а .claude/skills — симлинки
+# на .agents/skills.
+.agents/skills/
+.claude/skills/

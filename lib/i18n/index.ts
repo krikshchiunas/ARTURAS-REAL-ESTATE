@@ -1,5 +1,6 @@
 import { defaultLocale, isLocale, type Locale } from "./config";
 import {
+  founderName,
   guideMeta,
   projectMeta,
   serviceMeta,
@@ -109,4 +110,4 @@ export function getSocials(locale: string): Social[] {
   }));
 }
 
-export { siteConfig, whatsappHref };
+export { siteConfig, whatsappHref, founderName };
