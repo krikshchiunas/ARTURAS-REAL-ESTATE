@@ -29,12 +29,15 @@ export function middleware(request: NextRequest) {
   );
   if (hasLocale) return;
 
-  // Иначе редиректим на префиксованный путь. Голый корень ведём сразу на
-  // «Обо мне» — знакомство с человеком важнее заставки; WebGL-главная
-  // остаётся по /{lang} и доступна из меню.
+  // Иначе редиректим на префиксованный путь. Голый корень ведёт на главную.
+  // Раньше он вёл на «Обо мне»: в прошлом дизайне по /{lang} стояла
+  // WebGL-заставка без содержания, и знакомство с человеком было полезнее.
+  // Теперь /{lang} — полноценная главная с видео-героем, объектами и
+  // цифрами, и уводить с неё посетителя незачем: тот, кто открывает голый
+  // домен, попадал мимо всего первого экрана.
   const locale = detectLocale(request);
   const url = request.nextUrl.clone();
-  url.pathname = pathname === "/" ? `/${locale}/about` : `/${locale}${pathname}`;
+  url.pathname = pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
   return NextResponse.redirect(url);
 }
 
