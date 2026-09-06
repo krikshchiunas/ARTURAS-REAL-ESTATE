@@ -23,3 +23,7 @@ node_modules/
 # на .agents/skills.
 .agents/skills/
 .claude/skills/
+
+# Локальная привязка к проекту Vercel — у каждого своя.
+.vercel
+.env*
