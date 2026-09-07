@@ -1,0 +1,57 @@
+/* === ТИПОГРАФИКА ==========================================================
+   Главный приём референса: всё крупное — антиква ПРОПИСНЫМИ с разрежением.
+   Цифры тоже антиквой, а не гротеском: цифра работает как типографический
+   объект, а не как строка отчёта.
+   ========================================================================= */
+@font-face { font-family: 'Prata Fallback'; src: local('Times New Roman'), local('Georgia'); size-adjust: 104%; ascent-override: 92%; descent-override: 24%; }
+@font-face { font-family: 'Onest Fallback'; src: local('Helvetica Neue'), local('Arial'); size-adjust: 100%; ascent-override: 94%; descent-override: 24%; }
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--track-display);
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.display--1 { font-size: var(--d1); line-height: 0.98; }
+.display--2 { font-size: var(--d2); }
+.display--3 { font-size: var(--d3); }
+.display em { font-style: normal; color: var(--accent); }
+
+/* Заголовок с длинной волосяной линейкой вправо — приём из блока Trust */
+.display--rule { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem); }
+.display--rule::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.numeral {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--num);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--accent-lit);
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: var(--t-xs); font-weight: 400;
+  letter-spacing: var(--track-label); text-indent: var(--track-label);
+  text-transform: uppercase; color: var(--accent); line-height: 1.4;
+}
+.label--mute { color: var(--fg-faint); }
+
+.lead {
+  font-size: var(--t-lead); line-height: 1.55; font-weight: 300;
+  color: var(--fg-dim); max-width: var(--measure); text-wrap: pretty;
+}
+.prose { max-width: var(--measure); color: var(--fg-dim); text-wrap: pretty; }
+.prose > p + p { margin-top: 1.05em; }
+
+.link { position: relative; display: inline-block; padding-bottom: 2px; }
+.link::after {
+  content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: right;
+  transition: transform var(--dur-m) var(--ease-out);
+}
+.link:hover::after, .link:focus-visible::after { transform: scaleX(1); transform-origin: left; }

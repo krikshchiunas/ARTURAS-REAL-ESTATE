@@ -1,0 +1,114 @@
+/* === НАВИГАЦИЯ ============================================================ */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--nav-h);
+  display: flex; align-items: center; color: var(--c-cream);
+  transition: transform var(--dur-m) var(--ease-out), height var(--dur-m) var(--ease-out);
+}
+.nav__bg {
+  position: absolute; inset: 0; z-index: -1;
+  background: rgb(5 25 22 / 0.82);
+  -webkit-backdrop-filter: blur(18px) saturate(130%); backdrop-filter: blur(18px) saturate(130%);
+  border-bottom: 1px solid var(--rule-soft);
+  opacity: 0; transform: translate3d(0, -100%, 0);
+  transition: opacity var(--dur-m) var(--ease-out), transform var(--dur-m) var(--ease-out);
+}
+.nav[data-stuck='true'] .nav__bg { opacity: 1; transform: none; }
+.nav[data-stuck='true'] { --nav-h: 64px; }
+.nav[data-hidden='true'] { transform: translate3d(0, -100%, 0); }
+.nav:not([data-stuck='true']) .wordmark,
+.nav:not([data-stuck='true']) .nav__link { text-shadow: 0 1px 18px rgb(5 25 22 / 0.85); }
+
+.nav__inner {
+  width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+}
+
+/* Ромбовидная эмблема + слово вразрядку — как у референса */
+.wordmark { display: inline-flex; align-items: center; gap: 0.7rem; line-height: 1; }
+.wordmark svg { width: 15px; height: 15px; flex: none; color: var(--c-gold); }
+.wordmark b {
+  font-family: var(--font-display); font-weight: 400; font-size: 1.12rem;
+  letter-spacing: 0.36em; text-indent: 0.36em; text-transform: uppercase;
+}
+.wordmark small {
+  display: block; font-family: var(--font-ui); font-size: 0.46rem; font-weight: 400;
+  letter-spacing: 0.26em; text-indent: 0.26em; margin-top: 0.65em; opacity: 0.55; text-transform: uppercase;
+}
+
+.nav__links { display: flex; align-items: center; gap: clamp(1rem, 1.8vw, 2.2rem); }
+.nav__link {
+  position: relative; font-size: var(--t-2xs); letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgb(237 230 214 / 0.8); padding-block: 0.4rem;
+  transition: color var(--dur-s) var(--ease-out);
+}
+.nav__link::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: var(--c-gold); transform: scaleX(0); transform-origin: right;
+  transition: transform var(--dur-m) var(--ease-out);
+}
+.nav__link:hover, .nav__link:focus-visible, .nav__link[aria-current='true'] { color: var(--c-gold-lit); }
+.nav__link:hover::after, .nav__link:focus-visible::after, .nav__link[aria-current='true']::after {
+  transform: scaleX(1); transform-origin: left;
+}
+@media (max-width: 1060px) { .nav__links, .nav .pill { display: none; } }
+
+.burger { display: none; width: 44px; height: 44px; position: relative; margin-right: -10px; color: var(--c-gold); }
+@media (max-width: 1060px) { .burger { display: block; } }
+.burger__bar {
+  position: absolute; left: 11px; width: 22px; height: 1px; background: currentColor;
+  transition: transform var(--dur-m) var(--ease-io);
+}
+.burger__bar:nth-child(1) { top: 19px; }
+.burger__bar:nth-child(2) { top: 25px; }
+.burger[aria-expanded='true'] .burger__bar:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+.burger[aria-expanded='true'] .burger__bar:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+
+.menu {
+  position: fixed; inset: 0; z-index: 90; background: var(--c-emerald-deep);
+  display: grid; grid-template-rows: 1fr auto;
+  padding: calc(var(--nav-h) + 6vh) var(--gutter) 4vh;
+  clip-path: inset(0 0 100% 0); transition: clip-path var(--dur-l) var(--ease-io);
+  visibility: hidden; overscroll-behavior: contain;
+}
+.menu[data-open='true'] { clip-path: inset(0 0 0 0); visibility: visible; }
+.menu > nav { display: grid; align-content: center; min-height: 0; }
+.menu__list { display: flex; flex-direction: column; gap: 0.2em; }
+.menu__item { overflow: hidden; }
+.menu__item > a {
+  display: block; font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: 0.06em; font-size: clamp(1.6rem, 8vw, 2.9rem); line-height: 1.24;
+  color: var(--c-cream); transform: translate3d(0, 110%, 0);
+  transition: transform var(--dur-l) var(--ease-out) var(--delay, 0ms), color var(--dur-s) var(--ease-out);
+}
+.menu[data-open='true'] .menu__item > a { transform: none; }
+.menu__item > a:hover { color: var(--c-gold-lit); }
+.menu__item > a span {
+  font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.18em;
+  vertical-align: super; color: var(--c-gold); margin-right: 0.9em;
+}
+.menu__foot { border-top: 1px solid var(--rule-soft); padding-top: 1.5rem; opacity: 0; transition: opacity var(--dur-m) linear 380ms; }
+.menu[data-open='true'] .menu__foot { opacity: 1; }
+body[data-menu='open'] { overflow: hidden; }
+
+/* Переключатель языков ------------------------------------------------------
+   Пять коротких меток тем же типографским ключом, что и .nav__link: капитель,
+   разрядка, золото на активном. Своей формы не заводит — на узких экранах
+   уезжает в мобильное меню вместе с остальной навигацией. */
+.lang { display: flex; align-items: center; gap: 0.15rem; }
+.lang__item {
+  position: relative; font-size: var(--t-2xs); letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgb(237 230 214 / 0.55);
+  padding: 0.4rem 0.35rem; transition: color var(--dur-s) var(--ease-out);
+}
+.lang__item:hover, .lang__item:focus-visible { color: var(--c-gold-lit); }
+.lang__item[aria-current='true'] { color: var(--c-gold); }
+/* Разделители — тонкие, между метками, но не по краям группы. */
+.lang__item + .lang__item::before {
+  content: ''; position: absolute; left: -0.1rem; top: 50%;
+  width: 1px; height: 0.8em; transform: translateY(-50%);
+  background: rgb(237 230 214 / 0.18);
+}
+@media (max-width: 1060px) { .nav .lang { display: none; } }
+/* В мобильном меню переключатель встаёт над кнопкой призыва. */
+.menu__foot .lang { justify-content: center; margin-bottom: 1.25rem; }
+.menu__foot .lang__item { font-size: var(--t-xs); padding: 0.6rem 0.7rem; }

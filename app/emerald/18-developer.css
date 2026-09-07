@@ -1,0 +1,13 @@
+/* === ЗАСТРОЙЩИК =========================================================== */
+.dev__media { grid-column: 1 / span 6; }
+/* 4:5 — ровно пропорция исходного портрета (1280×1600), поэтому кадр
+   встаёт без обрезки. Раньше здесь стояло 4/3 под ландшафтный снимок
+   въездной группы AYANA, и портрет срезало по макушку. */
+.dev__media .frame { aspect-ratio: 4 / 5; }
+.dev__copy { grid-column: 8 / -1; align-self: center; }
+.dev__years { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-top: 1.6rem; }
+.dev__year {
+  padding: 0.5em 1em; border: 1px solid var(--rule); border-radius: 999px; color: var(--accent);
+  font-size: var(--t-2xs); letter-spacing: 0.16em; font-variant-numeric: tabular-nums;
+}
+@media (max-width: 1000px) { .dev__media, .dev__copy { grid-column: 1 / -1; } }

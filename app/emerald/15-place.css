@@ -1,0 +1,23 @@
+/* === МЕСТО ================================================================ */
+.place__head { grid-column: 1 / span 6; }
+.place__body { grid-column: 8 / -1; align-self: end; }
+.place__mosaic {
+  grid-column: 1 / -1; margin-top: var(--block-y);
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter); row-gap: var(--gutter); align-items: start;
+}
+.place__a { grid-column: 1 / span 7; }
+.place__b { grid-column: 9 / -1; margin-top: clamp(2rem, 7vw, 7rem); }
+.place__c { grid-column: 3 / -1; margin-top: clamp(1rem, 3vw, 3rem); position: relative; }
+.place__badge {
+  position: absolute; right: clamp(0.9rem, 2vw, 2rem); bottom: clamp(0.9rem, 2vw, 2rem);
+  z-index: 2; display: grid; place-items: center; text-align: center;
+  width: clamp(5rem, 9vw, 8.5rem); aspect-ratio: 1; border-radius: 50%;
+  background: rgb(5 25 22 / 0.72); border: 1px solid var(--rule);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.place__badge b { display: block; font-family: var(--font-display); font-size: clamp(1.15rem, 2.2vw, 1.8rem); color: var(--accent-lit); line-height: 1; }
+.place__badge span { font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); margin-top: 0.4em; display: block; }
+@media (max-width: 1000px) {
+  .place__head, .place__body, .place__a, .place__b, .place__c { grid-column: 1 / -1; margin-top: 0; }
+}

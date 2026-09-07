@@ -1,0 +1,54 @@
+/* === КОНТАКТ ============================================================== */
+.ct__head { grid-column: 1 / span 5; }
+.ct__body { margin-top: 1.3rem; }
+.ct__channels { margin-top: clamp(1.6rem, 3vw, 2.6rem); border-top: 1px solid var(--rule); }
+.ct__channel { display: flex; justify-content: space-between; gap: 1.4rem; padding-block: 0.9rem; border-bottom: 1px solid var(--rule-soft); }
+.ct__channel dt { font-size: var(--t-2xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--fg-faint); }
+.ct__channel dd { text-align: right; }
+
+.ct__form {
+  grid-column: 7 / -1;
+  border-radius: var(--radius); border: 1px solid var(--rule-soft);
+  padding: clamp(1.3rem, 2.6vw, 2.4rem); background: var(--bg-raise);
+}
+.ct__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 0.4rem; }
+.field { position: relative; grid-column: span 1; padding-top: 1.5rem; }
+.field--full { grid-column: 1 / -1; }
+
+.field__input, .field__select, .field__area {
+  width: 100%; background: transparent; border: 0; border-bottom: 1px solid var(--rule);
+  padding: 0.6rem 0 0.7rem; font-size: var(--t-body); font-weight: 300; color: var(--fg);
+  border-radius: 0; transition: border-color var(--dur-m) var(--ease-out);
+}
+.field__area { resize: vertical; min-height: 5rem; line-height: 1.6; }
+.field__input:focus, .field__select:focus, .field__area:focus { outline: none; border-bottom-color: var(--accent); }
+.field__label {
+  position: absolute; left: 0; top: 1.5rem; font-size: var(--t-body); color: var(--fg-faint);
+  pointer-events: none; transform-origin: left top;
+  transition: transform var(--dur-m) var(--ease-out), color var(--dur-m) var(--ease-out);
+}
+.field__input:focus + .field__label,
+.field__input:not(:placeholder-shown) + .field__label,
+.field__area:focus + .field__label,
+.field__area:not(:placeholder-shown) + .field__label,
+.field__select:focus + .field__label,
+.field--filled .field__label { transform: translateY(-1.5rem) scale(0.72); color: var(--accent); }
+.field__label span { color: var(--fg-ghost); }
+.field__rail {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-m) var(--ease-io);
+}
+.field:focus-within .field__rail { transform: scaleX(1); }
+.field__select { appearance: none; -webkit-appearance: none; padding-right: 2rem; cursor: pointer; }
+.field__select option { background: var(--c-panel); color: var(--c-cream); }
+.field__chev {
+  position: absolute; right: 0.15rem; bottom: 0.95rem; width: 9px; height: 9px; pointer-events: none;
+  border-right: 1px solid var(--fg-faint); border-bottom: 1px solid var(--fg-faint); transform: rotate(45deg);
+}
+.ct__submit { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.3rem; }
+.ct__consent { font-size: var(--t-xs); color: var(--fg-faint); max-width: 32ch; line-height: 1.5; }
+.ct__status { margin-top: 1.1rem; font-size: var(--t-sm); color: var(--accent-lit); min-height: 1.4em; }
+.field__error { display: block; margin-top: 0.35rem; font-size: var(--t-xs); color: #E8926C; }
+.field[data-invalid='true'] .field__input, .field[data-invalid='true'] .field__area { border-bottom-color: #E8926C; }
+@media (max-width: 1000px) { .ct__head, .ct__form { grid-column: 1 / -1; } .ct__form { margin-top: 1rem; } }
+@media (max-width: 620px) { .ct__fields { grid-template-columns: 1fr; } }

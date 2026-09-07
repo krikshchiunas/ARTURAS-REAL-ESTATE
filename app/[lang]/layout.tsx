@@ -1,16 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import {
   IBM_Plex_Mono,
-  Inter,
   Noto_Sans_Thai,
   Noto_Serif_Thai,
-  Poiret_One,
+  Onest,
+  Prata,
 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Analytics, GtmNoScript } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { EmeraldRuntime } from "@/components/EmeraldRuntime";
 import {
   htmlLang,
   isLocale,
@@ -20,25 +21,26 @@ import {
 } from "@/lib/i18n/config";
 import { getDictionary, siteConfig } from "@/lib/i18n";
 import "../globals.css";
+import "../emerald/index.css";
 
-// Тройка: волосяной ар-деко для «скульптурных» моментов, нейтральный гротеск
-// для текста, моно для клинических меток. Иерархию держит смена гарнитуры и
-// огромная разница кеглей, а не пять оттенков серого.
+// Изумрудная система: антиква Prata на всём крупном (прописными, с
+// разрежением) и гротеск Onest в тексте. Оба с кириллицей.
 //
-// Poiret One существует в одном начертании и это осознанный выбор: у него нет
-// «жирного», значит заголовок нельзя сделать громче весом — только размером и
-// воздухом. Ровно та дисциплина, которой требует система.
-const display = Poiret_One({
-  subsets: ["latin", "latin-ext", "cyrillic"],
+// Переменные названы по гарнитуре, а не по роли: роли (--font-display,
+// --font-ui) раздаёт app/emerald/00-tokens.css, и если бы имена совпали,
+// next/font затёр бы их своими значениями.
+const display = Prata({
+  // latin-ext у Prata нет — набор ограничен latin/cyrillic/vietnamese.
+  subsets: ["latin", "cyrillic"],
   weight: "400",
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-prata",
 });
 
-const sans = Inter({
-  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+const sans = Onest({
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
-  variable: "--font-sans",
+  variable: "--font-onest",
 });
 
 const mono = IBM_Plex_Mono({
@@ -103,13 +105,13 @@ export async function generateMetadata({
       siteName: siteConfig.name,
       title: t.homeTitle,
       description: t.description,
-      images: [{ url: "/hero/hero-poster.jpg", width: 1280, height: 715 }],
+      images: [{ url: "/media/hero-poster-1920.jpg", width: 1920, height: 1072 }],
     },
     twitter: {
       card: "summary_large_image",
       title: t.homeTitle,
       description: t.description,
-      images: ["/hero/hero-poster.jpg"],
+      images: ["/media/hero-poster-1920.jpg"],
     },
     robots: { index: true, follow: true },
     alternates: { canonical: url, languages },
@@ -145,8 +147,8 @@ export default async function LangLayout({
     alternateName: ["Arturas Krik Real Estate", "Артурас — недвижимость Пхукет"],
     description: t.meta.description,
     url: `${siteConfig.url}/${lang}`,
-    logo: `${siteConfig.url}/hero/hero-poster.jpg`,
-    image: `${siteConfig.url}/hero/hero-poster.jpg`,
+    logo: `${siteConfig.url}/media/hero-poster-1920.jpg`,
+    image: `${siteConfig.url}/media/hero-poster-1920.jpg`,
     founder: {
       "@type": "Person",
       name: siteConfig.founder,
@@ -202,7 +204,7 @@ export default async function LangLayout({
       className={`${display.variable} ${sans.variable} ${mono.variable} ${displayThai.variable} ${sansThai.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-ink text-bone">
+      <body>
         {/* Помечаем документ как «скрипты работают» ДО первой отрисовки:
             только под этим классом появляющиеся блоки стартуют прозрачными
             (см. .js .reveal-init в globals.css). Инлайн и синхронно —
@@ -227,6 +229,7 @@ export default async function LangLayout({
         {children}
         <Footer lang={lang} />
         <Analytics />
+        <EmeraldRuntime />
         <CookieConsent lang={lang} />
       </body>
     </html>

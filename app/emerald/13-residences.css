@@ -1,0 +1,83 @@
+/* === РЕЗИДЕНЦИИ — карусель ================================================
+   Карточка референса: фото с бейджем, название антиквой прописными,
+   волосяная линейка, строки с иконками, цена и круглая кнопка-стрелка.
+   ========================================================================= */
+.res__top { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.res__tools { display: flex; align-items: center; gap: 0.6rem; }
+.res__tool {
+  width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid var(--rule);
+  display: grid; place-items: center; color: var(--accent);
+  transition: background var(--dur-m) var(--ease-out), color var(--dur-m) var(--ease-out), opacity var(--dur-s) linear;
+}
+.res__tool svg { width: 14px; height: 14px; }
+.res__tool:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
+.res__tool:disabled { opacity: 0.32; cursor: default; }
+
+.res__rail {
+  display: flex; gap: clamp(0.9rem, 1.6vw, 1.5rem);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  margin-top: var(--block-y); padding-bottom: 1.2rem;
+  margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.res__rail::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) { .res__rail { scroll-behavior: auto; } }
+
+/* Лента тянется мышью — курсор об этом сообщает */
+.res__rail { cursor: grab; }
+.res__rail[data-dragging='true'] { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.res__rail[data-dragging='true'] * { pointer-events: none; }
+
+.res__card {
+  position: relative;
+  flex: 0 0 clamp(16rem, 30vw, 24rem); scroll-snap-align: start;
+  display: flex; flex-direction: column;
+  border-radius: var(--radius); border: 1px solid var(--rule-soft);
+  background: var(--bg-raise); overflow: hidden;
+  transition: border-color var(--dur-m) var(--ease-out), transform var(--dur-m) var(--ease-out);
+}
+.res__card:hover { border-color: var(--rule); transform: translateY(-4px); }
+.res__shot { position: relative; aspect-ratio: 16 / 11; overflow: hidden; }
+.res__shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 1300ms var(--ease-out); }
+.res__card:hover .res__shot img { transform: scale(1.06); }
+
+.res__meta { padding: clamp(1rem, 1.8vw, 1.5rem); display: flex; flex-direction: column; gap: 0.85rem; flex: 1; }
+.res__name {
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+  letter-spacing: 0.05em; font-size: clamp(1.02rem, 0.9rem + 0.5vw, 1.3rem); line-height: 1.2;
+  color: var(--fg);
+}
+.res__hr { height: 1px; background: var(--rule-soft); }
+.res__facts { display: flex; flex-direction: column; gap: 0.5rem; }
+.res__fact {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: var(--t-sm); color: var(--fg-dim);
+}
+.res__fact svg { width: 14px; height: 14px; flex: none; color: var(--accent); }
+.res__foot { margin-top: auto; padding-top: 0.4rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+/* Метка и значение стоят в столбик — на это рассчитан margin-top у значения.
+   В шаблоне лендинга их разделял перенос строки; в JSX он не сохраняется,
+   поэтому распорку задаём явно, а не полагаемся на пробельный узел. */
+.res__price-k { display: block; font-size: var(--t-2xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-faint); }
+.res__price-v { display: block; }
+.res__price-v {
+  font-family: var(--font-display); font-size: 1.32rem; line-height: 1.1;
+  color: var(--accent-lit); font-variant-numeric: lining-nums tabular-nums; margin-top: 0.22rem;
+}
+/* Одна ссылка на всю площадь карточки: кликабельно целиком, но таб-стоп
+   ровно один, а у картинки остаётся alt. */
+.res__stretch {
+  position: absolute; inset: 0; z-index: 2; border-radius: var(--radius);
+}
+.res__stretch:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+
+.res__card:hover .arrow-btn,
+.res__card:focus-within .arrow-btn { border-color: var(--accent); color: var(--on-accent); }
+.res__card:hover .arrow-btn::before,
+.res__card:focus-within .arrow-btn::before { transform: scale(1); }
+.res__card:hover .arrow-btn svg,
+.res__card:focus-within .arrow-btn svg { transform: translateX(2px); }
+.res__card:focus-within { border-color: var(--rule); transform: translateY(-4px); }
+
+.res__bar { display: flex; align-items: center; justify-content: space-between; gap: 1.4rem; margin-top: 0.6rem; }
+.res__note { font-size: var(--t-xs); color: var(--fg-faint); line-height: 1.6; max-width: 52ch; }

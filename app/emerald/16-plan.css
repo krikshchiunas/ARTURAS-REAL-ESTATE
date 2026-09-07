@@ -1,0 +1,16 @@
+/* === ТЕРРИТОРИЯ =========================================================== */
+.plan__head { grid-column: 1 / span 7; }
+.plan__body { grid-column: 8 / -1; align-self: end; }
+.plan__media { grid-column: 1 / span 7; margin-top: var(--block-y); }
+.plan__facts {
+  grid-column: 9 / -1; margin-top: calc(var(--block-y) + clamp(1rem, 4vw, 4rem));
+  border-top: 1px solid var(--rule);
+}
+.plan__fact { display: flex; justify-content: space-between; gap: 1.2rem; padding-block: 0.95rem; border-bottom: 1px solid var(--rule-soft); }
+.plan__fact dt { color: var(--fg-faint); font-size: var(--t-sm); }
+.plan__fact dd { text-align: right; font-size: var(--t-sm); color: var(--fg); font-variant-numeric: tabular-nums; }
+@media (max-width: 1000px) {
+  .plan__head, .plan__body, .plan__media, .plan__facts { grid-column: 1 / -1; margin-top: 0; }
+  .plan__media { margin-top: var(--block-y); }
+  .plan__facts { margin-top: 2rem; }
+}

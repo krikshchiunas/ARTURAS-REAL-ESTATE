@@ -1,0 +1,21 @@
+/* Изумрудная система (перенесена из лендинга «Real Estate»).
+   Порядок файлов значим: токены → база → типографика → раскладка → секции.
+   Подключается ПОСЛЕ globals.css, чтобы перебивать базовые правила Tailwind,
+   пока страницы переводятся на новые классы. */
+@import "./00-tokens.css";
+@import "./01-base.css";
+@import "./02-type.css";
+@import "./03-layout.css";
+@import "./04-motion.css";
+@import "./05-ui.css";
+@import "./10-nav.css";
+@import "./11-hero.css";
+@import "./12-statement.css";
+@import "./13-residences.css";
+@import "./14-trust.css";
+@import "./15-place.css";
+@import "./16-plan.css";
+@import "./17-amenities.css";
+@import "./18-developer.css";
+@import "./19-contact.css";
+@import "./20-footer.css";

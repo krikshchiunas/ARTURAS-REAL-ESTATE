@@ -1,0 +1,22 @@
+/* === ЗАЯВЛЕНИЕ ============================================================
+   Приём «EXTRAORDINARY LIVING»: крупная антиква прописными поверх кадра.
+   ========================================================================= */
+.stmt { position: relative; min-height: 86svh; display: grid; align-items: center; overflow: clip; isolation: isolate; }
+.stmt__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.stmt__media::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgb(5 25 22 / 0.78) 0%, rgb(5 25 22 / 0.5) 42%, rgb(5 25 22 / 0.92) 100%),
+    linear-gradient(90deg, rgb(5 25 22 / 0.82) 0%, rgb(5 25 22 / 0.3) 48%, rgb(5 25 22 / 0) 78%);
+}
+.stmt__body {
+  position: relative; z-index: 1; width: 100%; max-width: var(--max);
+  margin-inline: auto; padding-inline: var(--gutter);
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 1.6rem;
+}
+.stmt__lines { grid-column: 1 / span 7; }
+.stmt__lines .display--2 { text-shadow: 0 2px 40px rgb(5 25 22 / 0.75); }
+.stmt__text .prose { text-shadow: 0 1px 20px rgb(5 25 22 / 0.8); }
+.stmt__text { grid-column: 1 / span 5; }
+.stmt__text .prose { max-width: none; }
+@media (max-width: 1000px) { .stmt__lines, .stmt__text { grid-column: 1 / -1; } .stmt { min-height: 74svh; } }
