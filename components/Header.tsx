@@ -26,9 +26,14 @@ export function Header({ lang }: { lang: Locale }) {
   const pathname = usePathname();
   const base = `/${lang}`;
 
+  // «Главная» стоит первой: до неё добирались только через логотип, а это
+  // догадка, а не навигация. Пункт карты назван картой — раньше он звался
+  // «Проекты» и вёл на 3D-карту, из-за чего список объектов на /projects
+  // выглядел как то же самое под другим именем.
   const links = [
+    { label: t.nav.home, href: base, match: [] as string[], exact: true },
     { label: t.nav.about, href: `${base}/about`, match: [`${base}/about`] },
-    { label: t.nav.projects, href: `${base}/map`, match: [`${base}/map`, `${base}/projects`] },
+    { label: t.nav.map, href: `${base}/map`, match: [`${base}/map`, `${base}/projects`] },
     { label: d.guides.indexEyebrow, href: `${base}/guides`, match: [`${base}/guides`] },
     { label: t.nav.contact, href: `${base}/contact`, match: [`${base}/contact`] },
   ];
@@ -57,7 +62,9 @@ export function Header({ lang }: { lang: Locale }) {
 
           <nav className="nav__links" aria-label={c.ui.navMain}>
             {links.map((l) => {
-              const active = l.match.some((m) => pathname.startsWith(m));
+              const active = l.exact
+                ? pathname === l.href
+                : l.match.some((m) => pathname.startsWith(m));
               return (
                 <Link
                   key={l.href}

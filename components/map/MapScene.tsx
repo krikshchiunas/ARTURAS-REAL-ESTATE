@@ -43,8 +43,8 @@ function Terrain() {
     const positions: number[] = [];
     const colors: number[] = [];
     // Светлее прежнего: рельеф должен ЧИТАТЬСЯ при наклоне, как в референсе.
-    const low = new THREE.Color("#121821");
-    const high = new THREE.Color("#38424f");
+    const low = new THREE.Color("#0C2E24");
+    const high = new THREE.Color("#2C5545");
     for (let j = 0; j < nz; j++) {
       for (let i = 0; i < nx; i++) {
         const x = minx + ((maxx - minx) * i) / (nx - 1);
@@ -141,7 +141,7 @@ function Contours() {
   const geometry = useMemo(() => contourGeometry(), []);
   return (
     <lineSegments geometry={geometry} frustumCulled={false} dispose={null}>
-      <lineBasicMaterial color="#8f9bab" transparent opacity={0.16} blending={THREE.AdditiveBlending} depthWrite={false} />
+      <lineBasicMaterial color="#7E9A88" transparent opacity={0.16} blending={THREE.AdditiveBlending} depthWrite={false} />
     </lineSegments>
   );
 }
@@ -177,17 +177,17 @@ function VectorMap() {
   const minor = useMemo(() => cachedSegments("minor", vectors.minor as number[][], 0.06), []);
   return (
     <group>
-      {/* Мелкие улицы — тусклое серебро */}
+      {/* Мелкие улицы — приглушённая зелень */}
       <lineSegments geometry={minor} dispose={null}>
-        <lineBasicMaterial color="#94a1b2" transparent opacity={0.62} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <lineBasicMaterial color="#8FA396" transparent opacity={0.62} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>
-      {/* Магистрали — яркое серебро */}
+      {/* Магистрали — песок */}
       <lineSegments geometry={major} dispose={null}>
-        <lineBasicMaterial color="#dbe3ed" transparent opacity={1} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <lineBasicMaterial color="#E4DAC4" transparent opacity={1} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>
-      {/* Береговая линия — самое яркое серебро, задаёт силуэт */}
+      {/* Береговая линия — кремовый, самый светлый тон: он держит силуэт */}
       <lineSegments geometry={coast} dispose={null}>
-        <lineBasicMaterial color="#eef2f6" transparent opacity={0.95} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <lineBasicMaterial color="#EDE6D6" transparent opacity={0.95} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>
     </group>
   );
@@ -221,8 +221,8 @@ function Ocean({ animate }: { animate: boolean }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uDeep: { value: new THREE.Color("#04060a") },
-      uShallow: { value: new THREE.Color("#0b1016") },
+      uDeep: { value: new THREE.Color("#02100C") },
+      uShallow: { value: new THREE.Color("#06180F") },
     }),
     [],
   );
@@ -398,9 +398,9 @@ function Marker({
         vertexShader: CUBE_VERT,
         fragmentShader: CUBE_FRAG,
         uniforms: {
-          uDark: { value: new THREE.Color("#42505f") },
-          uLight: { value: new THREE.Color("#ccd9e8") },
-          uRim: { value: new THREE.Color("#dce8f7") },
+          uDark: { value: new THREE.Color("#6E5B44") },
+          uLight: { value: new THREE.Color("#D0B48D") },
+          uRim: { value: new THREE.Color("#FEE7C7") },
           uBoost: { value: 1 },
         },
       }),
@@ -570,13 +570,13 @@ export default function MapScene({
       role="img"
       aria-label="Interactive 3D map of Phuket projects"
     >
-      <color attach="background" args={["#05070b"]} />
-      <fog attach="fog" args={["#05070b", 75, 230]} />
+      <color attach="background" args={["#051916"]} />
+      <fog attach="fog" args={["#051916", 75, 230]} />
       {/* Низкий ambient + сильный боковой свет = выраженная светотень склонов
           (эффект hillshade, как на топокартах). */}
-      <ambientLight intensity={0.38} color="#b8c2ce" />
-      <directionalLight position={[-16, 14, 8]} intensity={1.9} color="#eaf0f6" />
-      <directionalLight position={[12, 10, 24]} intensity={0.45} color="#93a3b8" />
+      <ambientLight intensity={0.38} color="#9FB6A6" />
+      <directionalLight position={[-16, 14, 8]} intensity={1.9} color="#FFF3DF" />
+      <directionalLight position={[12, 10, 24]} intensity={0.45} color="#7FA08F" />
       <Ocean animate={animate} />
       <Terrain />
       <Contours />

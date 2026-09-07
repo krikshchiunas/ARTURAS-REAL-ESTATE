@@ -76,6 +76,34 @@ export const PROJECT_COORDS: Record<string, [number, number]> = {
 // Классификация проекта по строке location. Порядок важен: «Laguna» проверяем
 // раньше «Bang Tao», т.к. Laguna лежит внутри района Bang Tao и часто пишется
 // как «Laguna · Bang Tao».
+// Район объекта — факт, а не перевод, поэтому он привязан к slug.
+//
+// Раньше район определялся поиском английских подстрок в названии локации,
+// а название приходит локализованным: на русском «Най Янг Бич» и «Лаян» не
+// совпадали ни с одним условием, и все тринадцать объектов сваливались в
+// Bang Tao. На карте это выглядело как «00 проектов» над районами, где их
+// четыре.
+const PROJECT_REGION: Record<string, RegionId> = {
+  silhouette: "nai-yang",
+  balcony: "nai-yang",
+  serenity: "nai-yang",
+  olive: "nai-yang",
+  "sun-hills-layan": "layan",
+  "layan-green-park": "layan",
+  "layan-verde": "layan",
+  "bellevue-beachfront": "layan",
+  "sun-hills-lakeside": "laguna",
+  "the-ozone": "laguna",
+  "ayana-heights": "bang-tao",
+  "gardens-of-eden": "bang-tao",
+  "siamese-bangtao": "bang-tao",
+};
+
+/** Район по slug; строковый разбор остаётся запасным путём для новых объектов. */
+export function regionOfProject(slug: string, location: string): RegionId {
+  return PROJECT_REGION[slug] ?? regionOf(location);
+}
+
 export function regionOf(location: string): RegionId {
   const l = location.toLowerCase();
   if (l.includes("nai yang") || l.includes("naiyang")) return "nai-yang";
@@ -113,7 +141,7 @@ export function buildPins(lang: string): ProjectPin[] {
   };
 
   return projects.map((project) => {
-    const region = regionOf(project.location);
+    const region = regionOfProject(project.slug, project.location);
     const idx = perRegion[region]++;
     const coord = PROJECT_COORDS[project.slug];
     let x: number;
@@ -140,6 +168,6 @@ export function regionCounts(lang: string): Record<RegionId, number> {
     "bang-tao": 0,
     laguna: 0,
   };
-  for (const p of getProjects(lang)) counts[regionOf(p.location)]++;
+  for (const p of getProjects(lang)) counts[regionOfProject(p.slug, p.location)]++;
   return counts;
 }

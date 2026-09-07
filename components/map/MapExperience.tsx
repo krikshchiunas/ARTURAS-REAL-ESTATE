@@ -324,9 +324,9 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
           className="mb-3 hidden border border-bone/10 bg-ink/50 backdrop-blur-[2px] sm:block"
           aria-hidden
         >
-          <path d={MM_PATH} fill="none" stroke="#c2cbd6" strokeOpacity="0.5" strokeWidth="0.7" />
-          <circle ref={mmDotRef} cx={mmX(-2)} cy={mmY(-11)} r="3" fill="#eef2f6" />
-          <circle ref={mmHaloRef} cx={mmX(-2)} cy={mmY(-11)} r="7" fill="#eef2f6" fillOpacity="0.18" />
+          <path d={MM_PATH} fill="none" stroke="#8FA396" strokeOpacity="0.5" strokeWidth="0.7" />
+          <circle ref={mmDotRef} cx={mmX(-2)} cy={mmY(-11)} r="3" fill="#D0B48D" />
+          <circle ref={mmHaloRef} cx={mmX(-2)} cy={mmY(-11)} r="7" fill="#D0B48D" fillOpacity="0.18" />
         </svg>
         <div className="flex items-baseline gap-4 text-eyebrow uppercase tracking-eyebrow text-bone-faint">
           <span>
@@ -445,7 +445,7 @@ export function MapExperience({ lang, deepSlug }: { lang: Locale; deepSlug?: str
                       стороны / развести / наклонить», мышью — «колесо / тянуть /
                       клик». Мышиный курсор рядом с надписью «Два пальца»
                       противоречил бы подписи. */}
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d5e0ff" strokeWidth="1.3" aria-hidden>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E4DAC4" strokeWidth="1.3" aria-hidden>
                     {touch ? (
                       <>
                         {i === 0 && (

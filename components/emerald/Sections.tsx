@@ -6,7 +6,7 @@ import { TrustChart } from "./Chart";
 const delay = (ms: number) => ({ "--delay": `${ms}ms` } as CSSProperties);
 
 /* --- Первый экран -------------------------------------------------------- */
-const POSTERS = [640, 1024, 1440, 1920];
+const POSTERS = [640, 1024, 1440, 1920, 2560];
 
 export function Hero({ c }: { c: EmeraldContent }) {
   const h = c.hero;

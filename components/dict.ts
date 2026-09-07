@@ -26,7 +26,7 @@ export type ChromeDict = {
   workBody: string;
   workCta: string;
   rights: string;
-  nav: { home: string; about: string; projects: string; contact: string };
+  nav: { home: string; about: string; projects: string; map: string; contact: string };
   preloader: { loading: string; loaded: string; ready: string };
   stubs: {
     about: { chapter: string; title: string; sub: string };
@@ -96,7 +96,7 @@ const en: ChromeDict = {
     "We are not just brokers. We are analysts, negotiators, legal guides and locals — coming together to shape your future in Phuket.",
   workCta: "Get in touch",
   rights: "All rights reserved",
-  nav: { home: "Home", about: "About me", projects: "Projects", contact: "Contact" },
+  nav: { home: "Home", about: "About me", projects: "Projects", map: "Map", contact: "Contact" },
   preloader: { loading: "Loading content", loaded: "Loaded", ready: "Ready to Explore" },
   stubs: {
     about: {
@@ -232,7 +232,7 @@ const ru: ChromeDict = {
     "Мы не просто брокеры. Мы аналитики, переговорщики, юридические проводники и местные — вместе строим ваше будущее на Пхукете.",
   workCta: "Связаться",
   rights: "Все права защищены",
-  nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакт" },
+  nav: { home: "Главная", about: "Обо мне", projects: "Проекты", map: "Карта", contact: "Контакт" },
   preloader: { loading: "Загрузка контента", loaded: "Загружено", ready: "Готово к просмотру" },
   stubs: {
     about: {
@@ -368,7 +368,7 @@ const uk: ChromeDict = {
     "Ми не просто брокери. Ми аналітики, перемовники, юридичні провідники та місцеві — разом будуємо ваше майбутнє на Пхукеті.",
   workCta: "Зв'язатися",
   rights: "Всі права захищені",
-  nav: { home: "Головна", about: "Про мене", projects: "Проєкти", contact: "Контакт" },
+  nav: { home: "Головна", about: "Про мене", projects: "Проєкти", map: "Карта", contact: "Контакт" },
   preloader: { loading: "Завантаження", loaded: "Завантажено", ready: "Готово до перегляду" },
   stubs: {
     about: {
@@ -504,7 +504,7 @@ const de: ChromeDict = {
     "Wir sind nicht nur Makler. Wir sind Analysten, Verhandler, juristische Begleiter und Einheimische — gemeinsam gestalten wir Ihre Zukunft auf Phuket.",
   workCta: "Kontakt aufnehmen",
   rights: "Alle Rechte vorbehalten",
-  nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
+  nav: { home: "Start", about: "Über mich", projects: "Projekte", map: "Karte", contact: "Kontakt" },
   preloader: { loading: "Inhalte laden", loaded: "Geladen", ready: "Bereit zum Erkunden" },
   stubs: {
     about: {
@@ -640,7 +640,7 @@ const th: ChromeDict = {
     "เราไม่ใช่แค่นายหน้า เราคือนักวิเคราะห์ นักเจรจา ที่ปรึกษากฎหมาย และคนท้องถิ่น — ร่วมกันสร้างอนาคตของคุณที่ภูเก็ต",
   workCta: "ติดต่อเรา",
   rights: "สงวนลิขสิทธิ์",
-  nav: { home: "หน้าแรก", about: "เกี่ยวกับผม", projects: "โครงการ", contact: "ติดต่อ" },
+  nav: { home: "หน้าแรก", about: "เกี่ยวกับผม", projects: "โครงการ", map: "แผนที่", contact: "ติดต่อ" },
   preloader: { loading: "กำลังโหลด", loaded: "โหลดแล้ว", ready: "พร้อมสำรวจ" },
   stubs: {
     about: {
