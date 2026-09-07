@@ -140,7 +140,7 @@ export function Numbers({ c }: { c: EmeraldContent }) {
 }
 
 /* --- Портфель: карусель объектов ----------------------------------------- */
-function ResCard({ it, i, c }: { it: EmeraldContent["residences"]["items"][number]; i: number; c: EmeraldContent }) {
+function ResCard({ it, i, c, lang }: { it: EmeraldContent["residences"]["items"][number]; i: number; c: EmeraldContent; lang: string }) {
   return (
     <article className="res__card" data-reveal="rise" style={delay(i * 70)}>
       <div className="res__shot">
@@ -175,7 +175,9 @@ function ResCard({ it, i, c }: { it: EmeraldContent["residences"]["items"][numbe
             {Icon.arrow}
           </span>
         </div>
-        <a className="res__stretch" href="#kontakt">
+        {/* Ссылка на всю площадь карточки ведёт на страницу объекта:
+            карточка — это анонс, подробности живут отдельной страницей. */}
+        <a className="res__stretch" href={`/${lang}/projects/${it.slug}`}>
           <span className="vh">
             {it.name} — {it.location}
           </span>
@@ -185,7 +187,7 @@ function ResCard({ it, i, c }: { it: EmeraldContent["residences"]["items"][numbe
   );
 }
 
-export function Portfolio({ c }: { c: EmeraldContent }) {
+export function Portfolio({ c, lang }: { c: EmeraldContent; lang: string }) {
   const r = c.residences;
   return (
     <section className="section" id="rezidencii" data-tone="lift">
@@ -209,12 +211,13 @@ export function Portfolio({ c }: { c: EmeraldContent }) {
 
         <div className="res__rail" id="res-rail" role="region" aria-label={c.ui.railRegion} tabIndex={0}>
           {r.items.map((it, i) => (
-            <ResCard it={it} i={i} c={c} key={it.slug} />
+            <ResCard it={it} i={i} c={c} lang={lang} key={it.slug} />
           ))}
         </div>
 
+        {/* Приписка про презентацию AYANA снята: она относилась к одному
+            объекту, а стоит под всем портфелем. */}
         <div className="res__bar">
-          <p className="res__note">{r.priceNote}</p>
           <div className="dots" id="res-dots" aria-hidden="true">
             {r.items.map((_, i) => (
               <i data-on={i === 0} key={i} />
@@ -226,10 +229,19 @@ export function Portfolio({ c }: { c: EmeraldContent }) {
   );
 }
 
-/* --- Инвестиции: график + плитки + таблица ------------------------------- */
-export function Invest({ c }: { c: EmeraldContent }) {
+/* --- Инвестиции: только диапазоны, точные цифры — по запросу -------------
+   Раньше здесь стоял график и таблица «планировка → доходность → доля
+   прибыли» с точными числами по каждому типу. Их убрали: конкретной
+   доходности по объекту не существует, она считается под покупателя, а
+   доля прибыли к разговору с клиентом отношения не имеет. Осталось то,
+   что действительно взято из презентации, — вилки, — и прямой призыв
+   спросить цифры у агента. */
+export function Invest({ c, lang }: { c: EmeraldContent; lang: string }) {
   const inv = c.invest;
-  const ch = inv.chart;
+  const layouts = inv.rows.map((r) => r.type).join(" · ");
+  const band = inv.chart.series[0].values;
+  const range = `${Math.min(...band)}\u2013${Math.max(...band)}%`;
+
   return (
     <section className="section" id="investicii" data-tone="deep">
       <div className="shell">
@@ -238,21 +250,6 @@ export function Invest({ c }: { c: EmeraldContent }) {
           {inv.intro}
         </p>
 
-        <div className="trust__chart" data-reveal="rise" style={delay(120)}>
-          <div className="trust__chart-h">
-            <h3>{ch.title}</h3>
-            <p className="trust__read">
-              <span className="trust__peak" id="chart-val" data-default={ch.peakLabel}>
-                {ch.peakLabel}
-              </span>
-              <span className="trust__peak-note" id="chart-note" data-default={ch.peakNote}>
-                {ch.peakNote}
-              </span>
-            </p>
-          </div>
-          <TrustChart c={ch} percentWord={c.ui.percentWord} />
-        </div>
-
         <div className="trust__tiles">
           {inv.highlights.map((h, i) => (
             <div className="tile" data-reveal="rise" style={delay(i * 80)} key={h.k}>
@@ -260,33 +257,16 @@ export function Invest({ c }: { c: EmeraldContent }) {
               <span className="tile__v numeral">{h.v}</span>
             </div>
           ))}
+          <div className="tile" data-reveal="rise" style={delay(160)}>
+            <span className="tile__k">{c.ui.yieldBand}</span>
+            <span className="tile__v numeral">{range}</span>
+            <span className="tile__c">{layouts}</span>
+          </div>
         </div>
 
-        <div className="trust__table" data-reveal="rise">
-          <table>
-            <caption className="vh">{ch.title}</caption>
-            <thead>
-              <tr>
-                {inv.columns.map((x) => (
-                  <th scope="col" key={x}>
-                    {x}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {inv.rows.map((r) => (
-                <tr key={r.type}>
-                  <td data-th={inv.columns[0]}>{r.type}</td>
-                  <td className="is-roi" data-th={inv.columns[1]}>
-                    {r.roi}
-                  </td>
-                  <td data-th={inv.columns[2]}>{r.share}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="trust__note">{inv.note}</p>
+        <div className="trust__ask" data-reveal="rise" style={delay(120)}>
+          <p className="trust__note">{c.ui.exactOnRequest}</p>
+          <Btn label={c.ui.askYield} href={`/${lang}/contact`} variant="solid" />
         </div>
       </div>
     </section>

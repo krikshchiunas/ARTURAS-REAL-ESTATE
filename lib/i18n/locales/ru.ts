@@ -133,7 +133,7 @@ export const ru: LocaleData = {
       amenitiesTitle: "Удобства и сервис",
       locationEyebrow: "Расположение",
       investmentEyebrow: "Инвестиции",
-      investmentTitle: "Доходность и оплата",
+      investmentTitle: "Доходность и стоимость",
       paymentLabel: "План оплаты",
       featuresEyebrow: "Преимущества",
       featuresTitle: "Почему этот проект",

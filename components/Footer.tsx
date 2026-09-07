@@ -31,9 +31,12 @@ export function Footer({ lang }: { lang: Locale }) {
   return (
     <footer className="foot" data-tone="deep">
       <div className="shell">
-        <Link className="foot__mark" href={base} aria-label={`${c.brand.full} — ${c.ui.backToTop}`} data-reveal="rise">
-          {c.brand.name}
-        </Link>
+        <div className="foot__brand" data-reveal="rise">
+          <Link className="foot__mark" href={base} aria-label={`${c.brand.full} — ${c.ui.backToTop}`}>
+            {c.brand.name}
+          </Link>
+          <p className="foot__tagline">{d.meta.tagline}</p>
+        </div>
 
         <div className="foot__top">
           <p className="foot__about">

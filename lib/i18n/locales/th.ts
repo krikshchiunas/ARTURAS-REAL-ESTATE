@@ -133,7 +133,7 @@ export const th: LocaleData = {
       amenitiesTitle: "สิ่งอำนวยความสะดวกและบริการ",
       locationEyebrow: "ทำเลที่ตั้ง",
       investmentEyebrow: "การลงทุน",
-      investmentTitle: "ผลตอบแทนและการชำระเงิน",
+      investmentTitle: "ผลตอบแทนและราคา",
       paymentLabel: "แผนการชำระเงิน",
       featuresEyebrow: "จุดเด่น",
       featuresTitle: "ทำไมต้องโครงการนี้",

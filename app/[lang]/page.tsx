@@ -53,8 +53,8 @@ export default async function HomePage({
       <Hero c={c} />
       <Statement c={c} />
       <Numbers c={c} />
-      <Portfolio c={c} />
-      <Invest c={c} />
+      <Portfolio c={c} lang={lang} />
+      <Invest c={c} lang={lang} />
       <Place c={c} />
       <Services c={c} />
       <Areas c={c} />

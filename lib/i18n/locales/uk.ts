@@ -133,7 +133,7 @@ export const uk: LocaleData = {
       amenitiesTitle: "Зручності та сервіс",
       locationEyebrow: "Розташування",
       investmentEyebrow: "Інвестиції",
-      investmentTitle: "Дохідність та оплата",
+      investmentTitle: "Дохідність і вартість",
       paymentLabel: "План оплати",
       featuresEyebrow: "Переваги",
       featuresTitle: "Чому цей проєкт",

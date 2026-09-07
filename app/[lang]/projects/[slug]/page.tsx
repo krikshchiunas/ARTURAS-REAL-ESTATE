@@ -12,6 +12,8 @@ import {
 import { projectMeta } from "@/lib/i18n/meta";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { chromeDict } from "@/components/dict";
+import { getEmerald } from "@/lib/emerald/content";
+import { stripExactFigures } from "@/lib/no-exact-figures";
 import { Reveal } from "@/components/Reveal";
 import { HeroReveal, HeroHeadline } from "@/components/HeroReveal";
 import { Button } from "@/components/Button";
@@ -100,6 +102,7 @@ export default async function ProjectPage({ params }: Params) {
   const { lang: raw, slug } = await params;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
+  const e = getEmerald(lang);
   const project = getProject(lang, slug);
   if (!project) notFound();
 
@@ -127,7 +130,7 @@ export default async function ProjectPage({ params }: Params) {
     "@type": ["Product", "Residence"],
     "@id": `${canonicalUrl}#listing`,
     name: project.name,
-    description: project.summary,
+    description: stripExactFigures(project.summary),
     url: canonicalUrl,
     image: [absoluteImage, ...absoluteGallery],
     category: project.type,
@@ -267,7 +270,7 @@ export default async function ProjectPage({ params }: Params) {
             </div>
 
             <p className="mt-7 max-w-[48ch] text-lead text-bone/85">
-              {project.summary}
+              {stripExactFigures(project.summary)}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -307,7 +310,7 @@ export default async function ProjectPage({ params }: Params) {
           </div>
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="font-display text-title text-bone">{project.concept}</p>
+              <p className="font-display text-title text-bone">{stripExactFigures(project.concept)}</p>
             </Reveal>
             {project.keyPoints.length ? (
               <Reveal className="mt-10" delay={100}>
@@ -415,7 +418,11 @@ export default async function ProjectPage({ params }: Params) {
         </div>
       </section>
 
-      {/* Инвестиционная логика */}
+      {/* Инвестиционная логика.
+          Текст застройщика и график платежей больше не выводятся: там
+          попадаются точная доходность по объекту и суммы за метр, а таких
+          цифр на сайте быть не должно — они считаются под конкретного
+          покупателя. Вместо них прямой призыв спросить их у агента. */}
       <section className="border-t border-bone/10">
         <div className="shell grid gap-12 py-section lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
@@ -423,16 +430,18 @@ export default async function ProjectPage({ params }: Params) {
           </div>
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="text-body text-bone-dim">{project.investment}</p>
+              <p className="text-body text-bone-dim">{e.ui.exactOnRequest}</p>
             </Reveal>
-            {project.payment ? (
-              <Reveal className="mt-9" delay={80}>
-                <div className="rounded-control border border-bone/10 bg-ink-raised p-6 md:p-8">
-                  <span className="marker text-gold">{t.paymentLabel}</span>
-                  <p className="mt-4 text-body text-bone">{project.payment}</p>
-                </div>
-              </Reveal>
-            ) : null}
+            <Reveal className="mt-9" delay={80}>
+              <div className="trust__ask" style={{ marginTop: 0 }}>
+                <Button href={`/${lang}/contact`} variant="primary" arrow>
+                  {e.ui.askYield}
+                </Button>
+                <Button href={whatsappHref(`${project.name} — ${e.ui.askYield}`)} variant="secondary">
+                  WhatsApp
+                </Button>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

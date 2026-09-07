@@ -94,3 +94,12 @@
   .trust__table tbody td::before { content: attr(data-th); color: var(--fg-faint); font-size: var(--t-xs); text-transform: uppercase; letter-spacing: 0.08em; }
   .trust__table tbody td:first-child::before { content: none; }
 }
+
+/* Полоса «спросить цифры»: приписка слева, кнопка справа, на узком —
+   в столбик. Заменила таблицу с точными процентами по типам. */
+.trust__ask {
+  margin-top: var(--block-y); display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 1.25rem 2rem;
+  border-top: 1px solid var(--rule-soft); padding-top: 1.5rem;
+}
+.trust__ask .trust__note { max-width: 46ch; margin: 0; }

@@ -133,7 +133,7 @@ export const de: LocaleData = {
       amenitiesTitle: "Ausstattung und Service",
       locationEyebrow: "Lage",
       investmentEyebrow: "Investition",
-      investmentTitle: "Rendite und Zahlung",
+      investmentTitle: "Rendite und Preis",
       paymentLabel: "Zahlungsplan",
       featuresEyebrow: "Vorteile",
       featuresTitle: "Warum dieses Projekt",
