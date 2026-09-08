@@ -46,7 +46,7 @@ export function Header({ lang }: { lang: Locale }) {
       {Icon.diamond}
       <b>
         {c.brand.name}
-        <small>{c.brand.place}</small>
+        <small>{c.brand.slogan}</small>
       </b>
     </span>
   );

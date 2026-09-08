@@ -10,7 +10,7 @@ import { th } from "./locales/th.mjs";
 
 export type EmeraldImage = { name: string; alt: string };
 export type EmeraldContent = {
-  brand: { name: string; full: string; place: string };
+  brand: { name: string; full: string; place: string; slogan: string };
   meta: { title: string; description: string; lang: string; themeColor: string };
   nav: { id: string; label: string }[];
   hero: {
