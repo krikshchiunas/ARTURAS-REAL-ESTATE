@@ -37,12 +37,6 @@ picture.hero__poster > img { width: 100%; height: 100%; object-fit: cover; }
   column-gap: var(--gutter); align-items: end; row-gap: 2rem;
 }
 .hero__headline { grid-column: 1 / span 8; }
-.hero__eyebrow {
-  display: inline-flex; align-items: center; gap: 0.7rem;
-  margin-bottom: clamp(1.25rem, 1.8vw, 1.8rem); color: var(--c-gold);
-  text-shadow: 0 1px 18px rgb(5 25 22 / 0.85);
-}
-.hero__eyebrow::before { content: ''; width: 2.2rem; height: 1px; background: currentColor; }
 .hero__headline .display--1 { text-shadow: 0 2px 48px rgb(5 25 22 / 0.55); }
 
 .hero__aside { grid-column: 9 / -1; display: flex; flex-direction: column; gap: 1.6rem; padding-bottom: 0.4rem; }

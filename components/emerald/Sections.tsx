@@ -52,9 +52,6 @@ export function Hero({ c }: { c: EmeraldContent }) {
 
       <div className="hero__body">
         <div className="hero__headline">
-          <p className="label hero__eyebrow" data-reveal="rise" style={delay(120)}>
-            {h.eyebrow}
-          </p>
           <MaskLines
             as="h1"
             level={1}
