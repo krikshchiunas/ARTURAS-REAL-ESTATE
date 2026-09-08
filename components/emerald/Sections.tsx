@@ -8,7 +8,7 @@ const delay = (ms: number) => ({ "--delay": `${ms}ms` } as CSSProperties);
 /* --- Первый экран -------------------------------------------------------- */
 const POSTERS = [640, 1024, 1440, 1920, 2560];
 
-export function Hero({ c }: { c: EmeraldContent }) {
+export function Hero({ c, lang }: { c: EmeraldContent; lang: string }) {
   const h = c.hero;
   return (
     <section className="hero" id="top" data-playing="false">
@@ -68,7 +68,7 @@ export function Hero({ c }: { c: EmeraldContent }) {
           </p>
           <div className="hero__actions" data-reveal="rise" style={delay(740)}>
             <Btn label={h.primaryCta.label} href={h.primaryCta.href} variant="solid" />
-            <Btn label={h.secondaryCta.label} href={h.secondaryCta.href} arrow={false} />
+            <Btn label={h.secondaryCta.label} href={`/${lang}${h.secondaryCta.href}`} arrow={false} />
           </div>
         </div>
       </div>

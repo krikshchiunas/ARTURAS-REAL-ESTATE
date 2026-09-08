@@ -50,7 +50,7 @@ export default async function HomePage({
 
   return (
     <main id="main">
-      <Hero c={c} />
+      <Hero c={c} lang={lang} />
       <Statement c={c} />
       <Numbers c={c} />
       <Portfolio c={c} lang={lang} />
