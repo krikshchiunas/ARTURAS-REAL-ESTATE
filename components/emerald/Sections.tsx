@@ -99,9 +99,6 @@ export function Statement({ c }: { c: EmeraldContent }) {
       </div>
       <div className="stmt__body">
         <div className="stmt__lines">
-          <p className="label" data-reveal="rise" style={{ marginBottom: "1.2rem" }}>
-            {s.kicker}
-          </p>
           <MaskLines lines={s.lines} level={2} step={100} />
         </div>
         <div className="stmt__text" data-reveal="rise" style={delay(200)}>
