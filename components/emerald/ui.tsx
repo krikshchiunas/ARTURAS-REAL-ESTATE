@@ -13,6 +13,33 @@ const stroke = {
 };
 
 export const Icon = {
+  /* «Цветок жизни»: 19 окружностей по треугольной решётке (шаг равен радиусу,
+     ряды через r*sin60) плюс обод радиусом 3r — он касается крайних лепестков.
+     Штрих тоньше остальных иконок: девятнадцать линий на 22px иначе слипаются. */
+  flower: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={0.55} aria-hidden>
+      <circle cx="12" cy="12" r="10.2" strokeWidth={0.9} />
+      <circle cx="8.6" cy="6.11" r="3.4" />
+      <circle cx="12" cy="6.11" r="3.4" />
+      <circle cx="15.4" cy="6.11" r="3.4" />
+      <circle cx="6.9" cy="9.06" r="3.4" />
+      <circle cx="10.3" cy="9.06" r="3.4" />
+      <circle cx="13.7" cy="9.06" r="3.4" />
+      <circle cx="17.1" cy="9.06" r="3.4" />
+      <circle cx="5.2" cy="12" r="3.4" />
+      <circle cx="8.6" cy="12" r="3.4" />
+      <circle cx="12" cy="12" r="3.4" />
+      <circle cx="15.4" cy="12" r="3.4" />
+      <circle cx="18.8" cy="12" r="3.4" />
+      <circle cx="6.9" cy="14.94" r="3.4" />
+      <circle cx="10.3" cy="14.94" r="3.4" />
+      <circle cx="13.7" cy="14.94" r="3.4" />
+      <circle cx="17.1" cy="14.94" r="3.4" />
+      <circle cx="8.6" cy="17.89" r="3.4" />
+      <circle cx="12" cy="17.89" r="3.4" />
+      <circle cx="15.4" cy="17.89" r="3.4" />
+    </svg>
+  ),
   diamond: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.3} aria-hidden>
       <path d="M12 2 4 12l8 10 8-10z" />

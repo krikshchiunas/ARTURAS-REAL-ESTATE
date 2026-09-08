@@ -23,9 +23,9 @@
   display: flex; align-items: center; justify-content: space-between; gap: 2rem;
 }
 
-/* Ромбовидная эмблема + слово вразрядку — как у референса */
+/* Эмблема «цветок жизни» + слово вразрядку — как у референса */
 .wordmark { display: inline-flex; align-items: center; gap: 0.7rem; line-height: 1; }
-.wordmark svg { width: 15px; height: 15px; flex: none; color: var(--c-gold); }
+.wordmark svg { width: 26px; height: 26px; flex: none; color: var(--c-gold); }
 .wordmark b {
   font-family: var(--font-display); font-weight: 400; font-size: 1.12rem;
   letter-spacing: 0.36em; text-indent: 0.36em; text-transform: uppercase;

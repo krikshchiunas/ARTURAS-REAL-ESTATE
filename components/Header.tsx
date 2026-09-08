@@ -43,7 +43,7 @@ export function Header({ lang }: { lang: Locale }) {
 
   const wordmark = (
     <span className="wordmark">
-      {Icon.diamond}
+      {Icon.flower}
       <b>
         {c.brand.name}
         <small>{c.brand.slogan}</small>
